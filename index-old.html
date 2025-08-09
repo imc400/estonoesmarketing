@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ignacio Blanco - Experto en Marketing Digital | Intothecom & Datapify</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #f0f0f0;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #00FF85;
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 60px 0;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .hero-text h2 {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            color: #cccccc;
+            line-height: 1.5;
+        }
+
+        .benefits {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .benefits li {
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .benefits li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00FF85;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #00FF85 0%, #00CC6A 100%);
+            color: #000000;
+            padding: 18px 35px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 255, 133, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 255, 133, 0.4);
+            background: linear-gradient(135deg, #00CC6A 0%, #00FF85 100%);
+        }
+
+        .hero-video {
+            text-align: center;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 315px;
+            border-radius: 12px;
+            border: 2px solid #00FF85;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 4px solid #00FF85;
+            background-color: #333;
+            object-fit: cover;
+        }
+
+        .about-text h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            margin-bottom: 25px;
+            color: #00FF85;
+        }
+
+        .about-text p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #cccccc;
+        }
+
+        .credentials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .credential-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 255, 133, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 133, 0.3);
+        }
+
+        .credential-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #00FF85;
+            display: block;
+        }
+
+        .credential-text {
+            font-size: 14px;
+            color: #cccccc;
+            margin-top: 8px;
+        }
+
+        /* Solutions Section */
+        .solutions {
+            padding: 80px 0;
+        }
+
+        .solutions h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .solutions-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 50px;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .solution-card {
+            background: rgba(0, 255, 133, 0.1);
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid rgba(0, 255, 133, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            border-color: #00FF85;
+        }
+
+        .solution-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #00FF85;
+        }
+
+        .solution-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .solution-card p {
+            font-size: 16px;
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .testimonials h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #00FF85;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .testimonial-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #00FF85;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-size: 60px;
+            color: #00FF85;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-size: 16px;
+            color: #cccccc;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Client Logos Section */
+        .client-logos-section {
+            padding: 60px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(0, 255, 133, 0.1);
+            border-bottom: 1px solid rgba(0, 255, 133, 0.1);
+        }
+
+        .client-logos-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #cccccc;
+            font-weight: 400;
+        }
+
+        .client-logos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .client-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 133, 0.2);
+            transition: all 0.3s ease;
+            height: 100px;
+        }
+
+        .client-logo:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 255, 133, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .client-logo img {
+            max-width: 100%;
+            max-height: 80%;
+            object-fit: contain;
+            filter: brightness(0.8) contrast(1.1);
+            transition: filter 0.3s ease;
+        }
+
+        .client-logo:hover img {
+            filter: brightness(1) contrast(1.2);
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 255, 133, 0.1) 0%, rgba(0, 204, 106, 0.1) 100%);
+        }
+
+        .final-cta h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .final-cta p {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .security-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999999;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a0a0a;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(0, 255, 133, 0.3);
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 10px;
+        }
+
+        .footer a {
+            color: #00FF85;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .hero-text h2 {
+                font-size: 18px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .credentials {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .client-logos {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 20px;
+            }
+
+            .client-logos-section {
+                padding: 50px 0;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero {
+                padding: 40px 0;
+            }
+
+            .about, .solutions, .testimonials, .final-cta {
+                padding: 60px 0;
+            }
+
+            .video-container iframe {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 28px;
+            }
+
+            .cta-button {
+                padding: 15px 25px;
+                font-size: 16px;
+            }
+
+            .solution-card, .testimonial-card {
+                padding: 25px;
+            }
+
+            .credentials {
+                grid-template-columns: 1fr;
+            }
+
+            .client-logos {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .client-logo {
+                height: 80px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">Intothecom | Datapify</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Convierte tu marketing digital en un motor de ventas imparable</h1>
+                    <h2>Ignacio Blanco – experto en marketing digital con más de 6 años de experiencia y más de $1MM gestionados en anuncios – te muestra cómo escalar tu negocio en línea.</h2>
+                    
+                    <ul class="benefits">
+                        <li>Estrategias comprobadas en +100 campañas exitosas</li>
+                        <li>Soluciones para emprendedores (agencia + software)</li>
+                        <li>Aumenta conversiones y ROI asegurado</li>
+                        <li>Asesoría personalizada completamente gratis</li>
+                    </ul>
+                    
+                    <a href="#" class="cta-button">Solicitar Asesoría Gratuita</a>
+                </div>
+                
+                <div class="hero-video">
+                    <!-- Video placeholder -->
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                title="Video Sales Letter - Ignacio Blanco" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Ignacio Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <!-- Ignacio's photo placeholder -->
+                    <img src="ignacio.jpg" alt="Foto de Ignacio Blanco" />
+                </div>
+                
+                <div class="about-text">
+                    <h2>Sobre Ignacio</h2>
+                    <p>Hola, soy Ignacio Blanco, fundador de la agencia Intothecom y creador de la plataforma Datapify. Llevo más de 6 años ayudando a empresas y emprendedores a multiplicar sus ventas en línea a través de estrategias de marketing digital efectivas.</p>
+                    
+                    <p>He sido profesor de marketing digital y he gestionado más de $1.000.000 USD en campañas publicitarias, experiencia que ahora pongo a tu disposición. Mi enfoque se basa en resultados reales y estrategias comprobadas que han transformado cientos de negocios.</p>
+                    
+                    <p>Ya sea que necesites un equipo completo que gestione tu marketing o prefieras las herramientas para hacerlo tú mismo, tengo la solución perfecta para llevarte al siguiente nivel.</p>
+                </div>
+            </div>
+            
+            <!-- Credentials -->
+            <div class="credentials">
+                <div class="credential-item">
+                    <span class="credential-number">6+</span>
+                    <span class="credential-text">Años de experiencia</span>
+                </div>
+                <div class="credential-item">
+                    <span class="credential-number">$1M+</span>
+                    <span class="credential-text">USD invertidos</span>
+                </div>
+                <div class="credential-item">
+                    <span class="credential-number">100+</span>
+                    <span class="credential-text">Campañas exitosas</span>
+                </div>
+                <div class="credential-item">
+                    <span class="credential-number">2</span>
+                    <span class="credential-text">Startups de marketing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions">
+        <div class="container">
+            <h2>¿Cómo puedo ayudarte?</h2>
+            <p class="solutions-subtitle">Sea cual sea tu necesidad, tengo la solución perfecta para llevar tu marketing al siguiente nivel</p>
+            
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">🚀</div>
+                    <h3>Agencia Intothecom</h3>
+                    <p>Agencia Full-Service: Un equipo de 8 expertos gestionando tus anuncios, embudos y más para que obtengas resultados reales mientras te enfocas en tu negocio. Perfecto para empresarios que quieren delegar completamente su marketing digital.</p>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-icon">⚡</div>
+                    <h3>Software Datapify</h3>
+                    <p>Software Inteligente: Plataforma autoadministrable que replica la estructura ganadora de nuestras campañas. Con Datapify, lanzar y optimizar tus anuncios en Meta es fácil y eficaz, sin necesitar experiencia técnica previa.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 18px; color: #cccccc;">Ya sea que busques un equipo que lo haga por ti o prefieras una herramienta para hacerlo tú mismo, te brindamos el camino al éxito en tus campañas de Meta Ads.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>Lo que dicen nuestros clientes</h2>
+            
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Gracias a Ignacio y su equipo logramos triplicar las ventas en 6 meses. Su conocimiento del marketing digital no tiene comparación y siempre están dispuestos a ir más allá.</p>
+                    <p class="testimonial-author">— Carlos Mendoza, CEO de TiendaXYZ</p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Datapify revolucionó la forma en que manejo mis campañas. Lo que antes me tomaba días ahora lo hago en horas, y con mejores resultados. Una inversión que se paga sola.</p>
+                    <p class="testimonial-author">— María González, Emprendedora Digital</p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">El ROI que hemos conseguido trabajando con Intothecom superó todas nuestras expectativas. Ignacio entiende perfectamente cómo generar leads de calidad y convertirlos en ventas.</p>
+                    <p class="testimonial-author">— Roberto Silva, Director de Marketing</p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Client Logos Section -->
+    <section class="client-logos-section">
+        <div class="container">
+            <h3>Clientes que confían en nosotros</h3>
+            <div class="client-logos">
+                <div class="client-logo">
+                    <img src="2Recurso_3.avif" alt="Cliente 1" />
+                </div>
+                <div class="client-logo">
+                    <img src="LOGO_GRANJA_MAGDALENA_c8601777-d309-4503-9364-dd91d7a6d5cc.avif" alt="Granja Magdalena" />
+                </div>
+                <div class="client-logo">
+                    <img src="Logo_Bwild-08.avif" alt="Bwild" />
+                </div>
+                <div class="client-logo">
+                    <img src="Logo_Toek_Sin_Parche_Negro.avif" alt="Toek" />
+                </div>
+                <div class="client-logo">
+                    <img src="Rebels-150dpi-01.avif" alt="Rebels" />
+                </div>
+                <div class="client-logo">
+                    <img src="fa9b92_16f380ce3c3c40bc9c6b3d0c192febf2~mv2.avif" alt="Cliente 6" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>¿Listo para llevar tu marketing al siguiente nivel?</h2>
+            <p>Aprovecha la oportunidad de una consultoría gratuita con un experto que ha generado resultados comprobados. Descubre exactamente qué necesita tu negocio para multiplicar sus ventas en línea.</p>
+            
+            <a href="#" class="cta-button">Completar Formulario y Obtener Mi Estrategia</a>
+            
+            <p class="security-text">⚡ Respuesta en 24h. Tus datos están seguros y no compartiremos tu información.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Intothecom & Datapify. Todos los derechos reservados.</p>
+            <p>
+                <a href="#">Política de Privacidad</a> | 
+                <a href="mailto:contacto@intothecom.com">contacto@intothecom.com</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links (optional enhancement)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // CTA button click placeholder functionality
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Redirecting to external form...');
+                // Replace with actual form URL when ready
+                // window.location.href = 'https://your-form-url.com';
+            });
+        });
+    </script>
+</body>
+</html>
