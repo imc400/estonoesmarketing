@@ -376,31 +376,16 @@
         </div>
 
         <div class="video-container">
-            <div id="video-placeholder" style="width: 100%; height: 450px; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); display: flex; align-items: center; justify-content: center; flex-direction: column; color: #666; border-radius: 14px; position: relative; overflow: hidden; border: 2px solid rgba(255, 107, 107, 0.3);">
-                <div style="font-size: 48px; margin-bottom: 20px; color: #ff6b6b;">🎥</div>
-                <div style="color: #ffffff; font-size: 20px; margin-bottom: 15px; text-align: center;">Video Sales Letter de Nacho</div>
-                <div style="color: #888; font-size: 16px; text-align: center; max-width: 500px; line-height: 1.5;">
-                    <strong style="color: #ff6b6b;">PRÓXIMAMENTE:</strong> El video se está procesando para optimizar la carga.<br>
-                    Por ahora puedes continuar al siguiente paso.
-                </div>
-                <div style="color: #ff6b6b; font-size: 14px; margin-top: 20px; cursor: pointer; padding: 10px 20px; border: 1px solid #ff6b6b; border-radius: 6px; transition: all 0.3s ease;" onclick="markVideoAsCompleted()" onmouseover="this.style.background='rgba(255,107,107,0.1)'" onmouseout="this.style.background='transparent'">
-                    [Continuar por ahora]
-                </div>
-            </div>
-            
-            <!-- YouTube iframe - será activado cuando tengas el video ID -->
-            <!-- 
             <iframe id="main-video" 
                     width="100%" 
                     height="450" 
-                    src="https://www.youtube.com/embed/TU_VIDEO_ID_AQUI?rel=0&modestbranding=1&showinfo=0"
+                    src="https://www.youtube.com/embed/L2yWev_MS8M?rel=0&modestbranding=1&showinfo=0"
                     title="Video Sales Letter - Nacho" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen
                     style="border-radius: 14px; border: 2px solid rgba(255, 107, 107, 0.3);">
             </iframe>
-            -->
         </div>
 
         <div class="video-watched" id="video-status">
@@ -429,17 +414,45 @@
         const videoStatus = document.getElementById('video-status');
         const video = document.getElementById('main-video');
 
-        // Track video completion
-        video.addEventListener('ended', function() {
-            markVideoAsCompleted();
-        });
-
-        // Also mark as completed if they watch 90% of the video
-        video.addEventListener('timeupdate', function() {
-            if (video.currentTime / video.duration >= 0.9 && !videoWatched) {
+        // YouTube iframe API for video tracking
+        // For now, simulate completion after 5 minutes (or user can skip)
+        
+        // Auto-complete after 5 minutes (300 seconds)
+        setTimeout(() => {
+            if (!videoWatched) {
                 markVideoAsCompleted();
             }
-        });
+        }, 300000); // 5 minutes
+        
+        // Also allow manual completion after 2 minutes
+        setTimeout(() => {
+            if (!videoWatched) {
+                const skipBtn = document.createElement('div');
+                skipBtn.innerHTML = '⏭️ Marcar como visto y continuar';
+                skipBtn.style.cssText = `
+                    position: absolute;
+                    bottom: 20px;
+                    right: 20px;
+                    background: rgba(255, 107, 107, 0.9);
+                    color: white;
+                    padding: 10px 15px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    z-index: 1000;
+                    transition: all 0.3s ease;
+                `;
+                skipBtn.onmouseover = () => skipBtn.style.background = 'rgba(255, 107, 107, 1)';
+                skipBtn.onmouseout = () => skipBtn.style.background = 'rgba(255, 107, 107, 0.9)';
+                skipBtn.onclick = () => {
+                    markVideoAsCompleted();
+                    skipBtn.remove();
+                };
+                
+                document.querySelector('.video-container').style.position = 'relative';
+                document.querySelector('.video-container').appendChild(skipBtn);
+            }
+        }, 120000); // 2 minutes
 
         function markVideoAsCompleted() {
             videoWatched = true;
