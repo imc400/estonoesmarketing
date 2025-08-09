@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFERTA EXCLUSIVA - Solo para ti | Nacho</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .exclusive-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .urgency-timer {
+            background: #1a1a1a;
+            border: 2px solid #ff6b6b;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { border-color: #ff6b6b; }
+            50% { border-color: #ee5a52; }
+        }
+
+        .timer-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .timer-warning {
+            font-size: 16px;
+            color: #cccccc;
+            font-weight: 500;
+        }
+
+        .offer-title {
+            font-size: 42px;
+            font-weight: 900;
+            text-align: center;
+            margin: 40px 0 30px 0;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .offer-subtitle {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #cccccc;
+            font-weight: 500;
+        }
+
+        .qualification-box {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .qualification-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4ade80;
+            margin-bottom: 20px;
+        }
+
+        .qualification-text {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .price-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), transparent, rgba(255, 107, 107, 0.1));
+            pointer-events: none;
+        }
+
+        .original-price {
+            font-size: 32px;
+            color: #888;
+            text-decoration: line-through;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .current-price {
+            font-size: 64px;
+            font-weight: 900;
+            color: #4ade80;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(74, 222, 128, 0.5);
+        }
+
+        .savings {
+            background: #ff6b6b;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .value-stack {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .value-stack-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .value-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .value-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 18px;
+            color: #4ade80;
+        }
+
+        .value-description {
+            flex: 1;
+            color: #e0e0e0;
+        }
+
+        .value-price {
+            font-weight: 600;
+            color: #ff6b6b;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .option-card:hover {
+            border-color: #ff6b6b;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+        }
+
+        .option-card.premium {
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .option-card.premium:hover {
+            border-color: #4ade80;
+            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.3);
+        }
+
+        .premium-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4ade80;
+            color: #000;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .option-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .option-description {
+            font-size: 16px;
+            color: #cccccc;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .option-cta {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: #ffffff;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .option-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .option-cta.premium {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: #000000;
+            font-size: 20px;
+            padding: 20px 30px;
+        }
+
+        .option-cta.premium:hover {
+            box-shadow: 0 10px 30px rgba(74, 222, 128, 0.4);
+        }
+
+        .guarantees {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .guarantee-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+
+        .guarantee-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .guarantee-icon {
+            font-size: 24px;
+            color: #4ade80;
+        }
+
+        .scarcity-warning {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid #ff6b6b;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .scarcity-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .scarcity-text {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .final-warning {
+            background: #ff6b6b;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 40px;
+            border-radius: 12px;
+            animation: flash 2s infinite;
+        }
+
+        @keyframes flash {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.7; }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .offer-title {
+                font-size: 32px;
+            }
+
+            .timer-display {
+                font-size: 36px;
+            }
+
+            .current-price {
+                font-size: 48px;
+            }
+
+            .options-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .option-card {
+                padding: 30px 20px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .offer-title {
+                font-size: 28px;
+            }
+
+            .timer-display {
+                font-size: 32px;
+            }
+
+            .current-price {
+                font-size: 42px;
+            }
+
+            .option-card {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="exclusive-badge">
+        🔥 OFERTA EXCLUSIVA - Solo para personas que completaron todo el proceso 🔥
+    </div>
+
+    <div class="container">
+        <div class="urgency-timer">
+            <div class="timer-title">Esta oferta expira en:</div>
+            <div class="timer-display" id="countdown">10:00</div>
+            <div class="timer-warning">⚠️ Después de esto, no podrás acceder nunca más a esta oferta</div>
+        </div>
+
+        <h1 class="offer-title">CONSULTA DIRECTA CON NACHO</h1>
+        <p class="offer-subtitle">La oportunidad que estabas esperando para transformar tu negocio</p>
+
+        <div class="qualification-box">
+            <div class="qualification-title">✅ ESTÁS MEGA CALIFICADO</div>
+            <div class="qualification-text">
+                Llegaste hasta acá porque realmente necesitas ayuda con tu marketing.<br>
+                Esta oferta SOLO aparece para personas como tú que completaron todo el proceso.<br>
+                <strong>No la verás nunca más en ningún otro lugar.</strong>
+            </div>
+        </div>
+
+        <div class="price-container">
+            <div class="original-price">Precio normal: $990.000 CLP</div>
+            <div class="current-price">$249.000</div>
+            <div class="savings">AHORRAS $741.000 (75% de descuento)</div>
+            
+            <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid #4ade80; border-radius: 8px; padding: 15px; margin: 20px 0; color: #4ade80; font-weight: 600; font-size: 18px;">
+                🎉 6 CUOTAS SIN INTERÉS de solo $41.500 CLP c/u
+            </div>
+            
+            <p style="color: #cccccc; font-size: 16px;">Esta es la ÚNICA vez que verás este precio</p>
+        </div>
+
+        <div class="value-stack">
+            <div class="value-stack-title">Lo que obtienes por solo $41.500 CLP al mes:</div>
+            <div class="value-item">
+                <div class="value-description">Análisis completo de tu negocio con Nacho (1 hora)</div>
+                <div class="value-price">$400.000 CLP</div>
+            </div>
+            <div class="value-item">
+                <div class="value-description">Estrategia personalizada de marketing digital</div>
+                <div class="value-price">$300.000 CLP</div>
+            </div>
+            <div class="value-item">
+                <div class="value-description">Plan de acción específico para tu empresa</div>
+                <div class="value-price">$200.000 CLP</div>
+            </div>
+            <div class="value-item">
+                <div class="value-description">Acceso a plantillas y recursos exclusivos</div>
+                <div class="value-price">$150.000 CLP</div>
+            </div>
+            <div class="value-item">
+                <div class="value-description"><strong>VALOR TOTAL:</strong></div>
+                <div class="value-price">$1.050.000 CLP</div>
+            </div>
+        </div>
+
+        <div class="options-container">
+            <div class="option-card">
+                <div class="option-title">Opción 1: Más Información</div>
+                <div class="option-description">
+                    "Quiero hablar con el equipo de Nacho para tener más información"
+                    <br><br>
+                    <small style="color: #888; font-size: 14px;">⚠️ Advertencia: Esta opción puede NO estar disponible debido a alta demanda. La opción directa con Nacho es la más segura.</small>
+                </div>
+                <a href="#" class="option-cta" onclick="openWhatsApp()">Contactar por WhatsApp</a>
+            </div>
+
+            <div class="option-card premium">
+                <div class="premium-badge">MÁS POPULAR</div>
+                <div class="option-title">Opción 2: Directo con Nacho</div>
+                <div class="option-description">
+                    <strong>"Quiero mostrarle mis números a Nacho y que me diga qué hacer"</strong><br><br>
+                    Acceso inmediato y directo. Nacho revisará personalmente tu caso.
+                </div>
+                <a href="https://mpago.la/2YXggZU" class="option-cta premium" target="_blank">Pagar Ahora - 6 Cuotas de $41.500</a>
+            </div>
+        </div>
+
+        <div class="guarantees">
+            <div class="guarantee-item">
+                <span class="guarantee-icon">🛡️</span>
+                <span>Garantía total: Si no obtienes value, te devolvemos el dinero</span>
+            </div>
+            <div class="guarantee-item">
+                <span class="guarantee-icon">⚡</span>
+                <span>Respuesta en menos de 24 horas</span>
+            </div>
+            <div class="guarantee-item">
+                <span class="guarantee-icon">🎯</span>
+                <span>Plan de acción específico para TU negocio</span>
+            </div>
+        </div>
+
+        <div class="scarcity-warning">
+            <div class="scarcity-title">⚠️ ADVERTENCIA IMPORTANTE</div>
+            <div class="scarcity-text">
+                Esta oferta <strong>NO SE REPETIRÁ</strong>. Una vez que expire el cronómetro, 
+                desaparecerá para siempre. No hay segundas oportunidades, no hay excepciones.
+                <br><br>
+                <strong>Es ahora o nunca.</strong>
+            </div>
+        </div>
+
+        <div class="final-warning" id="final-warning" style="display: none;">
+            🚨 ¡ÚLTIMOS MINUTOS! Esta oferta expira muy pronto 🚨
+        </div>
+    </div>
+
+    <script>
+        // Countdown timer
+        let timeLeft = 10 * 60; // 10 minutes in seconds
+        const countdownElement = document.getElementById('countdown');
+        const finalWarning = document.getElementById('final-warning');
+
+        function updateCountdown() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Show final warning in last 2 minutes
+            if (timeLeft <= 120) {
+                finalWarning.style.display = 'block';
+            }
+            
+            // Change color when time is running out
+            if (timeLeft <= 60) {
+                countdownElement.style.color = '#ff6b6b';
+                countdownElement.style.animation = 'flash 1s infinite';
+            }
+            
+            if (timeLeft <= 0) {
+                // Redirect to expired page or hide offer
+                document.body.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; background: #0a0a0a; color: white;">
+                        <div>
+                            <h1 style="font-size: 48px; margin-bottom: 20px; color: #ff6b6b;">⏰ OFERTA EXPIRADA</h1>
+                            <p style="font-size: 20px; color: #cccccc;">Lo siento, perdiste esta oportunidad única.</p>
+                            <p style="font-size: 16px; color: #888; margin-top: 20px;">Esta oferta no volverá a estar disponible.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            timeLeft--;
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        // WhatsApp contact function with sales focus
+        function openWhatsApp() {
+            // Create urgency message
+            const message = encodeURIComponent(`🔥 URGENTE: Vengo de la oferta exclusiva de Nacho y necesito más información antes de que expire el cronómetro.
+
+¿Puedo hablar con alguien del equipo AHORA sobre la consulta directa con Nacho?
+
+⏰ Solo tengo unos minutos para decidir.`);
+            
+            // You'll need to replace this with your actual WhatsApp number
+            const whatsappNumber = "56950160966"; // Nacho's WhatsApp number
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
+            
+            // Create popup warning first
+            const proceed = confirm(`⚠️ IMPORTANTE: 
+
+El equipo está muy ocupado y puede que NO respondan inmediatamente.
+
+Tu cronómetro sigue corriendo y cuando expire, perderás esta oferta para siempre.
+
+¿Estás seguro que quieres arriesgarte o prefieres ir directo con Nacho ahora?
+
+Click "Aceptar" para WhatsApp o "Cancelar" para ir directo con Nacho.`);
+            
+            if (proceed) {
+                window.open(whatsappURL, '_blank');
+                
+                // Show timer warning after 30 seconds
+                setTimeout(() => {
+                    alert('⏰ Tu cronómetro sigue corriendo. Si no recibes respuesta inmediata, regresa y elige la opción directa con Nacho antes de que expire.');
+                }, 30000);
+            } else {
+                // Redirect to payment option
+                window.location.href = 'https://mpago.la/2YXggZU';
+            }
+        }
+
+        // Add urgency effects
+        setInterval(() => {
+            if (timeLeft <= 120 && timeLeft > 0) {
+                document.body.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 500);
+            }
+        }, 30000); // Every 30 seconds in final 2 minutes
+
+        // CSS for shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Track page visibility for timer accuracy
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // User left the page - could pause timer or add pressure
+                console.log('User left the page');
+            } else {
+                // User returned - could add urgency message
+                console.log('User returned');
+            }
+        });
+    </script>
+</body>
+</html>

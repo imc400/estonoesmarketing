@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acabas de confirmar algo... | Nacho</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .gotcha-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #ff6b6b;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .gotcha-subtitle {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 40px;
+            color: #cccccc;
+            font-style: italic;
+        }
+
+        .revelation-text {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+            position: relative;
+        }
+
+        .revelation-text::before {
+            content: "🎯";
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #0a0a0a;
+            padding: 0 10px;
+            font-size: 24px;
+        }
+
+        .revelation-text p {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .revelation-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .button-analysis {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .button-analysis::before {
+            content: "🔍";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0a0a0a;
+            padding: 0 10px;
+            font-size: 20px;
+        }
+
+        .button-quote {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .button-analysis-text {
+            font-size: 16px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .button-analysis-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .defense-status {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 107, 107, 0.4);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .defense-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .defense-item {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .defense-item::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .defense-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .next-phase {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .next-phase p {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .next-phase p:last-child {
+            margin-bottom: 0;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            min-width: 300px;
+            margin-top: 30px;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ee5a52 0%, #ff6b6b 100%);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .emoji-reactions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            font-size: 32px;
+            opacity: 0.7;
+        }
+
+        .emoji-reactions span {
+            animation: bounce 2s infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Subtle background animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 40% 30%, rgba(255, 107, 107, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 60% 70%, rgba(255, 107, 107, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .gotcha-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+
+            .gotcha-subtitle {
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+
+            .revelation-text {
+                padding: 30px 25px;
+                margin: 30px 0;
+            }
+
+            .revelation-text p {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .button-analysis {
+                padding: 25px 20px;
+                margin: 30px 0;
+            }
+
+            .button-quote {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .button-analysis-text {
+                font-size: 15px;
+            }
+
+            .defense-status {
+                padding: 25px 20px;
+                margin: 30px 0;
+            }
+
+            .defense-title {
+                font-size: 18px;
+            }
+
+            .defense-item {
+                font-size: 15px;
+            }
+
+            .next-phase {
+                padding: 25px 20px;
+                margin: 30px 0;
+            }
+
+            .next-phase p {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            .cta-button {
+                padding: 18px 30px;
+                font-size: 16px;
+                min-width: 280px;
+            }
+
+            .step-indicator,
+            .back-button {
+                position: static;
+                margin-bottom: 20px;
+                display: block;
+                text-align: center;
+            }
+
+            .back-button {
+                width: fit-content;
+                margin: 0 auto 20px auto;
+            }
+
+            .emoji-reactions {
+                font-size: 28px;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gotcha-title {
+                font-size: 24px;
+            }
+
+            .gotcha-subtitle {
+                font-size: 16px;
+            }
+
+            .revelation-text {
+                padding: 25px 20px;
+            }
+
+            .revelation-text p {
+                font-size: 15px;
+            }
+
+            .button-analysis {
+                padding: 20px 15px;
+            }
+
+            .button-quote {
+                font-size: 18px;
+            }
+
+            .defense-status {
+                padding: 20px 15px;
+            }
+
+            .next-phase {
+                padding: 20px 15px;
+            }
+
+            .cta-button {
+                padding: 16px 25px;
+                min-width: 260px;
+            }
+
+            .emoji-reactions {
+                font-size: 24px;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    
+    <div class="container">
+        <a href="step2b.html" class="back-button">← Volver</a>
+        <div class="step-indicator">04/05</div>
+        
+        <h1 class="gotcha-title">Acabas de confirmar algo...</h1>
+        <p class="gotcha-subtitle">Al hacer click en ese botón, aceptaste que te caigo bien</p>
+
+        <div class="button-analysis">
+            <div class="button-quote">"Jaja, me cae bien Nacho"</div>
+            <div class="button-analysis-text">← Esto no fue solo un click casual</div>
+            <div class="button-analysis-text">Fue una <strong>declaración consciente</strong> de simpatía</div>
+        </div>
+
+        <div class="revelation-text">
+            <p>¿Te das cuenta de lo que acaba de pasar?</p>
+            
+            <p>No solo <span class="highlight">admitiste públicamente</span> (bueno, a ti mismo) que te caigo bien, sino que lo hiciste después de que te expliqué exactamente cómo te estaba manipulando.</p>
+            
+            <p>Eso significa que <span class="highlight">bajaste tus defensas por segunda vez</span>, pero ahora sabiendo conscientemente que estás en un embudo de ventas.</p>
+            
+            <p>En psicología esto se llama <span class="highlight">"transparencia paradójica"</span>: mientras más honesto soy sobre la persuasión, <strong>más persuasivo me vuelvo</strong>.</p>
+        </div>
+
+        <div class="defense-status">
+            <div class="defense-title">
+                <span class="status-indicator"></span>
+                Estado actual de tus defensas:
+            </div>
+            <div class="defense-item">Primera barrera: "¿Es esto spam?" → Eliminada en paso 1</div>
+            <div class="defense-item">Segunda barrera: "¿Es confiable?" → Eliminada con la foto real</div>
+            <div class="defense-item">Tercera barrera: "¿Me están manipulando?" → Neutralizada con honestidad</div>
+            <div class="defense-item">Cuarta barrera: "¿Me cae bien?" → <strong>Oficialmente eliminada</strong></div>
+        </div>
+
+        <div class="emoji-reactions">
+            <span style="--delay: 0s">🤔</span>
+            <span style="--delay: 0.5s">😏</span>
+            <span style="--delay: 1s">🎯</span>
+        </div>
+
+        <div class="next-phase">
+            <p>Ahora que establecimos que me tienes <span class="highlight">simpatía genuina</span> y que respeto tu inteligencia al no ocultarte el proceso...</p>
+            
+            <p><strong>¿Te parece si te muestro exactamente cómo trabajo?</strong></p>
+        </div>
+
+        <a href="step3.html" class="cta-button">
+            😂 Ok Nacho, te ganaste mi tiempo
+        </a>
+    </div>
+
+    <script>
+        // Add subtle cursor trail effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '3px';
+            cursor.style.height = '3px';
+            cursor.style.background = 'rgba(255, 107, 107, 0.4)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.style.opacity = '0';
+                cursor.style.transform = 'scale(2)';
+                cursor.style.transition = 'all 0.4s ease-out';
+                setTimeout(() => cursor.remove(), 400);
+            }, 100);
+        });
+
+        // Add click ripple effect to button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            const button = this;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Special interaction - track time on page
+        let startTime = Date.now();
+        let hasShownTimeMessage = false;
+
+        setInterval(() => {
+            let timeSpent = Math.floor((Date.now() - startTime) / 1000);
+            
+            if (timeSpent === 30 && !hasShownTimeMessage) {
+                hasShownTimeMessage = true;
+                const message = document.createElement('div');
+                message.style.position = 'fixed';
+                message.style.bottom = '20px';
+                message.style.right = '20px';
+                message.style.background = 'rgba(255, 107, 107, 0.9)';
+                message.style.color = 'white';
+                message.style.padding = '15px 20px';
+                message.style.borderRadius = '8px';
+                message.style.fontSize = '14px';
+                message.style.zIndex = '10000';
+                message.style.maxWidth = '300px';
+                message.textContent = '😏 Llevas 30 segundos leyendo esto. El análisis psicológico funciona, ¿eh?';
+                document.body.appendChild(message);
+                
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                    message.style.transition = 'opacity 0.5s';
+                    setTimeout(() => message.remove(), 500);
+                }, 4000);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

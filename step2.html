@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Realidad del Marketing | Ignacio Blanco</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .intro-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 50px;
+            color: #e0e0e0;
+            line-height: 1.4;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .intro-text .highlight {
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+
+        .photo-section {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .photo-container {
+            flex-shrink: 0;
+        }
+
+        .photo-container img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .photo-text h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .photo-text p {
+            font-size: 18px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .photo-text .casual {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .authenticity-note {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #ff6b6b;
+            padding: 20px 25px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+
+        .authenticity-note p {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            min-width: 280px;
+            margin-top: 30px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ee5a52 0%, #ff6b6b 100%);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        /* Subtle background animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 107, 107, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .intro-text {
+                font-size: 20px;
+                margin-bottom: 30px;
+            }
+
+            .photo-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+                margin: 40px auto;
+                padding: 30px 20px;
+            }
+
+            .photo-container img {
+                width: 250px;
+                height: 250px;
+            }
+
+            .photo-text {
+                text-align: center;
+            }
+
+            .photo-text h2 {
+                font-size: 24px;
+            }
+
+            .photo-text p {
+                font-size: 16px;
+            }
+
+            .authenticity-note {
+                margin: 30px 0;
+                padding: 20px;
+            }
+
+            .authenticity-note p {
+                font-size: 15px;
+            }
+
+            .cta-button {
+                padding: 18px 30px;
+                font-size: 16px;
+                min-width: 260px;
+            }
+
+            .step-indicator,
+            .back-button {
+                position: static;
+                margin-bottom: 20px;
+                display: block;
+                text-align: center;
+            }
+
+            .back-button {
+                width: fit-content;
+                margin: 0 auto 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .intro-text {
+                font-size: 18px;
+            }
+
+            .photo-section {
+                padding: 25px 15px;
+            }
+
+            .photo-container img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .photo-text h2 {
+                font-size: 22px;
+            }
+
+            .photo-text p {
+                font-size: 15px;
+            }
+
+            .authenticity-note {
+                padding: 15px;
+            }
+
+            .cta-button {
+                padding: 16px 25px;
+                min-width: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    
+    <div class="container">
+        <a href="step1.html" class="back-button">← Volver</a>
+        <div class="step-indicator">02/05</div>
+        
+        <div class="intro-text">
+            Perfecto. Entonces sabes exactamente de qué hablo.<br>
+            <span class="highlight">Esta industria está llena de vendedores de humo.</span>
+        </div>
+
+        <div class="photo-section">
+            <div class="photo-container">
+                <img src="nacho-working.jpg" alt="Nacho en su escritorio trabajando">
+            </div>
+            <div class="photo-text">
+                <h2>Ok, este soy yo</h2>
+                <p><span class="casual">Me dicen Nacho</span>, y así fue como armé la página que estás viendo en este momento.</p>
+                <p>Nada fancy, nada de humo.</p>
+                <p>Yo y mi escritorio.</p>
+            </div>
+        </div>
+
+        <div class="authenticity-note">
+            <p>Ni oficina elegante, ni equipo de diseño, ni fotos profesionales. Solo trabajo real, resultados reales.</p>
+        </div>
+
+        <a href="step2b.html" class="cta-button">
+            Ok, me gusta la honestidad
+        </a>
+    </div>
+
+    <script>
+        // Add subtle cursor trail effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '3px';
+            cursor.style.height = '3px';
+            cursor.style.background = 'rgba(255, 107, 107, 0.4)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.style.opacity = '0';
+                cursor.style.transform = 'scale(2)';
+                cursor.style.transition = 'all 0.4s ease-out';
+                setTimeout(() => cursor.remove(), 400);
+            }, 100);
+        });
+
+        // Add click ripple effect to button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            const button = this;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

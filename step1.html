@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Te suena conocido? | Ignacio Blanco</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .intro-statement {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 40px;
+            color: #cccccc;
+            text-align: center;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .main-question {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #ffffff;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+        }
+
+        .main-question span {
+            color: #ff6b6b;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .situations {
+            text-align: left;
+            margin: 50px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+            position: relative;
+        }
+
+        .situations::before {
+            content: "Situaciones típicas:";
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: #0a0a0a;
+            padding: 0 15px;
+            font-size: 14px;
+            color: #ff6b6b;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .situation-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 1.5;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .situation-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .situation-item:hover {
+            background: rgba(255, 107, 107, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 0 -15px 20px -15px;
+        }
+
+        .situation-item:last-child:hover {
+            margin-bottom: -15px;
+        }
+
+        .bullet {
+            color: #ff6b6b;
+            font-weight: 700;
+            font-size: 20px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            line-height: 1.2;
+        }
+
+        .situation-text {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .reality-check {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 50px 0 40px 0;
+            color: #ff6b6b;
+            letter-spacing: -0.3px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            min-width: 280px;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ee5a52 0%, #ff6b6b 100%);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        .warning-text {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 2px;
+            text-shadow: -2px 0 #ff6b6b;
+            top: 0;
+            color: #ff6b6b;
+            background: #0a0a0a;
+            overflow: hidden;
+            clip: rect(0, 900px, 0, 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+            opacity: 0.8;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 31px, 0); }
+            5% { clip: rect(70px, 9999px, 71px, 0); }
+            10% { clip: rect(30px, 9999px, 31px, 0); }
+            15% { clip: rect(90px, 9999px, 91px, 0); }
+            20% { clip: rect(50px, 9999px, 51px, 0); }
+            25% { clip: rect(10px, 9999px, 11px, 0); }
+            30% { clip: rect(80px, 9999px, 81px, 0); }
+            35% { clip: rect(40px, 9999px, 41px, 0); }
+            40% { clip: rect(20px, 9999px, 21px, 0); }
+            45% { clip: rect(60px, 9999px, 61px, 0); }
+            50% { clip: rect(35px, 9999px, 36px, 0); }
+            55% { clip: rect(85px, 9999px, 86px, 0); }
+            60% { clip: rect(25px, 9999px, 26px, 0); }
+            65% { clip: rect(75px, 9999px, 76px, 0); }
+            70% { clip: rect(45px, 9999px, 46px, 0); }
+            75% { clip: rect(15px, 9999px, 16px, 0); }
+            80% { clip: rect(65px, 9999px, 66px, 0); }
+            85% { clip: rect(55px, 9999px, 56px, 0); }
+            90% { clip: rect(95px, 9999px, 96px, 0); }
+            95% { clip: rect(5px, 9999px, 6px, 0); }
+            100% { clip: rect(88px, 9999px, 89px, 0); }
+        }
+
+        /* Subtle background animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 107, 107, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .intro-statement {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+
+            .main-question {
+                font-size: 26px;
+                margin-bottom: 30px;
+            }
+
+            .situations {
+                padding: 30px 20px;
+                margin: 40px 0;
+            }
+
+            .situation-item {
+                font-size: 16px;
+                padding: 12px 0;
+            }
+
+            .situation-item:hover {
+                padding: 12px;
+                margin: 0 -12px 15px -12px;
+            }
+
+            .reality-check {
+                font-size: 24px;
+                margin: 40px 0 30px 0;
+            }
+
+            .cta-button {
+                padding: 18px 30px;
+                font-size: 16px;
+                min-width: 260px;
+            }
+
+            .step-indicator {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .intro-statement {
+                font-size: 15px;
+            }
+
+            .main-question {
+                font-size: 22px;
+            }
+
+            .situations {
+                padding: 25px 15px;
+            }
+
+            .situation-item {
+                font-size: 15px;
+            }
+
+            .reality-check {
+                font-size: 20px;
+            }
+
+            .cta-button {
+                padding: 16px 25px;
+                min-width: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="step-indicator">01/05</div>
+        
+        <div class="intro-statement">
+            Quiero hacer todo distinto, así que no te voy a pedir tu teléfono ni tu mail para spamearte.
+        </div>
+
+        <h1 class="main-question">
+            ¿Qué tan <span class="glitch" data-text="difícil">difícil</span> es confiar en alguien para tercerizar el marketing de tu empresa?
+        </h1>
+
+        <div class="situations">
+            <div class="situation-item">
+                <span class="bullet">—</span>
+                <span class="situation-text">Parten como avión y luego se desinflan</span>
+            </div>
+            <div class="situation-item">
+                <span class="bullet">—</span>
+                <span class="situation-text">Mucho tráfico pero pocas ventas</span>
+            </div>
+            <div class="situation-item">
+                <span class="bullet">—</span>
+                <span class="situation-text">Invierten mucho en anuncios, te dicen que se vendió mucho, pero no es rentable</span>
+            </div>
+            <div class="situation-item">
+                <span class="bullet">—</span>
+                <span class="situation-text">Siempre hay una excusa</span>
+            </div>
+            <div class="situation-item">
+                <span class="bullet">—</span>
+                <span class="situation-text">No tienes idea de los números y tampoco te los quieren enseñar</span>
+            </div>
+            <div class="situation-item">
+                <span class="bullet">—</span>
+                <span class="situation-text">Te piden correo o teléfono para después spamearte</span>
+            </div>
+        </div>
+
+        <h2 class="reality-check">¿Te suena conocido?</h2>
+
+        <a href="step2.html" class="cta-button">
+            Sí, demasiado conocido
+        </a>
+
+        <p class="warning-text">
+            * No hay formularios que llenar. Solo honestidad.
+        </p>
+    </div>
+
+    <script>
+        // Add subtle cursor trail effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '4px';
+            cursor.style.height = '4px';
+            cursor.style.background = 'rgba(255, 107, 107, 0.3)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.style.opacity = '0';
+                cursor.style.transform = 'scale(3)';
+                cursor.style.transition = 'all 0.5s ease-out';
+                setTimeout(() => cursor.remove(), 500);
+            }, 50);
+        });
+
+        // Add click ripple effect to button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            const button = this;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

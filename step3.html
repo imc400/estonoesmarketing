@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Realidad del Marketing | Ignacio Blanco</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .intro-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #e0e0e0;
+            line-height: 1.4;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .intro-text .highlight {
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #111;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), transparent, rgba(255, 107, 107, 0.1));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            display: block;
+            position: relative;
+            z-index: 2;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #666;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+        }
+
+        .play-button {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 107, 107, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 107, 107, 0.5);
+        }
+
+        .play-button:hover {
+            background: rgba(255, 107, 107, 0.4);
+            transform: scale(1.1);
+            border-color: #ff6b6b;
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 25px solid #ff6b6b;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            margin-left: 8px;
+        }
+
+        .video-title {
+            font-size: 18px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .video-duration {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .warning-box {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 50px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .warning-box::before {
+            content: "⚠";
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #0a0a0a;
+            padding: 0 10px;
+            font-size: 24px;
+            color: #ff6b6b;
+        }
+
+        .warning-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+
+        .warning-text {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            min-width: 280px;
+            margin-top: 30px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .cta-button.enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .cta-button.enabled:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ee5a52 0%, #ff6b6b 100%);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .video-watched {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: #4ade80;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* Subtle background animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 107, 107, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .intro-text {
+                font-size: 20px;
+                margin-bottom: 30px;
+            }
+
+            .video-container {
+                margin: 40px auto;
+            }
+
+            .video-container iframe,
+            .video-placeholder {
+                height: 300px;
+            }
+
+            .warning-box {
+                padding: 25px 20px;
+                margin: 40px 0;
+            }
+
+            .warning-title {
+                font-size: 18px;
+            }
+
+            .warning-text {
+                font-size: 15px;
+            }
+
+            .cta-button {
+                padding: 18px 30px;
+                font-size: 16px;
+                min-width: 260px;
+            }
+
+            .step-indicator,
+            .back-button {
+                position: static;
+                margin-bottom: 20px;
+                display: block;
+                text-align: center;
+            }
+
+            .back-button {
+                width: fit-content;
+                margin: 0 auto 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .intro-text {
+                font-size: 18px;
+            }
+
+            .video-container iframe,
+            .video-placeholder {
+                height: 250px;
+            }
+
+            .play-button {
+                width: 80px;
+                height: 80px;
+            }
+
+            .play-icon {
+                border-left-width: 20px;
+                border-top-width: 12px;
+                border-bottom-width: 12px;
+            }
+
+            .warning-box {
+                padding: 20px 15px;
+            }
+
+            .cta-button {
+                padding: 16px 25px;
+                min-width: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    
+    <div class="container">
+        <a href="step2c.html" class="back-button">← Volver</a>
+        <div class="step-indicator">05/05</div>
+        
+        <div class="intro-text">
+            No te voy a explicar lo que asumiste al darle click al botón de <span class="highlight">"te ganaste mi tiempo"</span>.<br><br>
+            Fue para que confirmes que te hiciste el tiempo para ver el video completo:
+        </div>
+
+        <div class="video-container">
+            <video id="main-video" 
+                   width="100%" 
+                   height="450" 
+                   controls
+                   preload="metadata"
+                   style="border-radius: 14px;">
+                <source src="Video landing leads.mp4" type="video/mp4">
+                Tu navegador no soporta el elemento video.
+            </video>
+        </div>
+
+        <div class="video-watched" id="video-status">
+            ✅ Video completado - Ahora puedes continuar
+        </div>
+
+        <div class="warning-box">
+            <div class="warning-title">Antes de continuar</div>
+            <div class="warning-text">
+                <strong>Debes ver el video COMPLETO para poder avanzar al siguiente paso.</strong>
+                <br><br>
+                Este video no es como los otros. No hay PowerPoints bonitos ni promesas vacías. 
+                Es la realidad cruda de por qué el 90% de las agencias fallan en entregar resultados reales. 
+                <strong>Y más importante: cómo identificar si realmente puedes confiar en alguien con tu presupuesto.</strong>
+            </div>
+        </div>
+
+        <a href="#" class="cta-button" id="final-cta">
+            Ya vi el video, quiero saber más
+        </a>
+    </div>
+
+    <script>
+        let videoWatched = false;
+        const ctaButton = document.getElementById('final-cta');
+        const videoStatus = document.getElementById('video-status');
+        const video = document.getElementById('main-video');
+
+        // Track video completion
+        video.addEventListener('ended', function() {
+            markVideoAsCompleted();
+        });
+
+        // Also mark as completed if they watch 90% of the video
+        video.addEventListener('timeupdate', function() {
+            if (video.currentTime / video.duration >= 0.9 && !videoWatched) {
+                markVideoAsCompleted();
+            }
+        });
+
+        function markVideoAsCompleted() {
+            videoWatched = true;
+            ctaButton.classList.add('enabled');
+            videoStatus.style.display = 'block';
+            
+            // Add pulsing effect to button
+            ctaButton.style.animation = 'pulse 2s infinite';
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulse {
+                    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+                    70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        ctaButton.addEventListener('click', function(e) {
+            if (!videoWatched) {
+                e.preventDefault();
+                alert('Por favor mira el video completo antes de continuar');
+                return false;
+            } else {
+                // Redirect to exclusive offer
+                window.location.href = 'oferta.html';
+            }
+        });
+
+        // Add subtle cursor trail effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '3px';
+            cursor.style.height = '3px';
+            cursor.style.background = 'rgba(255, 107, 107, 0.4)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.style.opacity = '0';
+                cursor.style.transform = 'scale(2)';
+                cursor.style.transition = 'all 0.4s ease-out';
+                setTimeout(() => cursor.remove(), 400);
+            }, 100);
+        });
+
+        // Add click ripple effect to enabled button
+        ctaButton.addEventListener('click', function(e) {
+            if (!videoWatched) return;
+            
+            const button = this;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
