@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algunas marcas que han confiado en mí | Nacho</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .intro-text {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .subtitle-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 60px;
+            color: #cccccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 40px 30px;
+            margin: 60px 0;
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .client-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80px;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .client-logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .client-logo:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1);
+        }
+
+        .client-logo:hover::before {
+            left: 100%;
+        }
+
+        .client-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(0.8) contrast(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .client-logo:hover img {
+            filter: brightness(1) contrast(1.2);
+        }
+
+        .continuation-text {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-top: 50px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            min-width: 320px;
+            margin-top: 20px;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ee5a52 0%, #ff6b6b 100%);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 75%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        /* Subtle background animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(255, 107, 107, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 107, 107, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .intro-text {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .subtitle-text {
+                font-size: 16px;
+                margin-bottom: 40px;
+            }
+
+            .clients-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 25px 20px;
+                margin: 40px 0;
+                padding: 30px 15px;
+            }
+
+            .client-logo {
+                height: 70px;
+                padding: 15px;
+            }
+
+            .continuation-text {
+                font-size: 16px;
+                margin-top: 40px;
+                margin-bottom: 30px;
+            }
+
+            .cta-button {
+                padding: 18px 30px;
+                font-size: 16px;
+                min-width: 280px;
+            }
+
+            .step-indicator,
+            .back-button {
+                position: static;
+                margin-bottom: 20px;
+                display: block;
+                text-align: center;
+            }
+
+            .back-button {
+                width: fit-content;
+                margin: 0 auto 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .intro-text {
+                font-size: 20px;
+            }
+
+            .subtitle-text {
+                font-size: 15px;
+            }
+
+            .clients-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 20px 15px;
+                padding: 25px 10px;
+            }
+
+            .client-logo {
+                height: 60px;
+                padding: 10px;
+            }
+
+            .continuation-text {
+                font-size: 15px;
+            }
+
+            .cta-button {
+                padding: 16px 25px;
+                min-width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    
+    <div class="container">
+        <a href="step2c.html" class="back-button">← Volver</a>
+        <div class="step-indicator">04.5/05</div>
+        
+        <h1 class="intro-text">Algunas de las marcas que han confiado en mí</h1>
+        <p class="subtitle-text">No todas, porque sería presumir. Pero estas sí me dieron permiso para mostrarlas:</p>
+
+        <div class="clients-grid">
+            <div class="client-logo">
+                <img src="BWild.avif" alt="Cliente BWild" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="Granjamagdalena.avif" alt="Cliente Granja Magdalena" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="Puntiferrer.avif" alt="Cliente Puntiferrer" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="Rebels.avif" alt="Cliente Rebels" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="Spotessence.webp" alt="Cliente Spotessence" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="Toke.avif" alt="Cliente Toke" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="Ximena Rogat.avif" alt="Cliente Ximena Rogat" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="caballeroarmado_logo.png" alt="Cliente Caballero Armado" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="cuina_logo.png" alt="Cliente Cuina" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="de_raiz_chile_logo.png" alt="Cliente De Raiz Chile" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="dentobal_logo.jpeg" alt="Cliente Dentobal" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="equifax_logo.png" alt="Cliente Equifax" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="gemco_logo.png" alt="Cliente Gemco" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="inmobiliaria_hcg_logo.jpg" alt="Cliente Inmobiliaria HCG" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="moramoda_logo.png" alt="Cliente Mora Moda" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="nuit_sleepwear_logo.png" alt="Cliente Nuit Sleepwear" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="pichintun_logo.svg" alt="Cliente Pichintun" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="pinkladybeauty_logo_black.png" alt="Cliente Pink Lady Beauty" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="somos_adhara_logo.png" alt="Cliente Somos Adhara" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="tilicura_logo_black.png" alt="Cliente Tilicura" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="tumaquinadepago_logo_black.png" alt="Cliente Tu Máquina de Pago" loading="lazy">
+            </div>
+            <div class="client-logo">
+                <img src="universidad_de_los_andes_logo.png" alt="Cliente Universidad de los Andes" loading="lazy">
+            </div>
+        </div>
+
+        <div class="continuation-text">
+            No te voy a decir qué resultados tuvieron porque eso sería <strong>name-dropping</strong>.<br><br>
+            Pero sí te voy a decir que hay un patrón en cómo trabajo que <strong>funciona</strong>.
+        </div>
+
+        <a href="step3.html" class="cta-button">
+            Ok, ahora sí quiero ver el video
+        </a>
+    </div>
+
+    <script>
+        // Add subtle cursor trail effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '3px';
+            cursor.style.height = '3px';
+            cursor.style.background = 'rgba(255, 107, 107, 0.4)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.style.opacity = '0';
+                cursor.style.transform = 'scale(2)';
+                cursor.style.transition = 'all 0.4s ease-out';
+                setTimeout(() => cursor.remove(), 400);
+            }, 100);
+        });
+
+        // Add click ripple effect to button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            const button = this;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Animate logos on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0px)';
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Apply animation to logos
+        document.querySelectorAll('.client-logo').forEach((logo, index) => {
+            logo.style.opacity = '0';
+            logo.style.transform = 'translateY(30px)';
+            logo.style.transition = 'all 0.6s ease';
+            observer.observe(logo);
+        });
+    </script>
+</body>
+</html>
