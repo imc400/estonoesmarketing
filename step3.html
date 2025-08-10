@@ -205,16 +205,11 @@
             overflow: hidden;
             min-width: 280px;
             margin-top: 30px;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .cta-button.enabled {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .cta-button.enabled:hover {
+        .cta-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
             background: linear-gradient(135deg, #ee5a52 0%, #ff6b6b 100%);
@@ -388,9 +383,6 @@
             </iframe>
         </div>
 
-        <div class="video-watched" id="video-status">
-            ✅ Video completado - Ahora puedes continuar
-        </div>
 
         <div class="warning-box">
             <div class="warning-title">Antes de continuar</div>
@@ -409,91 +401,11 @@
     </div>
 
     <script>
-        let videoWatched = false;
         const ctaButton = document.getElementById('final-cta');
-        const videoStatus = document.getElementById('video-status');
-        const video = document.getElementById('main-video');
 
-        // YouTube iframe API for video tracking
-        // For now, simulate completion after 5 minutes (or user can skip)
-        
-        // Auto-complete after 5 minutes (300 seconds)
-        setTimeout(() => {
-            if (!videoWatched) {
-                markVideoAsCompleted();
-            }
-        }, 300000); // 5 minutes
-        
-        // Also allow manual completion after 2 minutes
-        setTimeout(() => {
-            if (!videoWatched) {
-                const skipBtn = document.createElement('div');
-                skipBtn.innerHTML = '⏭️ Marcar como visto y continuar';
-                skipBtn.id = 'skip-video-btn';
-                skipBtn.style.cssText = `
-                    display: block;
-                    width: 100%;
-                    max-width: 300px;
-                    margin: 20px auto;
-                    background: rgba(255, 107, 107, 0.9);
-                    color: white;
-                    padding: 15px 20px;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    font-weight: 600;
-                    text-align: center;
-                    z-index: 1000;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-                `;
-                skipBtn.onmouseover = () => {
-                    skipBtn.style.background = 'rgba(255, 107, 107, 1)';
-                    skipBtn.style.transform = 'translateY(-2px)';
-                    skipBtn.style.boxShadow = '0 6px 20px rgba(255, 107, 107, 0.4)';
-                };
-                skipBtn.onmouseout = () => {
-                    skipBtn.style.background = 'rgba(255, 107, 107, 0.9)';
-                    skipBtn.style.transform = 'translateY(0px)';
-                    skipBtn.style.boxShadow = '0 4px 15px rgba(255, 107, 107, 0.3)';
-                };
-                skipBtn.onclick = () => {
-                    markVideoAsCompleted();
-                    skipBtn.remove();
-                };
-                
-                // Insert after video container
-                const videoContainer = document.querySelector('.video-container');
-                videoContainer.parentNode.insertBefore(skipBtn, videoContainer.nextSibling);
-            }
-        }, 120000); // 2 minutes
-
-        function markVideoAsCompleted() {
-            videoWatched = true;
-            ctaButton.classList.add('enabled');
-            videoStatus.style.display = 'block';
-            
-            // Add pulsing effect to button
-            ctaButton.style.animation = 'pulse 2s infinite';
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes pulse {
-                    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
-                    70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
+        // Direct redirect to offer page
         ctaButton.addEventListener('click', function(e) {
-            if (!videoWatched) {
-                e.preventDefault();
-                alert('Por favor mira el video completo antes de continuar');
-                return false;
-            } else {
-                // Redirect to exclusive offer
-                window.location.href = 'oferta.html';
-            }
+            window.location.href = 'oferta.html';
         });
 
         // Add subtle cursor trail effect
@@ -518,10 +430,8 @@
             }, 100);
         });
 
-        // Add click ripple effect to enabled button
+        // Add click ripple effect to button
         ctaButton.addEventListener('click', function(e) {
-            if (!videoWatched) return;
-            
             const button = this;
             const ripple = document.createElement('span');
             const rect = button.getBoundingClientRect();
