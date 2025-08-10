@@ -8,6 +8,13 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Meta Pixel Code -->
+    <script src="meta-pixel.js"></script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1010716157553975&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    
     <style>
         * {
             margin: 0;
@@ -448,8 +455,17 @@
             }, 50);
         });
 
+        // Track funnel progress on page load
+        if (typeof trackFunnelProgress === 'function') {
+            trackFunnelProgress('step_1', 'landing_page');
+        }
+
         // Add click ripple effect to button
         document.querySelector('.cta-button').addEventListener('click', function(e) {
+            // Track CTA click
+            if (typeof trackFunnelProgress === 'function') {
+                trackFunnelProgress('step_1_cta', 'proceed_to_step2');
+            }
             const button = this;
             const ripple = document.createElement('span');
             const rect = button.getBoundingClientRect();
