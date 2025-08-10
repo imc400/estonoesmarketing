@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lo prometido es deuda | Nacho</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .promise-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #4ade80;
+            line-height: 1.3;
+        }
+
+        .promise-subtitle {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 50px;
+            color: #e0e0e0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .companies-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .companies-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #ffffff;
+        }
+
+        .companies-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .company-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .company-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1);
+        }
+
+        .company-logo {
+            height: 80px;
+            max-width: 200px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            filter: brightness(0.9) contrast(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .company-item:hover .company-logo {
+            filter: brightness(1.1) contrast(1.2);
+        }
+
+        .company-description {
+            font-size: 14px;
+            color: #cccccc;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .university-section {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .university-logo {
+            height: 60px;
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .university-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .university-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #4ade80;
+            margin-bottom: 8px;
+        }
+
+        .university-description {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+
+        .authentic-message {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 50px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .authentic-message::before {
+            content: "💬";
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #0a0a0a;
+            padding: 0 10px;
+            font-size: 24px;
+        }
+
+        .authentic-message p {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .authentic-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .whatsapp-section {
+            background: rgba(37, 211, 102, 0.1);
+            border: 2px solid rgba(37, 211, 102, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .whatsapp-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #25d366;
+            margin-bottom: 20px;
+        }
+
+        .whatsapp-message {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .whatsapp-button {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            min-width: 320px;
+            justify-content: center;
+        }
+
+        .whatsapp-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .whatsapp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            background: linear-gradient(135deg, #128c7e 0%, #075e54 100%);
+        }
+
+        .whatsapp-button:hover::before {
+            left: 100%;
+        }
+
+        .whatsapp-icon {
+            font-size: 24px;
+        }
+
+        .final-note {
+            font-size: 16px;
+            color: #888;
+            font-style: italic;
+            margin-top: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #4ade80);
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        /* Subtle background animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(74, 222, 128, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(37, 211, 102, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .promise-title {
+                font-size: 26px;
+                margin-bottom: 25px;
+            }
+
+            .promise-subtitle {
+                font-size: 16px;
+                margin-bottom: 40px;
+            }
+
+            .companies-section {
+                padding: 30px 20px;
+                margin: 40px 0;
+            }
+
+            .companies-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .company-item {
+                padding: 25px 20px;
+            }
+
+            .company-logo {
+                height: 60px;
+                max-width: 180px;
+            }
+
+            .university-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .university-text {
+                text-align: center;
+            }
+
+            .university-logo {
+                height: 50px;
+            }
+
+            .authentic-message {
+                padding: 30px 25px;
+                margin: 40px 0;
+            }
+
+            .authentic-message p {
+                font-size: 16px;
+                margin-bottom: 18px;
+            }
+
+            .whatsapp-section {
+                padding: 30px 20px;
+                margin: 40px 0;
+            }
+
+            .whatsapp-title {
+                font-size: 20px;
+            }
+
+            .whatsapp-button {
+                padding: 18px 30px;
+                font-size: 16px;
+                min-width: 280px;
+            }
+
+            .step-indicator,
+            .back-button {
+                position: static;
+                margin-bottom: 20px;
+                display: block;
+                text-align: center;
+            }
+
+            .back-button {
+                width: fit-content;
+                margin: 0 auto 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .promise-title {
+                font-size: 22px;
+            }
+
+            .promise-subtitle {
+                font-size: 15px;
+            }
+
+            .companies-section {
+                padding: 25px 15px;
+            }
+
+            .company-item {
+                padding: 20px 15px;
+            }
+
+            .company-logo {
+                height: 50px;
+                max-width: 160px;
+            }
+
+            .authentic-message {
+                padding: 25px 20px;
+            }
+
+            .authentic-message p {
+                font-size: 15px;
+            }
+
+            .whatsapp-section {
+                padding: 25px 15px;
+            }
+
+            .whatsapp-button {
+                padding: 16px 25px;
+                min-width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    
+    <div class="container">
+        <a href="step3.html" class="back-button">← Volver</a>
+        <div class="step-indicator">Final</div>
+        
+        <h1 class="promise-title">Lo prometido es deuda</h1>
+        <p class="promise-subtitle">No te pedí ni tu mail ni tu número. Estas son mis empresas:</p>
+
+        <div class="companies-section">
+            <h2 class="companies-title">Mis empresas</h2>
+            
+            <div class="companies-grid">
+                <div class="company-item">
+                    <img src="Gris sin fondo 300ppi.png" alt="Intothecom" class="company-logo">
+                    <div class="company-description">Agencia de Marketing Digital</div>
+                </div>
+                
+                <div class="company-item">
+                    <img src="Captura de pantalla 2025-08-10 a la(s) 1.33.34 p.m..png" alt="Datapify" class="company-logo">
+                    <div class="company-description">Plataforma de Analytics</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="university-section">
+            <img src="universidad_de_los_andes_logo.png" alt="Universidad de los Andes" class="university-logo">
+            <div class="university-text">
+                <div class="university-title">También soy profesor</div>
+                <div class="university-description">Del diplomado de Marketing Digital en la Universidad de los Andes</div>
+            </div>
+        </div>
+
+        <div class="authentic-message">
+            <p>Ahora, <span class="highlight">si te interesa contactarnos</span>, acá está mi WhatsApp.</p>
+            
+            <p><span class="highlight">Si realmente quieres mejorar tus números, debe nacer de ti</span>, no de spam.</p>
+            
+            <p>No hay formularios, no hay "agendar una llamada", no hay vendedores insistentes.</p>
+            
+            <p>Solo mi número directo.</p>
+        </div>
+
+        <div class="whatsapp-section">
+            <div class="whatsapp-title">📱 Contacto directo</div>
+            <div class="whatsapp-message">
+                Si llegaste hasta acá, es porque realmente te interesa cambiar los resultados de tu marketing.
+            </div>
+            
+            <a href="https://wa.me/56950160966?text=Hola%20Nacho,%20vi%20todo%20tu%20video%20y%20me%20interesa%20saber%20c%C3%B3mo%20podemos%20trabajar%20juntos" 
+               class="whatsapp-button" 
+               target="_blank">
+                <span class="whatsapp-icon">📱</span>
+                Escribir a Nacho por WhatsApp
+            </a>
+            
+            <div class="final-note">
+                Solo escribo con personas que realmente quieren mejorar sus resultados, no con curiosos.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add subtle cursor trail effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '3px';
+            cursor.style.height = '3px';
+            cursor.style.background = 'rgba(37, 211, 102, 0.4)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.style.opacity = '0';
+                cursor.style.transform = 'scale(2)';
+                cursor.style.transition = 'all 0.4s ease-out';
+                setTimeout(() => cursor.remove(), 400);
+            }, 100);
+        });
+
+        // Add click ripple effect to WhatsApp button
+        document.querySelector('.whatsapp-button').addEventListener('click', function(e) {
+            const button = this;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
