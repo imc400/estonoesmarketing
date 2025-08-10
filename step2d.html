@@ -8,6 +8,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Microsoft Clarity -->
+    <script src="microsoft-clarity.js"></script>
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
     <script src="google-analytics.js"></script>
@@ -495,6 +498,13 @@
 
         // Add click ripple effect to button
         document.querySelector('.cta-button').addEventListener('click', function(e) {
+            // Track psychology reveal engagement
+            if (typeof trackClarityPsychologyReaction === 'function') {
+                trackClarityPsychologyReaction('logo_psychology_understood');
+            }
+            if (typeof trackHighValueInteraction === 'function') {
+                trackHighValueInteraction('psychology_reveal_cta');
+            }
             const button = this;
             const ripple = document.createElement('span');
             const rect = button.getBoundingClientRect();
@@ -555,6 +565,9 @@
         if (typeof trackGAFunnelProgress === 'function') {
             trackGAFunnelProgress('step_2d', 'client_logos');
         }
+        if (typeof trackClarityFunnelProgress === 'function') {
+            trackClarityFunnelProgress('step_2d', 'client_logos');
+        }
 
         // Track logos engagement
         if (typeof trackLogosEngagement === 'function') {
@@ -565,6 +578,11 @@
         if (typeof trackGALogosEngagement === 'function') {
             setTimeout(() => {
                 trackGALogosEngagement();
+            }, 3000);
+        }
+        if (typeof trackClarityLogosEngagement === 'function') {
+            setTimeout(() => {
+                trackClarityLogosEngagement();
             }, 3000);
         }
 

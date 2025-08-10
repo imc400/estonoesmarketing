@@ -8,6 +8,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Microsoft Clarity -->
+    <script src="microsoft-clarity.js"></script>
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
     <script src="google-analytics.js"></script>
@@ -423,6 +426,9 @@
         if (typeof trackGAFunnelProgress === 'function') {
             trackGAFunnelProgress('step_3', 'video_page');
         }
+        if (typeof trackClarityFunnelProgress === 'function') {
+            trackClarityFunnelProgress('step_3', 'video_page');
+        }
 
         // Track video engagement
         if (typeof trackVideoEngagement === 'function') {
@@ -440,6 +446,12 @@
                 trackGAVideoEngagement('video_engagement_30s', 30);
             }, 30000);
         }
+        if (typeof trackClarityVideoEngagement === 'function') {
+            trackClarityVideoEngagement('video_page_view');
+            setTimeout(() => {
+                trackClarityVideoEngagement('video_engagement_30s', 30);
+            }, 30000);
+        }
 
         // Direct redirect to final page
         ctaButton.addEventListener('click', function(e) {
@@ -449,6 +461,12 @@
             }
             if (typeof trackGAVideoEngagement === 'function') {
                 trackGAVideoEngagement('video_completion_cta');
+            }
+            if (typeof trackClarityVideoEngagement === 'function') {
+                trackClarityVideoEngagement('video_completion_cta');
+            }
+            if (typeof trackHighValueInteraction === 'function') {
+                trackHighValueInteraction('video_completion_cta_click');
             }
             window.location.href = 'step4.html';
         });

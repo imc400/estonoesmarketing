@@ -8,6 +8,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Microsoft Clarity -->
+    <script src="microsoft-clarity.js"></script>
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
     <script src="google-analytics.js"></script>
@@ -527,12 +530,20 @@
         if (typeof trackGAFunnelProgress === 'function') {
             trackGAFunnelProgress('step_4', 'final_page');
         }
+        if (typeof trackClarityFunnelProgress === 'function') {
+            trackClarityFunnelProgress('step_4', 'final_page');
+        }
 
         // Track service interest (reached final page)
         if (typeof trackGAServiceInterest === 'function') {
             setTimeout(() => {
                 trackGAServiceInterest();
             }, 5000); // After 5 seconds on final page
+        }
+        if (typeof trackHighValueInteraction === 'function') {
+            setTimeout(() => {
+                trackHighValueInteraction('funnel_completion');
+            }, 5000);
         }
 
         // Track WhatsApp click
@@ -548,6 +559,14 @@
             // Google Analytics tracking
             if (typeof trackGAWhatsAppClick === 'function') {
                 trackGAWhatsAppClick();
+            }
+            
+            // Microsoft Clarity tracking
+            if (typeof trackClarityWhatsAppClick === 'function') {
+                trackClarityWhatsAppClick();
+            }
+            if (typeof trackHighValueInteraction === 'function') {
+                trackHighValueInteraction('whatsapp_conversion');
             }
         });
 

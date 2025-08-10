@@ -8,6 +8,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Microsoft Clarity -->
+    <script src="microsoft-clarity.js"></script>
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
     <script src="google-analytics.js"></script>
@@ -466,6 +469,9 @@
         if (typeof trackGAFunnelProgress === 'function') {
             trackGAFunnelProgress('step_1', 'landing_page');
         }
+        if (typeof trackClarityFunnelProgress === 'function') {
+            trackClarityFunnelProgress('step_1', 'landing_page');
+        }
 
         // Add click ripple effect to button
         document.querySelector('.cta-button').addEventListener('click', function(e) {
@@ -475,6 +481,12 @@
             }
             if (typeof trackGAButtonClick === 'function') {
                 trackGAButtonClick('proceed_button', 'step_1');
+            }
+            if (typeof trackClarityButtonClick === 'function') {
+                trackClarityButtonClick('proceed_button', 'step_1');
+            }
+            if (typeof trackHighValueInteraction === 'function') {
+                trackHighValueInteraction('landing_cta_click');
             }
             const button = this;
             const ripple = document.createElement('span');
