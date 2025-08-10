@@ -8,6 +8,10 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
+    <script src="google-analytics.js"></script>
+    
     <!-- Meta Pixel Code -->
     <script src="meta-pixel.js"></script>
     <noscript><img height="1" width="1" style="display:none"
@@ -548,12 +552,20 @@
         if (typeof trackFunnelProgress === 'function') {
             trackFunnelProgress('step_2d', 'client_logos');
         }
+        if (typeof trackGAFunnelProgress === 'function') {
+            trackGAFunnelProgress('step_2d', 'client_logos');
+        }
 
         // Track logos engagement
         if (typeof trackLogosEngagement === 'function') {
             setTimeout(() => {
                 trackLogosEngagement();
             }, 3000); // Track after 3 seconds of viewing
+        }
+        if (typeof trackGALogosEngagement === 'function') {
+            setTimeout(() => {
+                trackGALogosEngagement();
+            }, 3000);
         }
 
         // Apply animation to logos

@@ -8,6 +8,10 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
+    <script src="google-analytics.js"></script>
+    
     <!-- Meta Pixel Code -->
     <script src="meta-pixel.js"></script>
     <noscript><img height="1" width="1" style="display:none"
@@ -416,6 +420,9 @@
         if (typeof trackFunnelProgress === 'function') {
             trackFunnelProgress('step_3', 'video_page');
         }
+        if (typeof trackGAFunnelProgress === 'function') {
+            trackGAFunnelProgress('step_3', 'video_page');
+        }
 
         // Track video engagement
         if (typeof trackVideoEngagement === 'function') {
@@ -427,12 +434,21 @@
                 trackVideoEngagement('video_engagement_30s');
             }, 30000);
         }
+        if (typeof trackGAVideoEngagement === 'function') {
+            trackGAVideoEngagement('video_page_view');
+            setTimeout(() => {
+                trackGAVideoEngagement('video_engagement_30s', 30);
+            }, 30000);
+        }
 
         // Direct redirect to final page
         ctaButton.addEventListener('click', function(e) {
             // Track video completion intent
             if (typeof trackVideoEngagement === 'function') {
                 trackVideoEngagement('video_completion_cta');
+            }
+            if (typeof trackGAVideoEngagement === 'function') {
+                trackGAVideoEngagement('video_completion_cta');
             }
             window.location.href = 'step4.html';
         });

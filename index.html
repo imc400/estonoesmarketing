@@ -8,6 +8,10 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
+    <script src="google-analytics.js"></script>
+    
     <!-- Meta Pixel Code -->
     <script src="meta-pixel.js"></script>
     <noscript><img height="1" width="1" style="display:none"
@@ -459,12 +463,18 @@
         if (typeof trackFunnelProgress === 'function') {
             trackFunnelProgress('step_1', 'landing_page');
         }
+        if (typeof trackGAFunnelProgress === 'function') {
+            trackGAFunnelProgress('step_1', 'landing_page');
+        }
 
         // Add click ripple effect to button
         document.querySelector('.cta-button').addEventListener('click', function(e) {
             // Track CTA click
             if (typeof trackFunnelProgress === 'function') {
                 trackFunnelProgress('step_1_cta', 'proceed_to_step2');
+            }
+            if (typeof trackGAButtonClick === 'function') {
+                trackGAButtonClick('proceed_button', 'step_1');
             }
             const button = this;
             const ripple = document.createElement('span');

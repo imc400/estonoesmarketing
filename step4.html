@@ -8,6 +8,10 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
+    <script src="google-analytics.js"></script>
+    
     <!-- Meta Pixel Code -->
     <script src="meta-pixel.js"></script>
     <noscript><img height="1" width="1" style="display:none"
@@ -520,15 +524,30 @@
         if (typeof trackFunnelProgress === 'function') {
             trackFunnelProgress('step_4', 'final_page');
         }
+        if (typeof trackGAFunnelProgress === 'function') {
+            trackGAFunnelProgress('step_4', 'final_page');
+        }
+
+        // Track service interest (reached final page)
+        if (typeof trackGAServiceInterest === 'function') {
+            setTimeout(() => {
+                trackGAServiceInterest();
+            }, 5000); // After 5 seconds on final page
+        }
 
         // Track WhatsApp click
         document.querySelector('.whatsapp-button').addEventListener('click', function() {
+            // Meta Pixel tracking
             if (typeof trackWhatsAppClick === 'function') {
                 trackWhatsAppClick();
             }
-            // Also track as Lead event
             if (typeof fbq === 'function') {
                 fbq('track', 'Lead');
+            }
+            
+            // Google Analytics tracking
+            if (typeof trackGAWhatsAppClick === 'function') {
+                trackGAWhatsAppClick();
             }
         });
 
