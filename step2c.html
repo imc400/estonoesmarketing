@@ -569,7 +569,7 @@
         setInterval(() => {
             let timeSpent = Math.floor((Date.now() - startTime) / 1000);
             
-            if (timeSpent === 30 && !hasShownTimeMessage) {
+            if (timeSpent === 15 && !hasShownTimeMessage) {
                 hasShownTimeMessage = true;
                 const message = document.createElement('div');
                 message.style.position = 'fixed';
@@ -582,7 +582,7 @@
                 message.style.fontSize = '14px';
                 message.style.zIndex = '10000';
                 message.style.maxWidth = '300px';
-                message.textContent = '😏 Llevas 30 segundos leyendo esto. El análisis psicológico funciona, ¿eh?';
+                message.textContent = '😏 Llevas 15 segundos leyendo esto. El análisis psicológico funciona, ¿eh?';
                 document.body.appendChild(message);
                 
                 setTimeout(() => {
