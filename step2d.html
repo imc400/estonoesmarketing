@@ -148,7 +148,7 @@
         .client-logo img[src*="gemco_logo"],
         .client-logo img[src*="moramoda_logo"],
         .client-logo img[src*="somos_adhara_logo"] {
-            filter: brightness(2.5) contrast(1.8) saturate(1.2) invert(0.1);
+            filter: brightness(3.2) contrast(2.2) saturate(1.3) invert(0.15);
         }
 
         .client-logo:hover img[src*="cuina_logo"],
@@ -156,7 +156,16 @@
         .client-logo:hover img[src*="gemco_logo"],
         .client-logo:hover img[src*="moramoda_logo"],
         .client-logo:hover img[src*="somos_adhara_logo"] {
-            filter: brightness(3.0) contrast(2.0) saturate(1.4) invert(0.1);
+            filter: brightness(3.8) contrast(2.5) saturate(1.5) invert(0.15);
+        }
+
+        /* Fix for Dentobal (white box issue) */
+        .client-logo img[src*="dentobal_logo"] {
+            filter: brightness(1.2) contrast(1.8) saturate(1.2) invert(0.8);
+        }
+
+        .client-logo:hover img[src*="dentobal_logo"] {
+            filter: brightness(1.4) contrast(2.0) saturate(1.4) invert(0.8);
         }
 
         .continuation-text {
