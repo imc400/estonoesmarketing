@@ -313,6 +313,38 @@
             box-shadow: 0 10px 30px rgba(74, 222, 128, 0.4);
         }
 
+        .quick-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: #000000;
+            padding: 18px 35px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.3);
+            border: 2px solid #4ade80;
+            animation: pulse-green 3s infinite;
+        }
+
+        .quick-cta:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 35px rgba(74, 222, 128, 0.5);
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { 
+                box-shadow: 0 6px 20px rgba(74, 222, 128, 0.3);
+            }
+            50% { 
+                box-shadow: 0 6px 25px rgba(74, 222, 128, 0.5);
+            }
+        }
+
         .guarantees {
             background: rgba(0, 0, 0, 0.5);
             border-radius: 16px;
@@ -406,6 +438,13 @@
             .container {
                 padding: 20px 15px;
             }
+
+            .quick-cta {
+                padding: 16px 25px;
+                font-size: 14px;
+                width: 90%;
+                max-width: 300px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -423,6 +462,13 @@
 
             .option-card {
                 padding: 25px 15px;
+            }
+
+            .quick-cta {
+                padding: 14px 20px;
+                font-size: 13px;
+                width: 95%;
+                max-width: 280px;
             }
         }
     </style>
@@ -461,6 +507,13 @@
             </div>
             
             <p style="color: #cccccc; font-size: 16px;">Esta es la ÚNICA vez que verás este precio</p>
+            
+            <!-- Primera CTA después del precio -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="https://mpago.la/2YXggZU" class="quick-cta" target="_blank">
+                    🚀 PAGAR AHORA - 6 cuotas de $41.500
+                </a>
+            </div>
         </div>
 
         <div class="value-stack">
@@ -484,6 +537,13 @@
             <div class="value-item">
                 <div class="value-description"><strong>VALOR TOTAL:</strong></div>
                 <div class="value-price">$1.050.000 CLP</div>
+            </div>
+            
+            <!-- Segunda CTA después del value stack -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="https://mpago.la/2YXggZU" class="quick-cta" target="_blank">
+                    💳 SÍ, QUIERO ACCESO DIRECTO CON NACHO
+                </a>
             </div>
         </div>
 
@@ -521,6 +581,13 @@
             <div class="guarantee-item">
                 <span class="guarantee-icon">🎯</span>
                 <span>Plan de acción específico para TU negocio</span>
+            </div>
+            
+            <!-- Tercera CTA después de garantías -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="https://mpago.la/2YXggZU" class="quick-cta" target="_blank">
+                    ⚡ RESERVAR MI CONSULTA AHORA
+                </a>
             </div>
         </div>
 
