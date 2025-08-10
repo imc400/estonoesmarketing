@@ -8,6 +8,20 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Microsoft Clarity -->
+    <script src="microsoft-clarity.js"></script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
+    <script src="google-analytics.js"></script>
+    
+    <!-- Meta Pixel Code -->
+    <script src="meta-pixel.js"></script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1010716157553975&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    
     <style>
         * {
             margin: 0;
@@ -298,7 +312,7 @@
     <div class="progress-bar"></div>
     
     <div class="container">
-        <a href="step1.html" class="back-button">← Volver</a>
+        <a href="index.html" class="back-button">← Volver</a>
         <div class="step-indicator">02/05</div>
         
         <div class="intro-text">
@@ -328,6 +342,30 @@
     </div>
 
     <script>
+        // Track funnel progress on page load
+        if (typeof trackFunnelProgress === 'function') {
+            trackFunnelProgress('step_2', 'personal_introduction');
+        }
+        if (typeof trackGAFunnelProgress === 'function') {
+            trackGAFunnelProgress('step_2', 'personal_introduction');
+        }
+        if (typeof trackClarityFunnelProgress === 'function') {
+            trackClarityFunnelProgress('step_2', 'personal_introduction');
+        }
+
+        // Track CTA click
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            if (typeof trackFunnelProgress === 'function') {
+                trackFunnelProgress('step_2_cta', 'proceed_to_photo');
+            }
+            if (typeof trackGAButtonClick === 'function') {
+                trackGAButtonClick('honesty_button', 'step_2');
+            }
+            if (typeof trackClarityButtonClick === 'function') {
+                trackClarityButtonClick('honesty_button', 'step_2');
+            }
+        });
+
         // Add subtle cursor trail effect
         document.addEventListener('mousemove', (e) => {
             const cursor = document.createElement('div');
