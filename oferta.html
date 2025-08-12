@@ -502,22 +502,19 @@
             <div class="current-price">$249.000</div>
             <div class="savings">AHORRAS $741.000 (75% de descuento)</div>
             
-            <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid #4ade80; border-radius: 8px; padding: 15px; margin: 20px 0; color: #4ade80; font-weight: 600; font-size: 18px;">
-                🎉 6 CUOTAS SIN INTERÉS de solo $41.500 CLP c/u
-            </div>
             
             <p style="color: #cccccc; font-size: 16px;">Esta es la ÚNICA vez que verás este precio</p>
             
             <!-- Primera CTA después del precio -->
             <div style="text-align: center; margin-top: 30px;">
-                <a href="https://mpago.la/2YXggZU" class="quick-cta" target="_blank">
-                    🚀 PAGAR AHORA - 6 cuotas de $41.500
+                <a href="#" class="quick-cta" onclick="openWhatsApp(); return false;">
+                    🚀 CONTACTAR A NACHO AHORA
                 </a>
             </div>
         </div>
 
         <div class="value-stack">
-            <div class="value-stack-title">Lo que obtienes por solo $41.500 CLP al mes:</div>
+            <div class="value-stack-title">Lo que obtienes:</div>
             <div class="value-item">
                 <div class="value-description">Análisis completo de tu negocio con Nacho (1 hora)</div>
                 <div class="value-price">$400.000 CLP</div>
@@ -541,8 +538,8 @@
             
             <!-- Segunda CTA después del value stack -->
             <div style="text-align: center; margin-top: 30px;">
-                <a href="https://mpago.la/2YXggZU" class="quick-cta" target="_blank">
-                    💳 SÍ, QUIERO ACCESO DIRECTO CON NACHO
+                <a href="#" class="quick-cta" onclick="openWhatsApp(); return false;">
+                    💬 SÍ, QUIERO HABLAR CON NACHO
                 </a>
             </div>
         </div>
@@ -555,7 +552,7 @@
                     <br><br>
                     <small style="color: #888; font-size: 14px;">⚠️ Advertencia: Esta opción puede NO estar disponible debido a alta demanda. La opción directa con Nacho es la más segura.</small>
                 </div>
-                <a href="#" class="option-cta" onclick="openWhatsApp()">Contactar por WhatsApp</a>
+                <a href="#" class="option-cta" onclick="openWhatsApp(); return false;">Contactar por WhatsApp</a>
             </div>
 
             <div class="option-card premium">
@@ -565,7 +562,7 @@
                     <strong>"Quiero mostrarle mis números a Nacho y que me diga qué hacer"</strong><br><br>
                     Acceso inmediato y directo. Nacho revisará personalmente tu caso.
                 </div>
-                <a href="https://mpago.la/2YXggZU" class="option-cta premium" target="_blank">Pagar Ahora - 6 Cuotas de $41.500</a>
+                <a href="#" class="option-cta premium" onclick="openWhatsApp(); return false;">Contactar a Nacho Directamente</a>
             </div>
         </div>
 
@@ -585,8 +582,8 @@
             
             <!-- Tercera CTA después de garantías -->
             <div style="text-align: center; margin-top: 30px;">
-                <a href="https://mpago.la/2YXggZU" class="quick-cta" target="_blank">
-                    ⚡ RESERVAR MI CONSULTA AHORA
+                <a href="#" class="quick-cta" onclick="openWhatsApp(); return false;">
+                    ⚡ CONTACTAR A NACHO AHORA
                 </a>
             </div>
         </div>
@@ -650,41 +647,19 @@
         setInterval(updateCountdown, 1000);
         updateCountdown(); // Initial call
 
-        // WhatsApp contact function with sales focus
+        // WhatsApp contact function
         function openWhatsApp() {
             // Create urgency message
-            const message = encodeURIComponent(`🔥 URGENTE: Vengo de la oferta exclusiva de Nacho y necesito más información antes de que expire el cronómetro.
+            const message = encodeURIComponent(`🔥 URGENTE: Vengo de la oferta exclusiva de Nacho y quiero hablar contigo directamente.
 
-¿Puedo hablar con alguien del equipo AHORA sobre la consulta directa con Nacho?
+¿Podemos hablar AHORA sobre cómo puedes ayudarme con mi marketing?
 
-⏰ Solo tengo unos minutos para decidir.`);
+⏰ Solo tengo unos minutos para decidir antes de que expire la oferta.`);
             
-            // You'll need to replace this with your actual WhatsApp number
             const whatsappNumber = "56950160966"; // Nacho's WhatsApp number
             const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
             
-            // Create popup warning first
-            const proceed = confirm(`⚠️ IMPORTANTE: 
-
-El equipo está muy ocupado y puede que NO respondan inmediatamente.
-
-Tu cronómetro sigue corriendo y cuando expire, perderás esta oferta para siempre.
-
-¿Estás seguro que quieres arriesgarte o prefieres ir directo con Nacho ahora?
-
-Click "Aceptar" para WhatsApp o "Cancelar" para ir directo con Nacho.`);
-            
-            if (proceed) {
-                window.open(whatsappURL, '_blank');
-                
-                // Show timer warning after 30 seconds
-                setTimeout(() => {
-                    alert('⏰ Tu cronómetro sigue corriendo. Si no recibes respuesta inmediata, regresa y elige la opción directa con Nacho antes de que expire.');
-                }, 30000);
-            } else {
-                // Redirect to payment option
-                window.location.href = 'https://mpago.la/2YXggZU';
-            }
+            window.open(whatsappURL, '_blank');
         }
 
         // Add urgency effects
