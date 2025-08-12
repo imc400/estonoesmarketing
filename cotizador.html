@@ -453,6 +453,114 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
+        /* Pack Selection Styles */
+        .pack-selection-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pack-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pack-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .pack-option:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .pack-option.featured {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .pack-option.selected {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.15);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .pack-popular {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: #000;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 15px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pack-option-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .pack-option-desc {
+            font-size: 14px;
+            color: #cccccc;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .pack-option-price {
+            font-size: 20px;
+            font-weight: 800;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 8px;
+        }
+
+        .pack-savings {
+            font-size: 12px;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .view-all-packs {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .packs-link {
+            color: #10b981;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .packs-link:hover {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+        }
+
         .total-section {
             background: rgba(16, 185, 129, 0.1);
             border: 2px solid #10b981;
@@ -545,6 +653,23 @@
             .client-fields {
                 grid-template-columns: 1fr;
                 gap: 15px;
+            }
+
+            .pack-options {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .pack-option {
+                padding: 15px;
+            }
+
+            .pack-option-title {
+                font-size: 16px;
+            }
+
+            .pack-option-price {
+                font-size: 18px;
             }
 
             .breakdown-item {
@@ -812,8 +937,36 @@
                     <div style="color: #e0e0e0; font-size: 14px;">Depósito: <span id="statusDeposit">$0</span> → Crédito: <span id="statusCredit">$0</span></div>
                 </div>
 
-                <!-- Hours Selection -->
-                <div class="hours-section">
+                <!-- Pack Selection -->
+                <div class="pack-selection-section">
+                    <div class="section-title">Opciones de Servicio</div>
+                    <div class="pack-options">
+                        <div class="pack-option" onclick="selectPackMode('custom')">
+                            <div class="pack-option-title">Cotizacion Personalizada</div>
+                            <div class="pack-option-desc">Selecciona horas y servicios a medida</div>
+                            <div class="pack-option-price">Desde $200.000/hora</div>
+                        </div>
+                        <div class="pack-option featured" onclick="selectPackMode('lanzamiento')">
+                            <div class="pack-popular">MAS POPULAR</div>
+                            <div class="pack-option-title">Pack Lanzamiento</div>
+                            <div class="pack-option-desc">12 horas en 4 semanas - Implementacion guiada</div>
+                            <div class="pack-option-price">$1.800.000</div>
+                            <div class="pack-savings">Ahorras $600.000 (25% desc.)</div>
+                        </div>
+                        <div class="pack-option" onclick="selectPackMode('crecimiento')">
+                            <div class="pack-option-title">Pack Crecimiento</div>
+                            <div class="pack-option-desc">30 horas en 8 semanas - Acompañamiento completo</div>
+                            <div class="pack-option-price">$4.200.000</div>
+                            <div class="pack-savings">Ahorras $1.800.000 (30% desc.)</div>
+                        </div>
+                    </div>
+                    <div class="view-all-packs">
+                        <a href="packs.html" target="_blank" class="packs-link">Ver comparacion completa de packs →</a>
+                    </div>
+                </div>
+
+                <!-- Hours Selection (for custom mode) -->
+                <div class="hours-section" id="customHoursSection" style="display: none;">
                     <div class="section-title">Horas de Trabajo</div>
                     <div class="hours-description">Mi hora de trabajo: <strong>$200.000 CLP</strong></div>
                     
@@ -948,6 +1101,8 @@
         let selectedHoursCount = 3;
         let hourlyRate = 200000;
         let selectedServices = ['meta', 'google', 'website', 'email'];
+        let currentPackMode = 'custom';
+        let selectedPackData = null;
         let clientData = {
             name: '',
             company: '',
@@ -986,29 +1141,111 @@
             updateCalculations();
         }
 
-        // Calculate totals
-        function updateCalculations() {
-            const subtotal = selectedHoursCount * hourlyRate;
-            const totalServices = 4;
-            const deselectedServices = totalServices - selectedServices.length;
-            const discountPercentage = deselectedServices * 10;
-            const discountAmount = (subtotal * discountPercentage) / 100;
-            const totalAfterDiscount = subtotal - discountAmount;
-            const finalTotal = Math.max(0, totalAfterDiscount - creditApplied);
+        // Pack selection data
+        const packData = {
+            estrategia: {
+                name: 'Pack Estrategia',
+                hours: 5,
+                price: 900000,
+                duration: '1 semana',
+                description: 'Diagnostico completo y plan estrategico'
+            },
+            lanzamiento: {
+                name: 'Pack Lanzamiento',
+                hours: 12,
+                price: 1800000,
+                duration: '4 semanas',
+                description: 'Implementacion guiada paso a paso'
+            },
+            crecimiento: {
+                name: 'Pack Crecimiento',
+                hours: 30,
+                price: 4200000,
+                duration: '8 semanas',
+                description: 'Acompañamiento completo con optimizacion continua'
+            }
+        };
+
+        // Select pack mode
+        function selectPackMode(packType) {
+            currentPackMode = packType;
             
-            // Update display
-            document.getElementById('selectedHours').textContent = `${selectedHoursCount} horas`;
-            document.getElementById('subtotalAmount').textContent = formatCurrency(subtotal);
+            // Reset pack selection visually
+            document.querySelectorAll('.pack-option').forEach(option => {
+                option.classList.remove('selected');
+            });
             
-            // Show/hide discount
-            if (discountAmount > 0) {
-                document.getElementById('discountRow').style.display = 'flex';
-                document.getElementById('discountAmount').textContent = '-' + formatCurrency(discountAmount);
-            } else {
-                document.getElementById('discountRow').style.display = 'none';
+            // Mark selected pack
+            event.target.classList.add('selected');
+            
+            if (packType === 'custom') {
+                // Show custom hours section
+                document.getElementById('customHoursSection').style.display = 'block';
+                selectedPackData = null;
+                
+                // Reset to custom values
+                selectedHoursCount = 3;
+                updateCalculations();
+                
+            } else if (packData[packType]) {
+                // Hide custom hours section for packs
+                document.getElementById('customHoursSection').style.display = 'none';
+                
+                // Set pack data
+                selectedPackData = packData[packType];
+                selectedHoursCount = selectedPackData.hours;
+                
+                // Update calculations with pack pricing
+                updateCalculations();
             }
             
-            // Update total
+            updatePackDisplay();
+        }
+
+        // Update pack display information
+        function updatePackDisplay() {
+            if (currentPackMode !== 'custom' && selectedPackData) {
+                // Update the breakdown to show pack info instead of individual hours
+                document.getElementById('selectedHours').textContent = `${selectedPackData.name} - ${selectedPackData.hours} horas`;
+            } else {
+                document.getElementById('selectedHours').textContent = `${selectedHoursCount} horas`;
+            }
+        }
+
+        // Calculate totals
+        function updateCalculations() {
+            let subtotal, totalAfterDiscount;
+            
+            if (currentPackMode !== 'custom' && selectedPackData) {
+                // Pack pricing - fixed price, no hourly calculation
+                subtotal = selectedPackData.price;
+                totalAfterDiscount = subtotal; // Packs don't have service deselection discounts
+                
+                // Hide service discount for packs
+                document.getElementById('discountRow').style.display = 'none';
+            } else {
+                // Custom pricing
+                subtotal = selectedHoursCount * hourlyRate;
+                const totalServices = 4;
+                const deselectedServices = totalServices - selectedServices.length;
+                const discountPercentage = deselectedServices * 10;
+                const discountAmount = (subtotal * discountPercentage) / 100;
+                totalAfterDiscount = subtotal - discountAmount;
+                
+                // Show/hide discount for custom
+                if (discountAmount > 0) {
+                    document.getElementById('discountRow').style.display = 'flex';
+                    document.getElementById('discountAmount').textContent = '-' + formatCurrency(discountAmount);
+                } else {
+                    document.getElementById('discountRow').style.display = 'none';
+                }
+            }
+            
+            const finalTotal = Math.max(0, totalAfterDiscount - creditApplied);
+            
+            // Update display based on mode
+            updatePackDisplay();
+            document.getElementById('subtotalAmount').textContent = formatCurrency(subtotal);
             document.getElementById('totalAmount').textContent = formatCurrency(totalAfterDiscount);
             
             // Show final total if credit applied
@@ -1126,6 +1363,8 @@
             creditApplied = 0;
             selectedHoursCount = 3;
             selectedServices = ['meta', 'google', 'website', 'email'];
+            currentPackMode = 'custom';
+            selectedPackData = null;
             
             // Reset client data
             clientData = {
@@ -1142,6 +1381,15 @@
             document.getElementById('clientPhone').value = '';
             document.getElementById('depositAmount').value = '';
             document.getElementById('depositSummary').style.display = 'none';
+            
+            // Reset pack selection
+            document.querySelectorAll('.pack-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector('.pack-option').classList.add('selected'); // Select first (custom) by default
+            
+            // Show custom hours section
+            document.getElementById('customHoursSection').style.display = 'block';
             
             // Reset hour selection
             document.querySelectorAll('.hour-btn').forEach(btn => {
@@ -1336,13 +1584,23 @@
         }
 
         function downloadQuoteInternal() {
-            // Calculate values
-            const subtotal = selectedHoursCount * hourlyRate;
-            const totalServices = 4;
-            const deselectedServices = totalServices - selectedServices.length;
-            const discountPercentage = deselectedServices * 10;
-            const discountAmount = (subtotal * discountPercentage) / 100;
-            const totalAfterDiscount = subtotal - discountAmount;
+            // Calculate values based on pack mode
+            let subtotal, totalAfterDiscount, discountAmount = 0, discountPercentage = 0;
+            
+            if (currentPackMode !== 'custom' && selectedPackData) {
+                // Pack pricing
+                subtotal = selectedPackData.price;
+                totalAfterDiscount = subtotal;
+            } else {
+                // Custom pricing
+                subtotal = selectedHoursCount * hourlyRate;
+                const totalServices = 4;
+                const deselectedServices = totalServices - selectedServices.length;
+                discountPercentage = deselectedServices * 10;
+                discountAmount = (subtotal * discountPercentage) / 100;
+                totalAfterDiscount = subtotal - discountAmount;
+            }
+            
             const finalTotal = Math.max(0, totalAfterDiscount - creditApplied);
             
             // Get selected service names
@@ -1453,13 +1711,24 @@
             doc.setFontSize(11);
             doc.setTextColor(0, 0, 0);
             doc.setFont('helvetica', 'bold');
-            doc.text(`HORAS DE TRABAJO: ${selectedHoursCount} horas`, 20, yPos);
             
-            yPos += 10;
-            doc.text(`VALOR POR HORA: ${formatCurrency(hourlyRate)}`, 20, yPos);
-            
-            yPos += 10;
-            doc.text(`SUBTOTAL: ${formatCurrency(subtotal)}`, 20, yPos);
+            if (currentPackMode !== 'custom' && selectedPackData) {
+                // Pack information
+                doc.text(`PACK SELECCIONADO: ${selectedPackData.name}`, 20, yPos);
+                yPos += 10;
+                doc.text(`HORAS INCLUIDAS: ${selectedPackData.hours} horas`, 20, yPos);
+                yPos += 10;
+                doc.text(`DURACION: ${selectedPackData.duration}`, 20, yPos);
+                yPos += 10;
+                doc.text(`PRECIO DEL PACK: ${formatCurrency(selectedPackData.price)}`, 20, yPos);
+            } else {
+                // Custom pricing information
+                doc.text(`HORAS DE TRABAJO: ${selectedHoursCount} horas`, 20, yPos);
+                yPos += 10;
+                doc.text(`VALOR POR HORA: ${formatCurrency(hourlyRate)}`, 20, yPos);
+                yPos += 10;
+                doc.text(`SUBTOTAL: ${formatCurrency(subtotal)}`, 20, yPos);
+            }
             
             // Services included
             yPos += 20;
@@ -1617,6 +1886,22 @@
 
         // Add some interactive effects
         document.addEventListener('DOMContentLoaded', function() {
+            // Check for URL parameters (pack pre-selection)
+            const urlParams = new URLSearchParams(window.location.search);
+            const packParam = urlParams.get('pack');
+            
+            // Check localStorage for selected pack from packs.html
+            const savedPack = localStorage.getItem('selectedPack');
+            if (savedPack) {
+                try {
+                    const packInfo = JSON.parse(savedPack);
+                    // Auto-fill client info and proceed to quotation if pack is selected
+                    localStorage.removeItem('selectedPack'); // Clear after use
+                } catch (e) {
+                    console.log('Error parsing saved pack data');
+                }
+            }
+            
             // Add click effects to buttons
             document.querySelectorAll('button').forEach(button => {
                 button.addEventListener('click', function(e) {
