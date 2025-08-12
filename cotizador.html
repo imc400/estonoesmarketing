@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador de Marketing Digital | Nacho</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .welcome-title {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .welcome-subtitle {
+            font-size: 20px;
+            color: #cccccc;
+            margin-bottom: 50px;
+            font-weight: 500;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 280px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .offer-container {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .offer-container::before {
+            content: '🎉';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0a0a0a;
+            padding: 0 15px;
+            font-size: 32px;
+        }
+
+        .offer-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .offer-description {
+            font-size: 18px;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .offer-highlight {
+            background: rgba(255, 215, 0, 0.2);
+            border-left: 4px solid #ffd700;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #ffd700;
+        }
+
+        .deposit-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .deposit-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .deposit-input-group {
+            margin-bottom: 20px;
+        }
+
+        .deposit-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .deposit-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            transition: border-color 0.3s ease;
+        }
+
+        .deposit-input:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .deposit-input::placeholder {
+            color: #888;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .button-secondary {
+            background: transparent;
+            color: #cccccc;
+            padding: 15px 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .button-secondary:hover {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .deposit-summary {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .deposit-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .budget-multiplier {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-top: 5px;
+        }
+
+        .cotizador-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .cotizador-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e0e0e0;
+            flex: 1;
+        }
+
+        .service-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+            min-width: 120px;
+            text-align: right;
+        }
+
+        .total-section {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .total-label {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .total-amount {
+            font-size: 36px;
+            font-weight: 900;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .welcome-title {
+                font-size: 32px;
+            }
+
+            .offer-container {
+                padding: 30px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .button-primary,
+            .button-secondary {
+                min-width: 100%;
+            }
+
+            .cotizador-title {
+                font-size: 26px;
+            }
+
+            .back-button {
+                position: static;
+                margin-bottom: 20px;
+                display: block;
+                text-align: center;
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Subtle background animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Screen 1: Welcome -->
+    <div class="container">
+        <div class="screen active" id="welcome-screen">
+            <h1 class="welcome-title">COTIZADOR DE MARKETING DIGITAL</h1>
+            <p class="welcome-subtitle">Herramienta exclusiva para reuniones de venta</p>
+            
+            <button class="start-button" onclick="showOfferScreen()">
+                🚀 COMENZAR COTIZACIÓN
+            </button>
+        </div>
+
+        <!-- Screen 2: Special Offer -->
+        <div class="screen" id="offer-screen">
+            <button class="back-button" onclick="showWelcomeScreen()">← Volver</button>
+            
+            <div class="offer-container">
+                <div class="offer-title">OFERTA ESPECIAL</div>
+                <div class="offer-description">
+                    Abona lo que tú quieras en <strong>6 cuotas sin interés</strong>, 
+                    y te lo <strong>duplicamos</strong> en el presupuesto.
+                </div>
+                
+                <div class="offer-highlight">
+                    Si no te gusta el presupuesto, te devolvemos el 100% de tu plata.
+                </div>
+            </div>
+
+            <div class="deposit-section">
+                <div class="deposit-title">¿El cliente realizó un depósito?</div>
+                
+                <div class="deposit-input-group">
+                    <label class="deposit-label">Monto del depósito (CLP)</label>
+                    <input 
+                        type="number" 
+                        class="deposit-input" 
+                        id="depositAmount"
+                        placeholder="Ej: 100000"
+                        min="0"
+                    >
+                </div>
+
+                <div id="depositSummary" class="deposit-summary" style="display: none;">
+                    <div class="deposit-amount" id="depositDisplay">$0 CLP</div>
+                    <div class="budget-multiplier">Se duplicará a <span id="multipliedAmount">$0 CLP</span> en el presupuesto</div>
+                </div>
+
+                <div class="button-group">
+                    <button class="button-primary" onclick="continueWithDeposit()">
+                        Continuar con Depósito
+                    </button>
+                    <button class="button-secondary" onclick="continueWithoutOffer()">
+                        Continuar sin Oferta
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 3: Quotation -->
+        <div class="screen" id="quotation-screen">
+            <button class="back-button" onclick="showOfferScreen()">← Volver</button>
+            
+            <div class="cotizador-section">
+                <div class="cotizador-title">COTIZACIÓN PERSONALIZADA</div>
+                
+                <div id="statusDisplay" style="text-align: center; margin-bottom: 30px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; display: none;">
+                    <div style="color: #10b981; font-weight: 600;">✅ Oferta Especial Activa</div>
+                    <div style="color: #e0e0e0; font-size: 14px;">Depósito: <span id="statusDeposit">$0</span> → Crédito: <span id="statusCredit">$0</span></div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-name">Estrategia de Marketing Digital</div>
+                    <div class="service-price" id="estrategia-price">$500.000</div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-name">Gestión de Redes Sociales</div>
+                    <div class="service-price" id="redes-price">$300.000</div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-name">Campañas de Google Ads</div>
+                    <div class="service-price" id="ads-price">$400.000</div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-name">Diseño y Desarrollo Web</div>
+                    <div class="service-price" id="web-price">$800.000</div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-name">Email Marketing</div>
+                    <div class="service-price" id="email-price">$200.000</div>
+                </div>
+
+                <div class="total-section">
+                    <div class="total-label">TOTAL PRESUPUESTO</div>
+                    <div class="total-amount" id="totalAmount">$2.200.000 CLP</div>
+                    <div id="creditNote" style="color: #10b981; font-size: 16px; margin-top: 10px; display: none;">
+                        Crédito aplicado: <span id="appliedCredit">$0</span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="button-primary" onclick="generateNewQuote()">
+                        Nueva Cotización
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDeposit = 0;
+        let creditApplied = 0;
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-CL', {
+                style: 'currency',
+                currency: 'CLP',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Screen navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showWelcomeScreen() {
+            showScreen('welcome-screen');
+        }
+
+        function showOfferScreen() {
+            showScreen('offer-screen');
+        }
+
+        function showQuotationScreen() {
+            showScreen('quotation-screen');
+            updateQuotationDisplay();
+        }
+
+        // Deposit handling
+        document.getElementById('depositAmount').addEventListener('input', function(e) {
+            const amount = parseInt(e.target.value) || 0;
+            const summary = document.getElementById('depositSummary');
+            
+            if (amount > 0) {
+                document.getElementById('depositDisplay').textContent = formatCurrency(amount);
+                document.getElementById('multipliedAmount').textContent = formatCurrency(amount * 2);
+                summary.style.display = 'block';
+            } else {
+                summary.style.display = 'none';
+            }
+        });
+
+        function continueWithDeposit() {
+            const depositInput = document.getElementById('depositAmount');
+            const amount = parseInt(depositInput.value) || 0;
+            
+            if (amount <= 0) {
+                alert('Por favor, ingresa un monto de depósito válido.');
+                return;
+            }
+            
+            currentDeposit = amount;
+            creditApplied = amount * 2;
+            showQuotationScreen();
+        }
+
+        function continueWithoutOffer() {
+            currentDeposit = 0;
+            creditApplied = 0;
+            showQuotationScreen();
+        }
+
+        function updateQuotationDisplay() {
+            const statusDisplay = document.getElementById('statusDisplay');
+            const creditNote = document.getElementById('creditNote');
+            
+            if (creditApplied > 0) {
+                statusDisplay.style.display = 'block';
+                document.getElementById('statusDeposit').textContent = formatCurrency(currentDeposit);
+                document.getElementById('statusCredit').textContent = formatCurrency(creditApplied);
+                
+                creditNote.style.display = 'block';
+                document.getElementById('appliedCredit').textContent = formatCurrency(creditApplied);
+            } else {
+                statusDisplay.style.display = 'none';
+                creditNote.style.display = 'none';
+            }
+            
+            // Calculate total
+            const baseTotal = 2200000; // Base total of all services
+            const finalTotal = Math.max(0, baseTotal - creditApplied);
+            document.getElementById('totalAmount').textContent = formatCurrency(finalTotal);
+        }
+
+        function generateNewQuote() {
+            // Reset values
+            currentDeposit = 0;
+            creditApplied = 0;
+            document.getElementById('depositAmount').value = '';
+            document.getElementById('depositSummary').style.display = 'none';
+            
+            // Go back to offer screen
+            showOfferScreen();
+        }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click effects to buttons
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.width = size + 'px';
+                    ripple.style.height = size + 'px';
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+            button {
+                position: relative;
+                overflow: hidden;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
