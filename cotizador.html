@@ -281,32 +281,140 @@
             text-align: center;
         }
 
-        .service-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .hours-section, .services-section, .breakdown-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .service-item:last-child {
-            border-bottom: none;
-        }
-
-        .service-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #e0e0e0;
-            flex: 1;
-        }
-
-        .service-price {
+        .section-title {
             font-size: 20px;
             font-weight: 700;
             color: #10b981;
+            margin-bottom: 15px;
+        }
+
+        .hours-description, .services-description {
+            font-size: 14px;
+            color: #cccccc;
+            margin-bottom: 20px;
+        }
+
+        .hours-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hour-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .hour-btn:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .hour-btn.active {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .hour-price {
+            display: block;
+            font-size: 12px;
             font-family: 'JetBrains Mono', monospace;
-            min-width: 120px;
-            text-align: right;
+            margin-top: 5px;
+        }
+
+        .service-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .service-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .service-checkbox:hover {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .service-checkbox input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-right: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .service-checkbox input[type="checkbox"]:checked + .checkmark {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .service-checkbox input[type="checkbox"]:checked + .checkmark::after {
+            content: '✓';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .service-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        .breakdown-section {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+
+        .breakdown-item span:last-child {
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .total-section {
@@ -367,6 +475,29 @@
                 width: fit-content;
                 margin-left: auto;
                 margin-right: auto;
+            }
+
+            .hours-selector {
+                justify-content: center;
+            }
+
+            .hour-btn {
+                min-width: 80px;
+                padding: 12px 15px;
+                font-size: 13px;
+            }
+
+            .service-checkboxes {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .service-checkbox {
+                padding: 12px;
+            }
+
+            .breakdown-item {
+                font-size: 14px;
             }
         }
 
@@ -456,36 +587,76 @@
                     <div style="color: #e0e0e0; font-size: 14px;">Depósito: <span id="statusDeposit">$0</span> → Crédito: <span id="statusCredit">$0</span></div>
                 </div>
 
-                <div class="service-item">
-                    <div class="service-name">Estrategia de Marketing Digital</div>
-                    <div class="service-price" id="estrategia-price">$500.000</div>
+                <!-- Hours Selection -->
+                <div class="hours-section">
+                    <div class="section-title">Horas de Trabajo</div>
+                    <div class="hours-description">Mi hora de trabajo: <strong>$200.000 CLP</strong></div>
+                    
+                    <div class="hours-selector">
+                        <button class="hour-btn" data-hours="1" onclick="selectHours(1)">1 hora<br><span class="hour-price">$200.000</span></button>
+                        <button class="hour-btn" data-hours="2" onclick="selectHours(2)">2 horas<br><span class="hour-price">$400.000</span></button>
+                        <button class="hour-btn active" data-hours="3" onclick="selectHours(3)">3 horas<br><span class="hour-price">$600.000</span></button>
+                        <button class="hour-btn" data-hours="4" onclick="selectHours(4)">4 horas<br><span class="hour-price">$800.000</span></button>
+                        <button class="hour-btn" data-hours="5" onclick="selectHours(5)">5 horas<br><span class="hour-price">$1.000.000</span></button>
+                    </div>
                 </div>
-                
-                <div class="service-item">
-                    <div class="service-name">Gestión de Redes Sociales</div>
-                    <div class="service-price" id="redes-price">$300.000</div>
+
+                <!-- Services Included -->
+                <div class="services-section">
+                    <div class="section-title">Servicios Incluidos</div>
+                    <div class="services-description">Todos los servicios están incluidos. Deselecciona para obtener 10% de descuento por servicio.</div>
+                    
+                    <div class="service-checkboxes">
+                        <label class="service-checkbox">
+                            <input type="checkbox" checked data-service="meta" onchange="updateServices()">
+                            <span class="checkmark"></span>
+                            <span class="service-label">Meta Ads</span>
+                        </label>
+                        
+                        <label class="service-checkbox">
+                            <input type="checkbox" checked data-service="google" onchange="updateServices()">
+                            <span class="checkmark"></span>
+                            <span class="service-label">Google Ads</span>
+                        </label>
+                        
+                        <label class="service-checkbox">
+                            <input type="checkbox" checked data-service="website" onchange="updateServices()">
+                            <span class="checkmark"></span>
+                            <span class="service-label">Sitio Web</span>
+                        </label>
+                        
+                        <label class="service-checkbox">
+                            <input type="checkbox" checked data-service="email" onchange="updateServices()">
+                            <span class="checkmark"></span>
+                            <span class="service-label">Email Marketing</span>
+                        </label>
+                    </div>
                 </div>
-                
-                <div class="service-item">
-                    <div class="service-name">Campañas de Google Ads</div>
-                    <div class="service-price" id="ads-price">$400.000</div>
-                </div>
-                
-                <div class="service-item">
-                    <div class="service-name">Diseño y Desarrollo Web</div>
-                    <div class="service-price" id="web-price">$800.000</div>
-                </div>
-                
-                <div class="service-item">
-                    <div class="service-name">Email Marketing</div>
-                    <div class="service-price" id="email-price">$200.000</div>
+
+                <!-- Breakdown -->
+                <div class="breakdown-section">
+                    <div class="breakdown-item">
+                        <span>Horas seleccionadas:</span>
+                        <span id="selectedHours">3 horas</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Subtotal:</span>
+                        <span id="subtotalAmount">$600.000</span>
+                    </div>
+                    <div class="breakdown-item" id="discountRow" style="display: none;">
+                        <span>Descuento por servicios deseleccionados:</span>
+                        <span id="discountAmount" style="color: #10b981;">-$0</span>
+                    </div>
                 </div>
 
                 <div class="total-section">
                     <div class="total-label">TOTAL PRESUPUESTO</div>
-                    <div class="total-amount" id="totalAmount">$2.200.000 CLP</div>
+                    <div class="total-amount" id="totalAmount">$600.000 CLP</div>
                     <div id="creditNote" style="color: #10b981; font-size: 16px; margin-top: 10px; display: none;">
                         Crédito aplicado: <span id="appliedCredit">$0</span>
+                    </div>
+                    <div id="finalTotal" style="color: #ffd700; font-size: 18px; font-weight: 700; margin-top: 10px; display: none;">
+                        Total a pagar: <span id="finalAmount">$600.000</span>
                     </div>
                 </div>
 
@@ -501,6 +672,9 @@
     <script>
         let currentDeposit = 0;
         let creditApplied = 0;
+        let selectedHoursCount = 3;
+        let hourlyRate = 200000;
+        let selectedServices = ['meta', 'google', 'website', 'email'];
 
         // Format currency
         function formatCurrency(amount) {
@@ -509,6 +683,62 @@
                 currency: 'CLP',
                 minimumFractionDigits: 0
             }).format(amount);
+        }
+
+        // Select hours
+        function selectHours(hours) {
+            selectedHoursCount = hours;
+            
+            // Update active button
+            document.querySelectorAll('.hour-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-hours="${hours}"]`).classList.add('active');
+            
+            updateCalculations();
+        }
+
+        // Update services
+        function updateServices() {
+            selectedServices = [];
+            document.querySelectorAll('.service-checkbox input[type="checkbox"]:checked').forEach(checkbox => {
+                selectedServices.push(checkbox.dataset.service);
+            });
+            updateCalculations();
+        }
+
+        // Calculate totals
+        function updateCalculations() {
+            const subtotal = selectedHoursCount * hourlyRate;
+            const totalServices = 4;
+            const deselectedServices = totalServices - selectedServices.length;
+            const discountPercentage = deselectedServices * 10;
+            const discountAmount = (subtotal * discountPercentage) / 100;
+            const totalAfterDiscount = subtotal - discountAmount;
+            const finalTotal = Math.max(0, totalAfterDiscount - creditApplied);
+            
+            // Update display
+            document.getElementById('selectedHours').textContent = `${selectedHoursCount} horas`;
+            document.getElementById('subtotalAmount').textContent = formatCurrency(subtotal);
+            
+            // Show/hide discount
+            if (discountAmount > 0) {
+                document.getElementById('discountRow').style.display = 'flex';
+                document.getElementById('discountAmount').textContent = '-' + formatCurrency(discountAmount);
+            } else {
+                document.getElementById('discountRow').style.display = 'none';
+            }
+            
+            // Update total
+            document.getElementById('totalAmount').textContent = formatCurrency(totalAfterDiscount);
+            
+            // Show final total if credit applied
+            if (creditApplied > 0) {
+                document.getElementById('finalTotal').style.display = 'block';
+                document.getElementById('finalAmount').textContent = formatCurrency(finalTotal);
+            } else {
+                document.getElementById('finalTotal').style.display = 'none';
+            }
         }
 
         // Screen navigation
@@ -582,18 +812,29 @@
                 creditNote.style.display = 'none';
             }
             
-            // Calculate total
-            const baseTotal = 2200000; // Base total of all services
-            const finalTotal = Math.max(0, baseTotal - creditApplied);
-            document.getElementById('totalAmount').textContent = formatCurrency(finalTotal);
+            updateCalculations();
         }
 
         function generateNewQuote() {
             // Reset values
             currentDeposit = 0;
             creditApplied = 0;
+            selectedHoursCount = 3;
+            selectedServices = ['meta', 'google', 'website', 'email'];
+            
             document.getElementById('depositAmount').value = '';
             document.getElementById('depositSummary').style.display = 'none';
+            
+            // Reset hour selection
+            document.querySelectorAll('.hour-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-hours="3"]').classList.add('active');
+            
+            // Reset service checkboxes
+            document.querySelectorAll('.service-checkbox input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = true;
+            });
             
             // Go back to offer screen
             showOfferScreen();
