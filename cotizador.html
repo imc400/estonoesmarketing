@@ -96,7 +96,7 @@
         }
 
         .offer-container::before {
-            content: '🎉';
+            content: '*';
             position: absolute;
             top: -20px;
             left: 50%;
@@ -694,7 +694,7 @@
             <p class="welcome-subtitle">Herramienta exclusiva para reuniones de venta</p>
             
             <button class="start-button" onclick="showOfferScreen()">
-                🚀 COMENZAR COTIZACIÓN
+                COMENZAR COTIZACION
             </button>
         </div>
 
@@ -752,7 +752,7 @@
                 <div class="cotizador-title">COTIZACIÓN PERSONALIZADA</div>
                 
                 <div id="statusDisplay" style="text-align: center; margin-bottom: 30px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; display: none;">
-                    <div style="color: #10b981; font-weight: 600;">✅ Oferta Especial Activa</div>
+                    <div style="color: #10b981; font-weight: 600;">Oferta Especial Activa</div>
                     <div style="color: #e0e0e0; font-size: 14px;">Depósito: <span id="statusDeposit">$0</span> → Crédito: <span id="statusCredit">$0</span></div>
                 </div>
 
@@ -782,7 +782,7 @@
                                 <span class="checkmark"></span>
                                 <span class="service-label">Meta Ads</span>
                             </label>
-                            <button class="info-btn" onclick="showServiceInfo('meta')">ℹ️</button>
+                            <button class="info-btn" onclick="showServiceInfo('meta')">i</button>
                         </div>
                         
                         <div class="service-item-wrapper">
@@ -791,7 +791,7 @@
                                 <span class="checkmark"></span>
                                 <span class="service-label">Google Ads</span>
                             </label>
-                            <button class="info-btn" onclick="showServiceInfo('google')">ℹ️</button>
+                            <button class="info-btn" onclick="showServiceInfo('google')">i</button>
                         </div>
                         
                         <div class="service-item-wrapper">
@@ -800,7 +800,7 @@
                                 <span class="checkmark"></span>
                                 <span class="service-label">Sitio Web</span>
                             </label>
-                            <button class="info-btn" onclick="showServiceInfo('website')">ℹ️</button>
+                            <button class="info-btn" onclick="showServiceInfo('website')">i</button>
                         </div>
                         
                         <div class="service-item-wrapper">
@@ -809,7 +809,7 @@
                                 <span class="checkmark"></span>
                                 <span class="service-label">Email Marketing</span>
                             </label>
-                            <button class="info-btn" onclick="showServiceInfo('email')">ℹ️</button>
+                            <button class="info-btn" onclick="showServiceInfo('email')">i</button>
                         </div>
                     </div>
                 </div>
@@ -843,7 +843,7 @@
 
                 <div class="button-group">
                     <button class="button-primary" onclick="downloadQuote()">
-                        📥 Descargar Cotización
+                        Descargar Cotizacion PDF
                     </button>
                     <button class="button-secondary" onclick="generateNewQuote()">
                         Nueva Cotización
@@ -852,6 +852,9 @@
             </div>
         </div>
     </div>
+
+    <!-- jsPDF Library -->
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 
     <!-- Service Info Modal -->
     <div id="serviceModal" class="modal" style="display: none;">
@@ -1043,7 +1046,7 @@
                 title: "Asesoría en Meta Ads (Facebook & Instagram)",
                 content: `
                     <div class="service-detail">
-                        <h4>📊 Análisis y Estrategia</h4>
+                        <h4>Analisis y Estrategia</h4>
                         <ul>
                             <li>Revisión completa de tu cuenta actual</li>
                             <li>Análisis de audiencias y competencia</li>
@@ -1052,7 +1055,7 @@
                         </ul>
                     </div>
                     <div class="service-detail">
-                        <h4>🎯 Optimización de Campañas</h4>
+                        <h4>Optimizacion de Campanas</h4>
                         <ul>
                             <li>Recomendaciones para estructura de campañas</li>
                             <li>Guía para creación de audiencias efectivas</li>
@@ -1061,7 +1064,7 @@
                         </ul>
                     </div>
                     <div class="service-detail">
-                        <h4>📈 Reporting y Seguimiento</h4>
+                        <h4>Reporting y Seguimiento</h4>
                         <ul>
                             <li>Métricas clave a monitorear</li>
                             <li>Interpretación de resultados</li>
@@ -1070,7 +1073,7 @@
                         </ul>
                     </div>
                     <div class="advisory-note">
-                        💡 <strong>Modalidad:</strong> Asesoría online donde te enseño cómo implementar y optimizar tus campañas de Meta Ads paso a paso.
+                        <strong>Modalidad:</strong> Asesoria online donde te enseno como implementar y optimizar tus campanas de Meta Ads paso a paso.
                     </div>
                 `
             },
@@ -1078,7 +1081,7 @@
                 title: "Asesoría en Google Ads",
                 content: `
                     <div class="service-detail">
-                        <h4>🔍 Investigación y Planificación</h4>
+                        <h4>Investigacion y Planificacion</h4>
                         <ul>
                             <li>Análisis de palabras clave estratégicas</li>
                             <li>Evaluación de la competencia</li>
@@ -1087,7 +1090,7 @@
                         </ul>
                     </div>
                     <div class="service-detail">
-                        <h4>⚙️ Estructura de Cuenta</h4>
+                        <h4>Estructura de Cuenta</h4>
                         <ul>
                             <li>Arquitectura de campañas y grupos de anuncios</li>
                             <li>Configuración de extensiones de anuncio</li>
@@ -1096,7 +1099,7 @@
                         </ul>
                     </div>
                     <div class="service-detail">
-                        <h4>📊 Medición y Optimización</h4>
+                        <h4>Medicion y Optimizacion</h4>
                         <ul>
                             <li>Configuración de conversiones</li>
                             <li>Análisis de Quality Score</li>
@@ -1105,7 +1108,7 @@
                         </ul>
                     </div>
                     <div class="advisory-note">
-                        💡 <strong>Modalidad:</strong> Te guío en la implementación completa de Google Ads, desde la configuración hasta la optimización avanzada.
+                        <strong>Modalidad:</strong> Te guio en la implementacion completa de Google Ads, desde la configuracion hasta la optimizacion avanzada.
                     </div>
                 `
             },
@@ -1113,7 +1116,7 @@
                 title: "Asesoría en Sitio Web y Conversiones",
                 content: `
                     <div class="service-detail">
-                        <h4>🎨 Análisis de UX/UI</h4>
+                        <h4>Analisis de UX/UI</h4>
                         <ul>
                             <li>Evaluación de experiencia de usuario</li>
                             <li>Análisis de velocidad de carga</li>
@@ -1122,7 +1125,7 @@
                         </ul>
                     </div>
                     <div class="service-detail">
-                        <h4>🔧 Optimización Técnica</h4>
+                        <h4>Optimizacion Tecnica</h4>
                         <ul>
                             <li>SEO básico y estructura de URLs</li>
                             <li>Implementación de tracking (GA4, GTM)</li>
@@ -1131,7 +1134,7 @@
                         </ul>
                     </div>
                     <div class="service-detail">
-                        <h4>📈 Conversión y Landing Pages</h4>
+                        <h4>Conversion y Landing Pages</h4>
                         <ul>
                             <li>Estrategia de landing pages efectivas</li>
                             <li>Optimización de call-to-actions</li>
@@ -1140,7 +1143,7 @@
                         </ul>
                     </div>
                     <div class="advisory-note">
-                        💡 <strong>Modalidad:</strong> Revisión completa de tu sitio web con recomendaciones específicas para maximizar conversiones.
+                        <strong>Modalidad:</strong> Revision completa de tu sitio web con recomendaciones especificas para maximizar conversiones.
                     </div>
                 `
             },
@@ -1148,7 +1151,7 @@
                 title: "Asesoría en Email Marketing",
                 content: `
                     <div class="service-detail">
-                        <h4>📧 Estrategia de Email Marketing</h4>
+                        <h4>Estrategia de Email Marketing</h4>
                         <ul>
                             <li>Definición de objetivos y audiencias</li>
                             <li>Estrategia de segmentación de listas</li>
@@ -1157,7 +1160,7 @@
                         </ul>
                     </div>
                     <div class="service-detail">
-                        <h4>✍️ Contenido y Diseño</h4>
+                        <h4>Contenido y Diseno</h4>
                         <ul>
                             <li>Líneas de asunto que convierten</li>
                             <li>Estructura de emails efectivos</li>
@@ -1166,7 +1169,7 @@
                         </ul>
                     </div>
                     <div class="service-detail">
-                        <h4>📊 Métricas y Optimización</h4>
+                        <h4>Metricas y Optimizacion</h4>
                         <ul>
                             <li>KPIs importantes a monitorear</li>
                             <li>Estrategias para mejorar deliverability</li>
@@ -1175,7 +1178,7 @@
                         </ul>
                     </div>
                     <div class="advisory-note">
-                        💡 <strong>Modalidad:</strong> Te enseño a crear una estrategia completa de email marketing que genere resultados medibles.
+                        <strong>Modalidad:</strong> Te enseno a crear una estrategia completa de email marketing que genere resultados medibles.
                     </div>
                 `
             }
@@ -1231,8 +1234,11 @@
                 .map(service => serviceNames[service]);
             
             // Create PDF
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            if (!window.jsPDF) {
+                alert('Error: No se pudo cargar la biblioteca PDF. Intenta recargar la pagina.');
+                return;
+            }
+            const doc = new window.jsPDF();
             const quoteDate = new Date().toLocaleDateString('es-CL');
             
             // Set font
@@ -1430,7 +1436,7 @@
             
             // Show success message
             setTimeout(() => {
-                alert('✅ Cotizacion PDF descargada exitosamente');
+                alert('Cotizacion PDF descargada exitosamente');
             }, 100);
         }
 
