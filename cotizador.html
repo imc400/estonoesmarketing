@@ -853,8 +853,25 @@
         </div>
     </div>
 
-    <!-- jsPDF Library -->
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <!-- jsPDF Library with fallback -->
+    <script>
+        // Load jsPDF with fallback
+        function loadjsPDF() {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+            script.onerror = function() {
+                // Fallback CDN
+                const fallbackScript = document.createElement('script');
+                fallbackScript.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+                fallbackScript.onerror = function() {
+                    console.error('Failed to load jsPDF from both CDNs');
+                };
+                document.head.appendChild(fallbackScript);
+            };
+            document.head.appendChild(script);
+        }
+        loadjsPDF();
+    </script>
 
     <!-- Service Info Modal -->
     <div id="serviceModal" class="modal" style="display: none;">
@@ -1211,6 +1228,13 @@
 
         // Download quote function as PDF
         function downloadQuote() {
+            // Add small delay to ensure library is loaded
+            setTimeout(function() {
+                downloadQuoteInternal();
+            }, 100);
+        }
+
+        function downloadQuoteInternal() {
             // Calculate values
             const subtotal = selectedHoursCount * hourlyRate;
             const totalServices = 4;
@@ -1233,12 +1257,18 @@
                 .filter(service => !selectedServices.includes(service))
                 .map(service => serviceNames[service]);
             
-            // Create PDF
-            if (!window.jsPDF) {
-                alert('Error: No se pudo cargar la biblioteca PDF. Intenta recargar la pagina.');
+            // Create PDF - Try multiple ways to access jsPDF
+            let jsPDF;
+            if (window.jspdf && window.jspdf.jsPDF) {
+                jsPDF = window.jspdf.jsPDF;
+            } else if (window.jsPDF) {
+                jsPDF = window.jsPDF;
+            } else {
+                alert('Error: La biblioteca PDF no esta disponible. Por favor recarga la pagina e intenta nuevamente.');
+                console.error('jsPDF library not available. window.jspdf:', window.jspdf, 'window.jsPDF:', window.jsPDF);
                 return;
             }
-            const doc = new window.jsPDF();
+            const doc = new jsPDF();
             const quoteDate = new Date().toLocaleDateString('es-CL');
             
             // Set font
