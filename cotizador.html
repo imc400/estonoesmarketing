@@ -1206,7 +1206,7 @@
             }
         }
 
-        // Download quote function
+        // Download quote function as PDF
         function downloadQuote() {
             // Calculate values
             const subtotal = selectedHoursCount * hourlyRate;
@@ -1230,77 +1230,207 @@
                 .filter(service => !selectedServices.includes(service))
                 .map(service => serviceNames[service]);
             
-            // Create quote content
+            // Create PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
             const quoteDate = new Date().toLocaleDateString('es-CL');
-            const quoteContent = `
-COTIZACIÓN DE MARKETING DIGITAL
-===============================
-
-CONSULTOR: Ignacio Blanco (Nacho)
-FECHA: ${quoteDate}
-MODALIDAD: Asesoría Online
-
-DETALLE DE SERVICIOS:
---------------------
-
-⏱️  HORAS DE TRABAJO: ${selectedHoursCount} horas
-💰  VALOR POR HORA: ${formatCurrency(hourlyRate)}
-📊  SUBTOTAL: ${formatCurrency(subtotal)}
-
-SERVICIOS INCLUIDOS:
-${selectedServiceNames.map(service => `✅ ${service}`).join('\n')}
-
-${deselectedServiceNames.length > 0 ? `
-SERVICIOS NO INCLUIDOS:
-${deselectedServiceNames.map(service => `❌ ${service}`).join('\n')}
-
-💸  DESCUENTO APLICADO: ${discountPercentage}% (${formatCurrency(discountAmount)})
-` : ''}
-
-${creditApplied > 0 ? `
-🎉  OFERTA ESPECIAL ACTIVA:
-    Depósito realizado: ${formatCurrency(currentDeposit)}
-    Crédito aplicado: ${formatCurrency(creditApplied)}
-` : ''}
-
-TOTAL FINAL: ${formatCurrency(finalTotal)}
-${creditApplied > 0 ? `(Después del crédito aplicado)` : ''}
-
-METODOLOGÍA:
------------
-• Asesoría 100% online vía videollamada
-• Revisión en vivo de tu situación actual
-• Recomendaciones específicas y accionables
-• Plan de implementación paso a paso
-• Seguimiento post-asesoría incluido
-
-GARANTÍA:
----------
-✅ Si no obtienes valor de la asesoría, 
-   te devolvemos el 100% de tu inversión
-
-CONTACTO:
----------
-WhatsApp: +56 9 5016 0966
-Email: contacto@estonoesmarketing.com
-
----
-Cotización generada automáticamente
-${new Date().toLocaleString('es-CL')}
-            `;
             
-            // Create and download file
-            const element = document.createElement('a');
-            const file = new Blob([quoteContent], { type: 'text/plain;charset=utf-8' });
-            element.href = URL.createObjectURL(file);
-            element.download = `Cotizacion_Marketing_${quoteDate.replace(/\//g, '-')}.txt`;
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
+            // Set font
+            doc.setFont('helvetica');
+            
+            // Header
+            doc.setFontSize(20);
+            doc.setTextColor(22, 160, 133); // Green color
+            doc.text('COTIZACION DE MARKETING DIGITAL', 20, 25);
+            
+            // Separator line
+            doc.setLineWidth(0.5);
+            doc.setDrawColor(22, 160, 133);
+            doc.line(20, 30, 190, 30);
+            
+            // Basic info
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.setFont('helvetica', 'bold');
+            doc.text('CONSULTOR:', 20, 45);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Ignacio Blanco (Nacho)', 60, 45);
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text('FECHA:', 20, 55);
+            doc.setFont('helvetica', 'normal');
+            doc.text(quoteDate, 60, 55);
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text('MODALIDAD:', 20, 65);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Asesoria Online', 60, 65);
+            
+            // Services section
+            let yPos = 85;
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(22, 160, 133);
+            doc.text('DETALLE DE SERVICIOS', 20, yPos);
+            
+            yPos += 15;
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`HORAS DE TRABAJO: ${selectedHoursCount} horas`, 20, yPos);
+            
+            yPos += 10;
+            doc.text(`VALOR POR HORA: ${formatCurrency(hourlyRate)}`, 20, yPos);
+            
+            yPos += 10;
+            doc.text(`SUBTOTAL: ${formatCurrency(subtotal)}`, 20, yPos);
+            
+            // Services included
+            yPos += 20;
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(22, 160, 133);
+            doc.text('SERVICIOS INCLUIDOS:', 20, yPos);
+            
+            yPos += 10;
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(0, 0, 0);
+            selectedServiceNames.forEach(service => {
+                doc.text(`✓ ${service}`, 25, yPos);
+                yPos += 8;
+            });
+            
+            // Services not included
+            if (deselectedServiceNames.length > 0) {
+                yPos += 10;
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(255, 107, 107);
+                doc.text('SERVICIOS NO INCLUIDOS:', 20, yPos);
+                
+                yPos += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(0, 0, 0);
+                deselectedServiceNames.forEach(service => {
+                    doc.text(`✗ ${service}`, 25, yPos);
+                    yPos += 8;
+                });
+                
+                yPos += 10;
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(22, 160, 133);
+                doc.text(`DESCUENTO APLICADO: ${discountPercentage}% (${formatCurrency(discountAmount)})`, 20, yPos);
+            }
+            
+            // Special offer
+            if (creditApplied > 0) {
+                yPos += 15;
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(255, 215, 0);
+                doc.text('OFERTA ESPECIAL ACTIVA:', 20, yPos);
+                
+                yPos += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(0, 0, 0);
+                doc.text(`Deposito realizado: ${formatCurrency(currentDeposit)}`, 25, yPos);
+                
+                yPos += 8;
+                doc.text(`Credito aplicado: ${formatCurrency(creditApplied)}`, 25, yPos);
+            }
+            
+            // Total
+            yPos += 20;
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(22, 160, 133);
+            doc.text(`TOTAL FINAL: ${formatCurrency(finalTotal)}`, 20, yPos);
+            
+            if (creditApplied > 0) {
+                yPos += 10;
+                doc.setFontSize(10);
+                doc.setTextColor(128, 128, 128);
+                doc.text('(Despues del credito aplicado)', 20, yPos);
+            }
+            
+            // Add new page if needed
+            if (yPos > 250) {
+                doc.addPage();
+                yPos = 30;
+            } else {
+                yPos += 30;
+            }
+            
+            // Methodology
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(22, 160, 133);
+            doc.text('METODOLOGIA:', 20, yPos);
+            
+            yPos += 15;
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(0, 0, 0);
+            const methodology = [
+                '• Asesoria 100% online via videollamada',
+                '• Revision en vivo de tu situacion actual',
+                '• Recomendaciones especificas y accionables',
+                '• Plan de implementacion paso a paso',
+                '• Seguimiento post-asesoria incluido'
+            ];
+            
+            methodology.forEach(item => {
+                doc.text(item, 20, yPos);
+                yPos += 8;
+            });
+            
+            // Commitment
+            yPos += 15;
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(22, 160, 133);
+            doc.text('COMPROMISO:', 20, yPos);
+            
+            yPos += 15;
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(0, 0, 0);
+            const commitment = [
+                '✓ Asesoria profesional garantizada',
+                '✓ Resultados medibles y accionables',
+                '✓ Seguimiento post-asesoria incluido'
+            ];
+            
+            commitment.forEach(item => {
+                doc.text(item, 20, yPos);
+                yPos += 8;
+            });
+            
+            // Contact
+            yPos += 15;
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(22, 160, 133);
+            doc.text('CONTACTO:', 20, yPos);
+            
+            yPos += 15;
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(0, 0, 0);
+            doc.text('WhatsApp: +56 9 5016 0966', 20, yPos);
+            yPos += 8;
+            doc.text('Email: contacto@estonoesmarketing.com', 20, yPos);
+            
+            // Footer
+            yPos += 20;
+            doc.setFontSize(8);
+            doc.setTextColor(128, 128, 128);
+            doc.text('Cotizacion generada automaticamente - ' + new Date().toLocaleString('es-CL'), 20, yPos);
+            
+            // Save PDF
+            const filename = `Cotizacion_Marketing_${quoteDate.replace(/\//g, '-')}.pdf`;
+            doc.save(filename);
             
             // Show success message
             setTimeout(() => {
-                alert('✅ Cotización descargada exitosamente');
+                alert('✅ Cotizacion PDF descargada exitosamente');
             }, 100);
         }
 
