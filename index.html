@@ -6,7 +6,7 @@
     <title>¿Te suena conocido? | Ignacio Blanco</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
     <!-- Microsoft Clarity -->
     <script src="microsoft-clarity.js"></script>
@@ -20,7 +20,6 @@
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1010716157553975&ev=PageView&noscript=1"
     /></noscript>
-    <!-- End Meta Pixel Code -->
     
     <style>
         * {
@@ -34,42 +33,42 @@
             background: #0a0a0a;
             color: #ffffff;
             line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow-x: hidden;
         }
 
         .container {
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
             text-align: center;
-            position: relative;
+            margin-bottom: 60px;
         }
 
-        .step-indicator {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: #666;
-            opacity: 0.7;
-        }
-
-        .intro-statement {
-            font-size: 18px;
-            font-weight: 500;
+        .hero-badge {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 30px;
+            padding: 12px 24px;
+            display: inline-block;
             margin-bottom: 30px;
-            color: #cccccc;
-            text-align: center;
-            opacity: 0.9;
-            font-style: italic;
+            font-size: 14px;
+            font-weight: 600;
+            color: #10b981;
         }
 
-        .disclaimer-box {
+        .hero-title {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 12px;
@@ -84,7 +83,7 @@
             line-height: 1.5;
         }
 
-        .disclaimer-box::before {
+        .hero-subtitle::before {
             content: "💡";
             position: absolute;
             top: -12px;
@@ -95,150 +94,10 @@
             font-size: 20px;
         }
 
-        .main-question {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 40px;
-            color: #ffffff;
-            line-height: 1.3;
-            letter-spacing: -0.5px;
-        }
-
-        .main-question span {
-            color: #10b981;
-            display: inline-block;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .situations {
-            text-align: left;
-            margin: 50px 0;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 40px;
-            border: 1px solid rgba(16, 185, 129, 0.1);
-            position: relative;
-        }
-
-        .situations::before {
-            content: "Situaciones típicas:";
-            position: absolute;
-            top: -12px;
-            left: 30px;
-            background: #0a0a0a;
-            padding: 0 15px;
-            font-size: 14px;
-            color: #10b981;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .situation-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            font-size: 18px;
-            line-height: 1.5;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        .situation-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .situation-item:hover {
-            background: rgba(16, 185, 129, 0.05);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 0 -15px 20px -15px;
-        }
-
-        .situation-item:last-child:hover {
-            margin-bottom: -15px;
-        }
-
-        .bullet {
-            color: #10b981;
-            font-weight: 700;
-            font-size: 20px;
-            margin-right: 15px;
-            flex-shrink: 0;
-            line-height: 1.2;
-        }
-
-        .situation-text {
-            color: #e0e0e0;
-            font-weight: 500;
-        }
-
-        .reality-check {
-            font-size: 28px;
-            font-weight: 700;
-            margin: 50px 0 40px 0;
-            color: #10b981;
-            letter-spacing: -0.3px;
-        }
-
-        .cta-button {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: #ffffff;
-            padding: 20px 40px;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-            min-width: 280px;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:active {
-            transform: translateY(0);
-        }
-
-        .warning-text {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #888;
-            font-style: italic;
-        }
-
         .glitch {
             position: relative;
             display: inline-block;
+            color: #10b981;
         }
 
         .glitch::after {
@@ -257,29 +116,519 @@
 
         @keyframes glitch-anim {
             0% { clip: rect(10px, 9999px, 31px, 0); }
-            5% { clip: rect(70px, 9999px, 71px, 0); }
-            10% { clip: rect(30px, 9999px, 31px, 0); }
-            15% { clip: rect(90px, 9999px, 91px, 0); }
-            20% { clip: rect(50px, 9999px, 51px, 0); }
-            25% { clip: rect(10px, 9999px, 11px, 0); }
-            30% { clip: rect(80px, 9999px, 81px, 0); }
-            35% { clip: rect(40px, 9999px, 41px, 0); }
-            40% { clip: rect(20px, 9999px, 21px, 0); }
-            45% { clip: rect(60px, 9999px, 61px, 0); }
-            50% { clip: rect(35px, 9999px, 36px, 0); }
-            55% { clip: rect(85px, 9999px, 86px, 0); }
-            60% { clip: rect(25px, 9999px, 26px, 0); }
-            65% { clip: rect(75px, 9999px, 76px, 0); }
-            70% { clip: rect(45px, 9999px, 46px, 0); }
-            75% { clip: rect(15px, 9999px, 16px, 0); }
-            80% { clip: rect(65px, 9999px, 66px, 0); }
-            85% { clip: rect(55px, 9999px, 56px, 0); }
-            90% { clip: rect(95px, 9999px, 96px, 0); }
-            95% { clip: rect(5px, 9999px, 6px, 0); }
+            25% { clip: rect(70px, 9999px, 71px, 0); }
+            50% { clip: rect(30px, 9999px, 31px, 0); }
+            75% { clip: rect(50px, 9999px, 51px, 0); }
             100% { clip: rect(88px, 9999px, 89px, 0); }
         }
 
-        /* Subtle background animation */
+        /* Problem Section */
+        .problem-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 60px;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            position: relative;
+        }
+
+        .problem-section::before {
+            content: "Situaciones típicas:";
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: #0a0a0a;
+            padding: 0 15px;
+            font-size: 14px;
+            color: #10b981;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .problem-list {
+            list-style: none;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .problem-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .problem-item:hover {
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 0 -15px 20px -15px;
+        }
+
+        .problem-item:last-child:hover {
+            margin-bottom: -15px;
+        }
+
+        .problem-bullet {
+            color: #10b981;
+            font-weight: 700;
+            font-size: 20px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            line-height: 1.2;
+        }
+
+        .problem-text {
+            color: #e0e0e0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Introduction Section */
+        .intro-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .intro-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #10b981;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .intro-highlight {
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        /* Photo Section */
+        .photo-section {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .photo-container {
+            flex-shrink: 0;
+        }
+
+        .photo-container img {
+            width: 280px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .photo-text h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .photo-text p {
+            font-size: 16px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .casual {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .authenticity-note {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #ff6b6b;
+            padding: 20px 25px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+
+        .authenticity-note p {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin: 0;
+            font-style: italic;
+        }
+
+        /* Confession Section */
+        .confession-section {
+            margin: 60px 0;
+        }
+
+        .confession-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #10b981;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            text-align: center;
+        }
+
+        .confession-text {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+            position: relative;
+        }
+
+        .confession-text::before {
+            content: "💭";
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #0a0a0a;
+            padding: 0 10px;
+            font-size: 24px;
+        }
+
+        .confession-text p {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .confession-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .playful-highlight {
+            background: rgba(255, 107, 107, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Meta Box */
+        .meta-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .meta-box::before {
+            content: "🎭";
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #0a0a0a;
+            padding: 0 10px;
+            font-size: 20px;
+        }
+
+        .meta-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 15px;
+        }
+
+        .meta-text {
+            font-size: 15px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .meta-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            margin: 60px 0;
+        }
+
+        .analysis-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #10b981;
+            text-align: center;
+        }
+
+        .analysis-subtitle {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 40px;
+            color: #cccccc;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .button-analysis {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .button-analysis::before {
+            content: "🔍";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0a0a0a;
+            padding: 0 10px;
+            font-size: 20px;
+        }
+
+        .button-quote {
+            font-size: 20px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .button-analysis-text {
+            font-size: 15px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .button-analysis-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Clients Section */
+        .clients-section {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .clients-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .clients-subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 40px;
+            color: #cccccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .client-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .client-logo:hover {
+            transform: translateY(-2px);
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.1);
+        }
+
+        .client-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(1.5) contrast(1.2);
+            opacity: 0.8;
+        }
+
+        .client-logo:hover img {
+            opacity: 1;
+            filter: brightness(1.8) contrast(1.4);
+        }
+
+        .psychology-reveal {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+            text-align: left;
+            position: relative;
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .psychology-reveal::before {
+            content: "🧠";
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #0a0a0a;
+            padding: 0 10px;
+            font-size: 20px;
+        }
+
+        .psychology-reveal strong {
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            text-align: center;
+            margin: 80px 0 60px 0;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta-badge {
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 0 0 12px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .final-cta-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 20px 0;
+            color: #ffffff;
+        }
+
+        .final-cta-subtitle {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* CTA Buttons */
+        .cta-button {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: #25d366;
+        }
+
+        .cta-button.secondary:hover {
+            background: #20c75a;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        .guarantee {
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Background effects */
         body::before {
             content: '';
             position: fixed;
@@ -289,8 +638,7 @@
             height: 100%;
             background: 
                 radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.02) 0%, transparent 50%);
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
         }
@@ -298,148 +646,303 @@
         /* Mobile responsiveness */
         @media (max-width: 768px) {
             .container {
-                padding: 30px 15px;
+                padding: 40px 15px;
             }
-
-            .intro-statement {
-                font-size: 16px;
-                margin-bottom: 25px;
+            
+            .hero-title {
+                font-size: 32px;
             }
-
-            .disclaimer-box {
+            
+            .hero-subtitle {
                 font-size: 16px;
                 padding: 20px;
-                margin-bottom: 35px;
             }
-
-            .main-question {
-                font-size: 26px;
-                margin-bottom: 30px;
-            }
-
-            .situations {
+            
+            .photo-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
                 padding: 30px 20px;
-                margin: 40px 0;
+            }
+            
+            .photo-container img {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .photo-text {
+                text-align: center;
+            }
+            
+            .confession-text,
+            .meta-box {
+                padding: 25px 20px;
+            }
+            
+            .clients-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 15px;
+                padding: 20px 15px;
+            }
+            
+            .client-logo {
+                height: 50px;
+                padding: 10px;
             }
 
-            .situation-item {
-                font-size: 16px;
-                padding: 12px 0;
-            }
-
-            .situation-item:hover {
-                padding: 12px;
-                margin: 0 -12px 15px -12px;
-            }
-
-            .reality-check {
-                font-size: 24px;
-                margin: 40px 0 30px 0;
+            .final-cta-section {
+                padding: 40px 20px;
             }
 
             .cta-button {
-                padding: 18px 30px;
+                padding: 18px 40px;
                 font-size: 16px;
-                min-width: 260px;
-            }
-
-            .step-indicator {
-                position: static;
-                text-align: center;
-                margin-bottom: 20px;
+                margin: 5px;
+                display: block;
+                margin-bottom: 15px;
             }
         }
 
         @media (max-width: 480px) {
-            .intro-statement {
-                font-size: 15px;
+            .hero-title {
+                font-size: 28px;
             }
-
-            .disclaimer-box {
-                font-size: 15px;
-                padding: 18px;
-                margin-bottom: 30px;
+            
+            .final-cta-title {
+                font-size: 26px;
             }
-
-            .main-question {
-                font-size: 22px;
-            }
-
-            .situations {
-                padding: 25px 15px;
-            }
-
-            .situation-item {
-                font-size: 15px;
-            }
-
-            .reality-check {
-                font-size: 20px;
-            }
-
+            
             .cta-button {
-                padding: 16px 25px;
-                min-width: 240px;
+                padding: 16px 30px;
+                font-size: 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="step-indicator">01/05</div>
-        
-        <div class="intro-statement">
-            Quiero hacer todo distinto, así que no te voy a pedir tu teléfono ni tu mail para spamearte.
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge">
+                Sin formularios • Sin spam • Solo honestidad
+            </div>
+            <h1 class="hero-title">
+                ¿Qué tan <span class="glitch" data-text="difícil">difícil</span> es confiar en alguien para tercerizar el marketing de tu empresa?
+            </h1>
+            <div class="hero-subtitle">
+                El 90% de mis clientes no necesitaba más tráfico.<br>
+                Necesitaban menos. Pero mejor.
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section class="problem-section">
+            <ul class="problem-list">
+                <li class="problem-item">
+                    <span class="problem-bullet">—</span>
+                    <span class="problem-text">Parten como avión y luego se desinflan</span>
+                </li>
+                <li class="problem-item">
+                    <span class="problem-bullet">—</span>
+                    <span class="problem-text">Mucho tráfico pero pocas ventas</span>
+                </li>
+                <li class="problem-item">
+                    <span class="problem-bullet">—</span>
+                    <span class="problem-text">Invierten mucho en anuncios, te dicen que se vendió mucho, pero no es rentable</span>
+                </li>
+                <li class="problem-item">
+                    <span class="problem-bullet">—</span>
+                    <span class="problem-text">Siempre hay una excusa</span>
+                </li>
+                <li class="problem-item">
+                    <span class="problem-bullet">—</span>
+                    <span class="problem-text">No tienes idea de los números y tampoco te los quieren enseñar</span>
+                </li>
+                <li class="problem-item">
+                    <span class="problem-bullet">—</span>
+                    <span class="problem-text">Te piden correo o teléfono para después spamearte</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Introduction Section -->
+        <section class="intro-section">
+            <h2 class="intro-title">¿Te suena conocido?</h2>
+            <p class="intro-text">
+                Perfecto. Entonces sabes exactamente de qué hablo.<br>
+                <span class="intro-highlight">Esta industria está llena de vendedores de humo.</span>
+            </p>
+        </section>
+
+        <!-- Photo Section -->
+        <section class="photo-section">
+            <div class="photo-container">
+                <img src="nacho-working.jpg" alt="Nacho en su escritorio trabajando">
+            </div>
+            <div class="photo-text">
+                <h2>Ok, este soy yo</h2>
+                <p><span class="casual">Me dicen Nacho</span>, y así fue como armé la página que estás viendo en este momento.</p>
+                <p>Nada fancy, nada de humo.</p>
+                <p>Yo y mi escritorio.</p>
+            </div>
+        </section>
+
+        <div class="authenticity-note">
+            <p>Ni oficina elegante, ni equipo de diseño, ni fotos profesionales. Solo trabajo real, resultados reales.</p>
         </div>
 
-        <div class="disclaimer-box">
-            El 90% de mis clientes no necesitaba más tráfico.<br>
-            Necesitaban menos. Pero mejor.
-        </div>
+        <!-- Confession Section -->
+        <section class="confession-section">
+            <h2 class="confession-title">Te voy a ser brutalmente honesto...</h2>
 
-        <h1 class="main-question">
-            ¿Qué tan <span class="glitch" data-text="difícil">difícil</span> es confiar en alguien para tercerizar el marketing de tu empresa?
-        </h1>
+            <div class="confession-text">
+                <p>Hasta aquí, <span class="highlight">estás siendo parte de un embudo</span>.</p>
+                
+                <p>Sí, leíste bien. Te estoy <span class="playful-highlight">"calentando"</span> paso a paso, exactamente como cualquier otra página de marketing. La diferencia es que <strong>te lo estoy diciendo en la cara</strong>.</p>
+                
+                <p>¿Por qué? Porque odio cuando me tratan como idiota, y asumo que tú también.</p>
+                
+                <p>La mayoría de las páginas te engañan haciéndote creer que "no es marketing" cuando claramente lo es. Yo prefiero ser directo: <span class="highlight">esto ES marketing, pero hecho con respeto por tu inteligencia</span>.</p>
+            </div>
 
-        <div class="situations">
-            <div class="situation-item">
-                <span class="bullet">—</span>
-                <span class="situation-text">Parten como avión y luego se desinflan</span>
+            <div class="meta-box">
+                <div class="meta-title">Lo que está pasando aquí:</div>
+                <div class="meta-text">Paso 1) Te hice identificar el problema - avanzaste solo si tienes relación a búsqueda de marketing para tu empresa, estás filtrado</div>
+                <div class="meta-text">Paso 2) Te mostré que soy real, bajé tus barreras</div>
+                <div class="meta-text">Paso 3) Ahora te estoy confesando la "manipulación"</div>
+                <div class="meta-text">Paso 4) Siguiente: te voy a mostrar cómo trabajo realmente</div>
             </div>
-            <div class="situation-item">
-                <span class="bullet">—</span>
-                <span class="situation-text">Mucho tráfico pero pocas ventas</span>
-            </div>
-            <div class="situation-item">
-                <span class="bullet">—</span>
-                <span class="situation-text">Invierten mucho en anuncios, te dicen que se vendió mucho, pero no es rentable</span>
-            </div>
-            <div class="situation-item">
-                <span class="bullet">—</span>
-                <span class="situation-text">Siempre hay una excusa</span>
-            </div>
-            <div class="situation-item">
-                <span class="bullet">—</span>
-                <span class="situation-text">No tienes idea de los números y tampoco te los quieren enseñar</span>
-            </div>
-            <div class="situation-item">
-                <span class="bullet">—</span>
-                <span class="situation-text">Te piden correo o teléfono para después spamearte</span>
-            </div>
-        </div>
 
-        <h2 class="reality-check">¿Te suena conocido?</h2>
+            <div class="confession-text">
+                <p>¿Sabes qué es lo más gracioso? <span class="playful-highlight">Que seas consciente de esto no hace que funcione menos</span>. De hecho, probablemente te gusta más porque no te estoy mintiendo.</p>
+                
+                <p>Así que... ¿continuamos con este juego donde ambos sabemos las reglas?</p>
+            </div>
+        </section>
 
-        <a href="step2.html" class="cta-button">
-            Sí, demasiado conocido
-        </a>
+        <!-- Analysis Section -->
+        <section class="analysis-section">
+            <h2 class="analysis-title">Acabas de confirmar algo...</h2>
+            <p class="analysis-subtitle">Al llegar hasta aquí, aceptaste que me tienes simpatía</p>
 
-        <p class="warning-text">
-            * No hay formularios que llenar. Solo honestidad.
-        </p>
+            <div class="button-analysis">
+                <div class="button-quote">"Ok, me gusta la honestidad"</div>
+                <div class="button-analysis-text">← Esto no fue solo seguir leyendo</div>
+                <div class="button-analysis-text">Fue una <strong>declaración consciente</strong> de simpatía</div>
+            </div>
+
+            <div class="confession-text">
+                <p>¿Te das cuenta de lo que acaba de pasar?</p>
+                
+                <p>No solo <span class="highlight">admitiste</span> que te caigo bien, sino que lo hiciste después de que te expliqué exactamente cómo te estaba persuadiendo.</p>
+                
+                <p>Eso significa que <span class="highlight">bajaste tus defensas por segunda vez</span>, pero ahora sabiendo conscientemente que estás en un embudo de ventas.</p>
+                
+                <p>En psicología esto se llama <span class="highlight">"transparencia paradójica"</span>: mientras más honesto soy sobre la persuasión, <strong>más persuasivo me vuelvo</strong>.</p>
+            </div>
+        </section>
+
+        <!-- Clients Section -->
+        <section class="clients-section">
+            <h2 class="clients-title">Algunas de las marcas que han confiado en mí</h2>
+            <p class="clients-subtitle">No todas, porque sería presumir. Pero estas sí me dieron permiso para mostrarlas:</p>
+
+            <div class="clients-grid">
+                <div class="client-logo">
+                    <img src="BWild.avif" alt="Cliente BWild" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="Granjamagdalena.avif" alt="Cliente Granja Magdalena" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="Puntiferrer.avif" alt="Cliente Puntiferrer" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="Rebels.avif" alt="Cliente Rebels" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="Toke.avif" alt="Cliente Toke" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="equifax_logo.png" alt="Cliente Equifax" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="universidad_de_los_andes_logo.png" alt="Cliente Universidad de los Andes" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="gemco_logo.png" alt="Cliente Gemco" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="cuina_logo.png" alt="Cliente Cuina" loading="lazy">
+                </div>
+                <div class="client-logo">
+                    <img src="de_raiz_chile_logo.png" alt="Cliente De Raíz Chile" loading="lazy">
+                </div>
+            </div>
+
+            <div class="psychology-reveal">
+                Ya sé lo que estás pensando... "Que mal se ven los logos"... y bueno, la verdad es que fue intencional, así es.<br><br>
+                
+                Fue hecho para poder mostrarte este mensaje y decirte que estamos pensando lo mismo.<br><br>
+                
+                <strong>Así es como se arman estrategias reales de marketing que sí venden.</strong>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="final-cta-section">
+            <div class="final-cta-badge">Oferta Especial</div>
+            <h2 class="final-cta-title">Ahora que establecimos confianza mutua...</h2>
+            <p class="final-cta-subtitle">
+                ¿Te parece si conversamos sobre cómo puedo ayudar a que tu marketing sí funcione?
+            </p>
+            
+            <a href="https://wa.me/56949454554?text=Hola%20Nacho,%20llegué%20hasta%20el%20final%20de%20tu%20página%20y%20me%20gustó%20tu%20honestidad.%20Quiero%20saber%20más%20sobre%20tus%20servicios" class="cta-button">
+                💬 Quiero hablar con Nacho
+            </a>
+            
+            <a href="packs.html" class="cta-button secondary">
+                📋 Ver paquetes y precios
+            </a>
+            
+            <p class="guarantee">
+                ✓ Sin compromisos a largo plazo • ✓ Resultados medibles • ✓ Transparencia total
+            </p>
+        </section>
     </div>
 
     <script>
+        // Track page view
+        if (typeof trackFunnelProgress === 'function') {
+            trackFunnelProgress('complete_single_page', 'landing_view');
+        }
+        if (typeof trackGAFunnelProgress === 'function') {
+            trackGAFunnelProgress('complete_single_page', 'landing_view');
+        }
+        if (typeof trackClarityFunnelProgress === 'function') {
+            trackClarityFunnelProgress('complete_single_page', 'landing_view');
+        }
+
+        // Track CTA clicks
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const buttonType = this.textContent.includes('WhatsApp') || this.textContent.includes('Nacho') ? 'whatsapp_contact' : 'packs_view';
+                
+                if (typeof trackFunnelProgress === 'function') {
+                    trackFunnelProgress('complete_single_page_cta', buttonType);
+                }
+                if (typeof trackGAButtonClick === 'function') {
+                    trackGAButtonClick(buttonType, 'complete_single_page');
+                }
+                if (typeof trackClarityButtonClick === 'function') {
+                    trackClarityButtonClick(buttonType, 'complete_single_page');
+                }
+                if (typeof trackHighValueInteraction === 'function') {
+                    trackHighValueInteraction('complete_single_page_conversion');
+                }
+            });
+        });
+
         // Add subtle cursor trail effect
         document.addEventListener('mousemove', (e) => {
             const cursor = document.createElement('div');
@@ -462,54 +965,32 @@
             }, 50);
         });
 
-        // Track funnel progress on page load
-        if (typeof trackFunnelProgress === 'function') {
-            trackFunnelProgress('step_1', 'landing_page');
-        }
-        if (typeof trackGAFunnelProgress === 'function') {
-            trackGAFunnelProgress('step_1', 'landing_page');
-        }
-        if (typeof trackClarityFunnelProgress === 'function') {
-            trackClarityFunnelProgress('step_1', 'landing_page');
-        }
-
-        // Add click ripple effect to button
-        document.querySelector('.cta-button').addEventListener('click', function(e) {
-            // Track CTA click
-            if (typeof trackFunnelProgress === 'function') {
-                trackFunnelProgress('step_1_cta', 'proceed_to_step2');
-            }
-            if (typeof trackGAButtonClick === 'function') {
-                trackGAButtonClick('proceed_button', 'step_1');
-            }
-            if (typeof trackClarityButtonClick === 'function') {
-                trackClarityButtonClick('proceed_button', 'step_1');
-            }
-            if (typeof trackHighValueInteraction === 'function') {
-                trackHighValueInteraction('landing_cta_click');
-            }
-            const button = this;
-            const ripple = document.createElement('span');
-            const rect = button.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.position = 'absolute';
-            ripple.style.borderRadius = '50%';
-            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
-            ripple.style.transform = 'scale(0)';
-            ripple.style.animation = 'ripple 0.6s linear';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.style.width = size + 'px';
-            ripple.style.height = size + 'px';
-            
-            button.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
+        // Add click ripple effect to buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const button = this;
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.width = size + 'px';
+                ripple.style.height = size + 'px';
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
         });
 
         // CSS for ripple animation
@@ -523,6 +1004,50 @@
             }
         `;
         document.head.appendChild(style);
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0px)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply animation to sections
+        document.querySelectorAll('section').forEach((section, index) => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.6s ease';
+            observer.observe(section);
+        });
+
+        // Track scroll depth
+        let maxScroll = 0;
+        window.addEventListener('scroll', () => {
+            const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+            if (scrollPercent > maxScroll) {
+                maxScroll = scrollPercent;
+                if (maxScroll >= 25 && typeof trackGAScrollDepth === 'function') {
+                    trackGAScrollDepth('25_percent', 'complete_single_page');
+                }
+                if (maxScroll >= 50 && typeof trackGAScrollDepth === 'function') {
+                    trackGAScrollDepth('50_percent', 'complete_single_page');
+                }
+                if (maxScroll >= 75 && typeof trackGAScrollDepth === 'function') {
+                    trackGAScrollDepth('75_percent', 'complete_single_page');
+                }
+                if (maxScroll >= 90 && typeof trackGAScrollDepth === 'function') {
+                    trackGAScrollDepth('90_percent', 'complete_single_page');
+                }
+            }
+        });
     </script>
 </body>
 </html>
