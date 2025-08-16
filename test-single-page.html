@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Te suena conocido? | Ignacio Blanco</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Microsoft Clarity -->
+    <script src="microsoft-clarity.js"></script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
+    <script src="google-analytics.js"></script>
+    
+    <!-- Meta Pixel Code -->
+    <script src="meta-pixel.js"></script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1010716157553975&ev=PageView&noscript=1"
+    /></noscript>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-badge {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 30px;
+            padding: 12px 24px;
+            display: inline-block;
+            margin-bottom: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 40px;
+            font-weight: 500;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+            color: #10b981;
+        }
+
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 2px;
+            text-shadow: -2px 0 #10b981;
+            top: 0;
+            color: #10b981;
+            background: #0a0a0a;
+            overflow: hidden;
+            clip: rect(0, 900px, 0, 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+            opacity: 0.8;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 31px, 0); }
+            25% { clip: rect(70px, 9999px, 71px, 0); }
+            50% { clip: rect(30px, 9999px, 31px, 0); }
+            75% { clip: rect(50px, 9999px, 51px, 0); }
+            100% { clip: rect(88px, 9999px, 89px, 0); }
+        }
+
+        /* Problem Section */
+        .problem-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 60px;
+            border: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .problem-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #ff6b6b;
+            text-align: center;
+        }
+
+        .problem-list {
+            list-style: none;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .problem-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .problem-item:last-child {
+            border-bottom: none;
+        }
+
+        .problem-bullet {
+            color: #ff6b6b;
+            font-weight: 700;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .problem-text {
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .solution-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #10b981;
+        }
+
+        .solution-subtitle {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .social-proof-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 20px;
+        }
+
+        .clients-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            opacity: 0.8;
+        }
+
+        .client-logo {
+            height: 40px;
+            filter: grayscale(100%) brightness(0.7);
+            transition: all 0.3s ease;
+        }
+
+        .client-logo:hover {
+            filter: grayscale(0%) brightness(1);
+        }
+
+        /* Offer Section */
+        .offer-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 0 0 12px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .offer-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 20px 0;
+            color: #ffffff;
+        }
+
+        .offer-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .guarantee {
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #cccccc;
+        }
+
+        .contact-button {
+            background: #25d366;
+            color: #ffffff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .contact-button:hover {
+            background: #20c75a;
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Background effects */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 15px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .problem-section,
+            .offer-section {
+                padding: 30px 20px;
+            }
+            
+            .clients-logos {
+                gap: 15px;
+            }
+            
+            .client-logo {
+                height: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 28px;
+            }
+            
+            .offer-title {
+                font-size: 24px;
+            }
+            
+            .cta-button {
+                padding: 18px 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge">
+                Sin formularios • Sin spam • Solo resultados
+            </div>
+            <h1 class="hero-title">
+                Marketing que <span class="pulse" style="color: #10b981;">SÍ funciona</span>
+            </h1>
+            <p class="hero-subtitle">
+                El 90% de mis clientes no necesitaba más tráfico. Necesitaban menos, pero mejor.
+            </p>
+        </section>
+
+        <!-- Problem Section -->
+        <section class="problem-section">
+            <h2 class="problem-title">¿Te suena conocido?</h2>
+            <ul class="problem-list">
+                <li class="problem-item">
+                    <span class="problem-bullet">×</span>
+                    <span class="problem-text">Mucho tráfico pero pocas ventas</span>
+                </li>
+                <li class="problem-item">
+                    <span class="problem-bullet">×</span>
+                    <span class="problem-text">Parten como avión y luego se desinflan</span>
+                </li>
+                <li class="problem-item">
+                    <span class="problem-bullet">×</span>
+                    <span class="problem-text">Invierten mucho pero no es rentable</span>
+                </li>
+                <li class="problem-item">
+                    <span class="problem-bullet">×</span>
+                    <span class="problem-text">No entiendes los números reales</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="solution-section">
+            <h2 class="solution-title">Hago las cosas distinto</h2>
+            <p class="solution-subtitle">
+                Estrategia basada en datos, enfoque en ROI y transparencia total en cada paso.
+            </p>
+        </section>
+
+        <!-- Social Proof -->
+        <section class="social-proof">
+            <h3 class="social-proof-title">Empresas que ya confían en mi trabajo:</h3>
+            <div class="clients-logos">
+                <img src="equifax_logo.png" alt="Equifax" class="client-logo">
+                <img src="universidad_de_los_andes_logo.png" alt="Universidad de los Andes" class="client-logo">
+                <img src="gemco_logo.png" alt="Gemco" class="client-logo">
+                <img src="cuina_logo.png" alt="Cuina" class="client-logo">
+                <img src="de_raiz_chile_logo.png" alt="De Raíz Chile" class="client-logo">
+            </div>
+        </section>
+
+        <!-- Offer Section -->
+        <section class="offer-section">
+            <div class="offer-badge">Oferta Especial</div>
+            <h2 class="offer-title">Análisis Estratégico Completo</h2>
+            <div class="offer-price">$97.000 CLP</div>
+            
+            <a href="https://wa.me/56950160966?text=Hola%20Nacho,%20quiero%20el%20análisis%20estratégico%20completo" class="cta-button">
+                Quiero mi análisis ahora
+            </a>
+            
+            <p class="guarantee">
+                ✓ Garantía de 30 días • ✓ Resultados medibles • ✓ Sin compromisos a largo plazo
+            </p>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <h3 class="contact-title">¿Prefieres hablar directamente?</h3>
+            <a href="https://wa.me/56950160966?text=Hola%20Nacho,%20quiero%20saber%20más%20sobre%20tus%20servicios" class="contact-button">
+                Escribir por WhatsApp
+            </a>
+        </section>
+    </div>
+
+    <script>
+        // Track page view
+        if (typeof trackFunnelProgress === 'function') {
+            trackFunnelProgress('single_page', 'landing_view');
+        }
+        if (typeof trackGAFunnelProgress === 'function') {
+            trackGAFunnelProgress('single_page', 'landing_view');
+        }
+        if (typeof trackClarityFunnelProgress === 'function') {
+            trackClarityFunnelProgress('single_page', 'landing_view');
+        }
+
+        // Track CTA clicks
+        document.querySelectorAll('.cta-button, .contact-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const buttonType = this.classList.contains('cta-button') ? 'main_cta' : 'whatsapp_contact';
+                
+                if (typeof trackFunnelProgress === 'function') {
+                    trackFunnelProgress('single_page_cta', buttonType);
+                }
+                if (typeof trackGAButtonClick === 'function') {
+                    trackGAButtonClick(buttonType, 'single_page');
+                }
+                if (typeof trackClarityButtonClick === 'function') {
+                    trackClarityButtonClick(buttonType, 'single_page');
+                }
+                if (typeof trackHighValueInteraction === 'function') {
+                    trackHighValueInteraction('single_page_conversion');
+                }
+            });
+        });
+
+        // Smooth scroll for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
