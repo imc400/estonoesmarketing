@@ -943,21 +943,21 @@
                     <div class="pack-options">
                         <div class="pack-option" onclick="selectPackMode('custom')">
                             <div class="pack-option-title">Cotizacion Personalizada</div>
-                            <div class="pack-option-desc">Selecciona horas y servicios a medida</div>
-                            <div class="pack-option-price">Desde $200.000/hora</div>
+                            <div class="pack-option-desc">100% Asesoria Online - Te enseño para que lo hagas tu</div>
+                            <div class="pack-option-price">$200.000/hora</div>
                         </div>
                         <div class="pack-option featured" onclick="selectPackMode('lanzamiento')">
                             <div class="pack-popular">MAS POPULAR</div>
                             <div class="pack-option-title">Pack Lanzamiento</div>
-                            <div class="pack-option-desc">12 horas en 4 semanas - Implementacion guiada + IA</div>
+                            <div class="pack-option-desc">Consultoria + Implementacion tecnica - 4 semanas</div>
                             <div class="pack-option-price">$1.800.000</div>
-                            <div class="pack-savings">Incluye implementacion de IA</div>
+                            <div class="pack-savings">Pixel, WhatsApp, IA y mas</div>
                         </div>
                         <div class="pack-option" onclick="selectPackMode('crecimiento')">
                             <div class="pack-option-title">Pack Crecimiento</div>
-                            <div class="pack-option-desc">30 horas en 8 semanas + Equipo intothecom.com completo</div>
+                            <div class="pack-option-desc">Implementacion completa - 3 meses con equipo</div>
                             <div class="pack-option-price">$4.200.000</div>
-                            <div class="pack-savings">IA + Equipo + Sistema de adquisicion</div>
+                            <div class="pack-savings">Lo hacemos nosotros - Done for you</div>
                         </div>
                     </div>
                     <div class="view-all-packs">
@@ -1037,6 +1037,25 @@
                         <span>Descuento por servicios deseleccionados:</span>
                         <span id="discountAmount" style="color: #10b981;">-$0</span>
                     </div>
+                    
+                    <!-- Manual Adjustments Section -->
+                    <div class="adjustment-section" style="margin-top: 20px; padding: 20px; background: rgba(255, 255, 255, 0.02); border-radius: 8px;">
+                        <div class="section-title" style="font-size: 16px; margin-bottom: 15px;">Ajustes Manuales</div>
+                        
+                        <div style="display: grid; grid-template-columns: 2fr 1fr 80px; gap: 10px; align-items: end; margin-bottom: 10px;">
+                            <div>
+                                <label class="deposit-label" style="font-size: 14px;">Descripción del ajuste</label>
+                                <input type="text" class="deposit-input" id="adjustmentDesc" placeholder="Ej: Descuento por referido, Servicio adicional, etc." style="padding: 10px; font-size: 14px;">
+                            </div>
+                            <div>
+                                <label class="deposit-label" style="font-size: 14px;">Monto (CLP)</label>
+                                <input type="number" class="deposit-input" id="adjustmentAmount" placeholder="Ej: -50000" style="padding: 10px; font-size: 14px;">
+                            </div>
+                            <button class="button-primary" onclick="addAdjustment()" style="height: 45px; min-width: auto; padding: 0 15px; font-size: 14px;">Agregar</button>
+                        </div>
+                        
+                        <div id="adjustmentsList"></div>
+                    </div>
                 </div>
 
                 <div class="total-section">
@@ -1103,6 +1122,7 @@
         let selectedServices = ['meta', 'google', 'website', 'email'];
         let currentPackMode = 'custom';
         let selectedPackData = null;
+        let manualAdjustments = [];
         let clientData = {
             name: '',
             company: '',
@@ -1141,6 +1161,57 @@
             updateCalculations();
         }
 
+        // Manual adjustments functions
+        function addAdjustment() {
+            const desc = document.getElementById('adjustmentDesc').value.trim();
+            const amount = parseFloat(document.getElementById('adjustmentAmount').value) || 0;
+            
+            if (!desc || amount === 0) {
+                alert('Por favor, ingresa una descripción y un monto válido.');
+                return;
+            }
+            
+            manualAdjustments.push({
+                description: desc,
+                amount: amount,
+                id: Date.now() // Simple ID for removal
+            });
+            
+            // Clear inputs
+            document.getElementById('adjustmentDesc').value = '';
+            document.getElementById('adjustmentAmount').value = '';
+            
+            updateAdjustmentsList();
+            updateCalculations();
+        }
+        
+        function removeAdjustment(id) {
+            manualAdjustments = manualAdjustments.filter(adj => adj.id !== id);
+            updateAdjustmentsList();
+            updateCalculations();
+        }
+        
+        function updateAdjustmentsList() {
+            const listContainer = document.getElementById('adjustmentsList');
+            
+            if (manualAdjustments.length === 0) {
+                listContainer.innerHTML = '';
+                return;
+            }
+            
+            listContainer.innerHTML = manualAdjustments.map(adj => `
+                <div class="breakdown-item" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <span>${adj.description}</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="color: ${adj.amount >= 0 ? '#10b981' : '#ff6b6b'}; font-family: 'JetBrains Mono', monospace;">
+                            ${adj.amount >= 0 ? '+' : ''}${formatCurrency(adj.amount)}
+                        </span>
+                        <button onclick="removeAdjustment(${adj.id})" style="background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 4px; padding: 2px 8px; font-size: 12px; cursor: pointer;">×</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         // Pack selection data
         const packData = {
             estrategia: {
@@ -1155,14 +1226,14 @@
                 hours: 12,
                 price: 1800000,
                 duration: '4 semanas',
-                description: 'Implementacion guiada + IA en su negocio'
+                description: 'Consultoria + Implementacion tecnica (pixel, WhatsApp, IA)'
             },
             crecimiento: {
                 name: 'Pack Crecimiento',
                 hours: 30,
                 price: 4200000,
-                duration: '8 semanas',
-                description: 'Equipo completo intothecom.com + IA + Sistema de adquisicion'
+                duration: '3 meses',
+                description: 'Implementacion completa Done-for-you con equipo intothecom.com'
             }
         };
 
@@ -1225,6 +1296,10 @@
                 subtotal = selectedHoursCount * hourlyRate;
                 totalAfterDiscount = subtotal;
             }
+            
+            // Add manual adjustments
+            const totalAdjustments = manualAdjustments.reduce((sum, adj) => sum + adj.amount, 0);
+            totalAfterDiscount += totalAdjustments;
             
             // Always hide discount row since we no longer offer discounts
             document.getElementById('discountRow').style.display = 'none';
@@ -1353,6 +1428,7 @@
             selectedServices = ['meta', 'google', 'website', 'email'];
             currentPackMode = 'custom';
             selectedPackData = null;
+            manualAdjustments = [];
             
             // Reset client data
             clientData = {
@@ -1369,6 +1445,11 @@
             document.getElementById('clientPhone').value = '';
             document.getElementById('depositAmount').value = '';
             document.getElementById('depositSummary').style.display = 'none';
+            
+            // Clear manual adjustments
+            document.getElementById('adjustmentDesc').value = '';
+            document.getElementById('adjustmentAmount').value = '';
+            updateAdjustmentsList();
             
             // Reset pack selection
             document.querySelectorAll('.pack-option').forEach(option => {
@@ -1585,6 +1666,10 @@
                 totalAfterDiscount = subtotal;
             }
             
+            // Add manual adjustments
+            const totalAdjustments = manualAdjustments.reduce((sum, adj) => sum + adj.amount, 0);
+            totalAfterDiscount += totalAdjustments;
+            
             const finalTotal = Math.max(0, totalAfterDiscount - creditApplied);
             
             // Get selected service names
@@ -1762,15 +1847,16 @@
                 
                 if (currentPackMode === 'lanzamiento') {
                     const lanzamientoDetails = [
-                        '✓ Analisis completo de situacion actual',
-                        '✓ Implementacion de Meta Ads y Google Ads',
-                        '✓ Configuracion de sitio web optimizado',
-                        '✓ Setup completo de email marketing',
-                        '✓ Implementacion de Inteligencia Artificial en procesos',
-                        '✓ Capacitacion en herramientas de IA para el negocio',
+                        '✓ Consultoria + implementaciones tecnicas especificas',
+                        '✓ Implementacion de pixel de Facebook en sitio web',
+                        '✓ Configuracion de boton de WhatsApp',
+                        '✓ Setup de herramientas de IA para el negocio',
+                        '✓ Configuracion de Meta Ads y Google Ads',
+                        '✓ Optimizacion tecnica de sitio web',
+                        '✓ Setup de email marketing automatizado',
                         '✓ Seguimiento semanal durante 4 semanas',
-                        '✓ Reportes detallados de progreso',
-                        '✓ Soporte directo via WhatsApp'
+                        '✓ Implementacion de tracking y analytics',
+                        '✓ Soporte tecnico directo via WhatsApp'
                     ];
                     
                     lanzamientoDetails.forEach(item => {
@@ -1780,18 +1866,19 @@
                     
                 } else if (currentPackMode === 'crecimiento') {
                     const crecimientoDetails = [
-                        '✓ Todo lo incluido en Pack Lanzamiento',
-                        '✓ Equipo completo de intothecom.com asignado',
+                        '✓ IMPLEMENTACION COMPLETA - DONE FOR YOU',
+                        '✓ Equipo completo de intothecom.com (3 meses)',
                         '✓ Creacion y edicion de contenido profesional',
-                        '✓ Diseno grafico y multimedia',
+                        '✓ Diseno grafico y multimedia especializado',
                         '✓ Gestion completa de redes sociales',
                         '✓ Sistema automatizado de adquisicion de clientes',
                         '✓ Implementacion avanzada de IA personalizada',
                         '✓ Integraciones con CRM y herramientas avanzadas',
-                        '✓ Analisis y optimizacion continua',
+                        '✓ Campanas de Meta y Google Ads gestionadas',
+                        '✓ Optimizacion continua y A/B testing',
                         '✓ Reportes ejecutivos semanales',
-                        '✓ Acceso directo al equipo completo',
-                        '✓ Soporte prioritario 24/7'
+                        '✓ Acceso directo al equipo especializado',
+                        '✓ Soporte prioritario y seguimiento 24/7'
                     ];
                     
                     crecimientoDetails.forEach(item => {
@@ -1819,54 +1906,54 @@
                     if (service === 'meta') {
                         doc.setFont('helvetica', 'bold');
                         doc.setTextColor(22, 160, 133);
-                        doc.text('Meta Ads (Facebook & Instagram):', 20, yPos);
+                        doc.text('ASESORIA en Meta Ads (Facebook & Instagram):', 20, yPos);
                         yPos += 8;
                         doc.setFont('helvetica', 'normal');
                         doc.setTextColor(0, 0, 0);
                         serviceDetails = [
-                            '• Analisis y optimizacion de cuenta',
-                            '• Estrategia de audiencias personalizada',
-                            '• Configuracion de campanas efectivas',
-                            '• Reportes y seguimiento de resultados'
+                            '• Analisis de cuenta actual y recomendaciones',
+                            '• Te enseño estrategia de audiencias paso a paso',
+                            '• Guia para configurar campanas efectivas',
+                            '• Como interpretar reportes y optimizar'
                         ];
                     } else if (service === 'google') {
                         doc.setFont('helvetica', 'bold');
                         doc.setTextColor(22, 160, 133);
-                        doc.text('Google Ads:', 20, yPos);
+                        doc.text('ASESORIA en Google Ads:', 20, yPos);
                         yPos += 8;
                         doc.setFont('helvetica', 'normal');
                         doc.setTextColor(0, 0, 0);
                         serviceDetails = [
-                            '• Investigacion de palabras clave',
-                            '• Estructura optimizada de campanas',
-                            '• Configuracion de conversiones',
-                            '• Optimizacion de Quality Score'
+                            '• Investigacion de palabras clave y como hacerlo',
+                            '• Te explico como estructurar campanas',
+                            '• Guia para configurar conversiones tu mismo',
+                            '• Como mejorar Quality Score y reducir costos'
                         ];
                     } else if (service === 'website') {
                         doc.setFont('helvetica', 'bold');
                         doc.setTextColor(22, 160, 133);
-                        doc.text('Sitio Web y Conversiones:', 20, yPos);
+                        doc.text('ASESORIA en Sitio Web y Conversiones:', 20, yPos);
                         yPos += 8;
                         doc.setFont('helvetica', 'normal');
                         doc.setTextColor(0, 0, 0);
                         serviceDetails = [
-                            '• Analisis de UX/UI y optimizaciones',
-                            '• Implementacion de tracking avanzado',
-                            '• Optimizacion para conversiones',
-                            '• Mejoras en velocidad y SEO'
+                            '• Analisis de UX/UI con recomendaciones especificas',
+                            '• Te enseño que tracking implementar y como',
+                            '• Plan de optimizaciones que puedes hacer tu',
+                            '• Mejoras de velocidad y SEO que debes aplicar'
                         ];
                     } else if (service === 'email') {
                         doc.setFont('helvetica', 'bold');
                         doc.setTextColor(22, 160, 133);
-                        doc.text('Email Marketing:', 20, yPos);
+                        doc.text('ASESORIA en Email Marketing:', 20, yPos);
                         yPos += 8;
                         doc.setFont('helvetica', 'normal');
                         doc.setTextColor(0, 0, 0);
                         serviceDetails = [
-                            '• Estrategia de email marketing completa',
-                            '• Automatizaciones y secuencias',
-                            '• Diseno de emails optimizados',
-                            '• Metricas y optimizacion continua'
+                            '• Estrategia completa que puedes implementar',
+                            '• Te enseño a crear automatizaciones efectivas',
+                            '• Guia para disenar emails que conviertan',
+                            '• Como medir y optimizar tus campanas tu mismo'
                         ];
                     }
                     
@@ -1876,6 +1963,29 @@
                     });
                     yPos += 5;
                 });
+            }
+            
+            // Manual adjustments section
+            if (manualAdjustments.length > 0) {
+                checkPageBreak(60);
+                yPos += 20;
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(22, 160, 133);
+                doc.text('AJUSTES APLICADOS:', 20, yPos);
+                
+                yPos += 15;
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(0, 0, 0);
+                
+                manualAdjustments.forEach(adj => {
+                    const isPositive = adj.amount >= 0;
+                    doc.setTextColor(isPositive ? 22, 160, 133 : 255, 107, 107);
+                    doc.text(`${isPositive ? '+' : ''}${formatCurrency(adj.amount)} - ${adj.description}`, 20, yPos);
+                    yPos += 8;
+                });
+                doc.setTextColor(0, 0, 0); // Reset color
             }
             
             // Special offer
