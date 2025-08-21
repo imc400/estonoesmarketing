@@ -2048,13 +2048,46 @@
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(0, 0, 0);
-            const methodology = [
-                '• Asesoria 100% online via videollamada',
-                '• Revision en vivo de tu situacion actual',
-                '• Recomendaciones especificas y accionables',
-                '• Plan de implementacion paso a paso',
-                '• Seguimiento post-asesoria incluido'
-            ];
+            
+            let methodology = [];
+            
+            if (currentPackMode === 'custom') {
+                // Custom quotation methodology - 100% advisory
+                methodology = [
+                    '• Asesoria 100% online via videollamada',
+                    '• Revision en vivo de tu situacion actual',
+                    '• Recomendaciones especificas y accionables',
+                    '• Plan de implementacion paso a paso para que lo hagas tu',
+                    '• Seguimiento post-asesoria incluido'
+                ];
+            } else if (currentPackMode === 'lanzamiento') {
+                // Lanzamiento methodology - consultation + technical implementations
+                methodology = [
+                    '• Consultoria online + implementaciones tecnicas',
+                    '• Revision completa de situacion actual',
+                    '• Implementamos configuraciones tecnicas especificas',
+                    '• Seguimiento semanal durante 4 semanas',
+                    '• Te capacitamos en el uso de las herramientas',
+                    '• Soporte directo para resolver dudas'
+                ];
+            } else if (currentPackMode === 'crecimiento') {
+                // Crecimiento methodology - complete done-for-you
+                methodology = [
+                    '• IMPLEMENTACION COMPLETA por nuestro equipo',
+                    '• Equipo dedicado de intothecom.com asignado',
+                    '• Nosotros ejecutamos todas las tareas',
+                    '• Gestion completa de campanas y contenido',
+                    '• Reportes semanales de progreso y resultados',
+                    '• Optimizacion continua durante 3 meses',
+                    '• Soporte prioritario 24/7'
+                ];
+            } else {
+                // Default fallback
+                methodology = [
+                    '• Metodologia personalizada segun el servicio',
+                    '• Seguimiento y soporte incluido'
+                ];
+            }
             
             methodology.forEach(item => {
                 doc.text(item, 20, yPos);
