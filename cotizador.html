@@ -1986,7 +1986,11 @@
                 
                 manualAdjustments.forEach(adj => {
                     const isPositive = adj.amount >= 0;
-                    doc.setTextColor(isPositive ? 22, 160, 133 : 255, 107, 107);
+                    if (isPositive) {
+                        doc.setTextColor(22, 160, 133);
+                    } else {
+                        doc.setTextColor(255, 107, 107);
+                    }
                     doc.text(`${isPositive ? '+' : ''}${formatCurrency(adj.amount)} - ${adj.description}`, 20, yPos);
                     yPos += 8;
                 });
