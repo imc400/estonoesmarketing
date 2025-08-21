@@ -1142,6 +1142,64 @@
             }).format(amount);
         }
 
+        // Send PDF to Google Drive
+        async function savePDFToDrive() {
+            try {
+                // Calculate final values
+                let subtotal, totalAfterDiscount;
+                
+                if (currentPackMode !== 'custom' && selectedPackData) {
+                    subtotal = selectedPackData.price;
+                    totalAfterDiscount = subtotal;
+                } else {
+                    subtotal = selectedHoursCount * hourlyRate;
+                    totalAfterDiscount = subtotal;
+                }
+                
+                // Add manual adjustments
+                const totalAdjustments = manualAdjustments.reduce((sum, adj) => sum + adj.amount, 0);
+                totalAfterDiscount += totalAdjustments;
+                
+                const finalTotal = Math.max(0, totalAfterDiscount - creditApplied);
+                
+                // Prepare data to send
+                const dataToSend = {
+                    action: 'savePDF',
+                    clientName: clientData.name,
+                    clientCompany: clientData.company,
+                    clientEmail: clientData.email,
+                    clientPhone: clientData.phone,
+                    serviceMode: currentPackMode === 'custom' ? 'Cotización Personalizada' : 
+                                currentPackMode === 'lanzamiento' ? 'Pack Lanzamiento' : 
+                                currentPackMode === 'crecimiento' ? 'Pack Crecimiento' : currentPackMode,
+                    selectedHours: selectedHoursCount,
+                    selectedServices: selectedServices,
+                    deposit: currentDeposit,
+                    creditApplied: creditApplied,
+                    subtotal: subtotal,
+                    manualAdjustments: manualAdjustments,
+                    finalTotal: finalTotal,
+                    packDescription: selectedPackData ? selectedPackData.description : 'Cotización personalizada por horas'
+                };
+
+                // Send to Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dataToSend)
+                });
+
+                return true; // Success (no-cors mode doesn't allow reading response)
+                
+            } catch (error) {
+                console.error('Error guardando PDF en Drive:', error);
+                return false;
+            }
+        }
+
         // Send data to Google Sheets
         async function sendToGoogleSheets() {
             try {
@@ -1713,19 +1771,33 @@
         async function downloadQuote() {
             // Send data to Google Sheets first
             console.log('Enviando datos a Google Sheets...');
-            const success = await sendToGoogleSheets();
+            const sheetsSuccess = await sendToGoogleSheets();
             
-            // Show success message
-            if (success) {
+            if (sheetsSuccess) {
                 console.log('✅ Datos enviados correctamente a Google Sheets');
             } else {
                 console.warn('⚠️ Posible error al enviar datos a Google Sheets');
             }
             
-            // Add small delay to ensure library is loaded, then download PDF
+            // Save PDF to Google Drive automatically
+            console.log('Guardando PDF en Google Drive...');
+            const driveSuccess = await savePDFToDrive();
+            
+            if (driveSuccess) {
+                console.log('✅ PDF guardado correctamente en Google Drive');
+                // Show success message to user
+                const clientName = clientData.name || 'Cliente';
+                const fileName = `${clientName.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_')}_Cotizacion.pdf`;
+                alert(`✅ PDF guardado automáticamente en Google Drive como: ${fileName}`);
+            } else {
+                console.warn('⚠️ Error al guardar PDF en Google Drive');
+                alert('⚠️ El PDF no pudo guardarse automáticamente en Google Drive, pero se descargará normalmente.');
+            }
+            
+            // Continue with local download as before
             setTimeout(function() {
                 downloadQuoteInternal();
-            }, 100);
+            }, 500); // Increased delay slightly for better UX
         }
 
         function downloadQuoteInternal() {
