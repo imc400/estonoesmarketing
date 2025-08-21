@@ -982,7 +982,7 @@
                 <!-- Services Included -->
                 <div class="services-section">
                     <div class="section-title">Servicios Incluidos</div>
-                    <div class="services-description">Todos los servicios están incluidos. Deselecciona para obtener 10% de descuento por servicio.</div>
+                    <div class="services-description">Selecciona los servicios que necesitas para tu proyecto.</div>
                     
                     <div class="service-checkboxes">
                         <div class="service-item-wrapper">
@@ -1219,27 +1219,15 @@
             if (currentPackMode !== 'custom' && selectedPackData) {
                 // Pack pricing - fixed price, no hourly calculation
                 subtotal = selectedPackData.price;
-                totalAfterDiscount = subtotal; // Packs don't have service deselection discounts
-                
-                // Hide service discount for packs
-                document.getElementById('discountRow').style.display = 'none';
+                totalAfterDiscount = subtotal;
             } else {
-                // Custom pricing
+                // Custom pricing - no more discounts for deselected services
                 subtotal = selectedHoursCount * hourlyRate;
-                const totalServices = 4;
-                const deselectedServices = totalServices - selectedServices.length;
-                const discountPercentage = deselectedServices * 10;
-                const discountAmount = (subtotal * discountPercentage) / 100;
-                totalAfterDiscount = subtotal - discountAmount;
-                
-                // Show/hide discount for custom
-                if (discountAmount > 0) {
-                    document.getElementById('discountRow').style.display = 'flex';
-                    document.getElementById('discountAmount').textContent = '-' + formatCurrency(discountAmount);
-                } else {
-                    document.getElementById('discountRow').style.display = 'none';
-                }
+                totalAfterDiscount = subtotal;
             }
+            
+            // Always hide discount row since we no longer offer discounts
+            document.getElementById('discountRow').style.display = 'none';
             
             const finalTotal = Math.max(0, totalAfterDiscount - creditApplied);
             
@@ -1592,13 +1580,9 @@
                 subtotal = selectedPackData.price;
                 totalAfterDiscount = subtotal;
             } else {
-                // Custom pricing
+                // Custom pricing - no more discounts for deselected services
                 subtotal = selectedHoursCount * hourlyRate;
-                const totalServices = 4;
-                const deselectedServices = totalServices - selectedServices.length;
-                discountPercentage = deselectedServices * 10;
-                discountAmount = (subtotal * discountPercentage) / 100;
-                totalAfterDiscount = subtotal - discountAmount;
+                totalAfterDiscount = subtotal;
             }
             
             const finalTotal = Math.max(0, totalAfterDiscount - creditApplied);
@@ -1744,7 +1728,7 @@
                 yPos += 8;
             });
             
-            // Services not included
+            // Services not included (for informational purposes only - no discount)
             if (deselectedServiceNames.length > 0) {
                 yPos += 10;
                 doc.setFont('helvetica', 'bold');
@@ -1758,11 +1742,6 @@
                     doc.text(`✗ ${service}`, 25, yPos);
                     yPos += 8;
                 });
-                
-                yPos += 10;
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(22, 160, 133);
-                doc.text(`DESCUENTO APLICADO: ${discountPercentage}% (${formatCurrency(discountAmount)})`, 20, yPos);
             }
             
             // Special offer
