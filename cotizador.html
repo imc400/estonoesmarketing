@@ -1076,9 +1076,6 @@
                     <button class="button-secondary" onclick="generateNewQuote()">
                         Nueva Cotización
                     </button>
-                    <button class="button-secondary" onclick="testGoogleSheets()" style="font-size: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981;">
-                        Test Google Sheets
-                    </button>
                 </div>
             </div>
         </div>
@@ -1716,24 +1713,19 @@
         async function downloadQuote() {
             // Send data to Google Sheets first
             console.log('Enviando datos a Google Sheets...');
-            await sendToGoogleSheets();
+            const success = await sendToGoogleSheets();
+            
+            // Show success message
+            if (success) {
+                console.log('✅ Datos enviados correctamente a Google Sheets');
+            } else {
+                console.warn('⚠️ Posible error al enviar datos a Google Sheets');
+            }
             
             // Add small delay to ensure library is loaded, then download PDF
             setTimeout(function() {
                 downloadQuoteInternal();
             }, 100);
-        }
-
-        // Test function for Google Sheets integration
-        async function testGoogleSheets() {
-            console.log('Probando envío a Google Sheets...');
-            const success = await sendToGoogleSheets();
-            
-            if (success) {
-                alert('✅ Datos enviados correctamente a Google Sheets!\nRevisa tu hoja de cálculo.');
-            } else {
-                alert('❌ Error al enviar datos.\nRevisa la consola del navegador (F12) para más detalles.');
-            }
         }
 
         function downloadQuoteInternal() {
