@@ -1194,6 +1194,11 @@
         function updateAdjustmentsList() {
             const listContainer = document.getElementById('adjustmentsList');
             
+            // Safety check - element might not exist if we're not on quotation screen
+            if (!listContainer) {
+                return;
+            }
+            
             if (manualAdjustments.length === 0) {
                 listContainer.innerHTML = '';
                 return;
@@ -1206,7 +1211,7 @@
                         <span style="color: ${adj.amount >= 0 ? '#10b981' : '#ff6b6b'}; font-family: 'JetBrains Mono', monospace;">
                             ${adj.amount >= 0 ? '+' : ''}${formatCurrency(adj.amount)}
                         </span>
-                        <button onclick="removeAdjustment(${adj.id})" style="background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 4px; padding: 2px 8px; font-size: 12px; cursor: pointer;">×</button>
+                        <button onclick="removeAdjustment(${adj.id})" style="background: none; border: 1px solid #ff6b6b; color: #ff6b6b; border-radius: 4px; padding: 2px 8px; cursor: pointer;">×</button>
                     </div>
                 </div>
             `).join('');
