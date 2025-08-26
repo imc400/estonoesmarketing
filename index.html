@@ -507,15 +507,37 @@
         </div>
     </section>
 
+    <!-- Client Showcase - Lucirse -->
+    <section class="section">
+        <div class="container">
+            <div class="truth-bomb">
+                <span class="truth-emoji">🤏</span>
+                <h2 class="truth-title">Permiso... te vengo a robar un segundito</h2>
+                <div class="truth-content">
+                    <strong>Vengo a lucirme...</strong><br><br>
+                    
+                    <div style="margin: 30px 0;">
+                        <img src="Logos Clientes.png" alt="Logos de clientes de Nacho" style="width: 100%; max-width: 600px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" onclick="trackLogosClick()">
+                    </div>
+                    
+                    Estas son algunas de las marcas que tienen algo en común:<br>
+                    <strong>Soy yo el que les lleva el marketing digital.</strong><br><br>
+                    
+                    <em style="color: #10b981;">Sorry, en algún momento del embudo tenía que agregar el "social proof".<br>
+                    Jaja ok, ahora ya sabes que tengo experiencia, puedes seguir bajando.</em>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Truth Bomb 4: Psychology -->
     <section class="section">
         <div class="container">
             <div class="truth-bomb psychology">
-                <span class="truth-emoji">🎯</span>
-                <h2 class="truth-title">¿Te das cuenta?</h2>
+                <span class="truth-emoji">🤯</span>
+                <h2 class="truth-title">¿Te diste cuenta?</h2>
                 <div class="truth-content">
-                    Acabas de scrollear 3 secciones completas<br>
-                    después de que te expliqué que te estoy persuadiendo.<br><br>
+                    Seguiste scrolleando después que te dije que te estoy persuadiendo.<br><br>
                     
                     Eso significa que <strong>bajaste tus defensas conscientemente</strong><br>
                     sabiendo que estás en un embudo de ventas.<br><br>
@@ -527,19 +549,37 @@
         </div>
     </section>
 
-    <!-- Clients Proof -->
-    <section class="clients-section">
+    <!-- Personal Introduction - Before CTA -->
+    <section class="section">
         <div class="container">
-            <h2 class="clients-title">Algunas marcas que han confiado en mí</h2>
-            <div class="clients-grid">
-                <div class="client-logo"><img src="BWild.avif" alt="BWild" loading="lazy"></div>
-                <div class="client-logo"><img src="Granjamagdalena.avif" alt="Granja Magdalena" loading="lazy"></div>
-                <div class="client-logo"><img src="Puntiferrer.avif" alt="Puntiferrer" loading="lazy"></div>
-                <div class="client-logo"><img src="Rebels.avif" alt="Rebels" loading="lazy"></div>
-                <div class="client-logo"><img src="Toke.avif" alt="Toke" loading="lazy"></div>
-                <div class="client-logo"><img src="equifax_logo.png" alt="Equifax" loading="lazy"></div>
-                <div class="client-logo"><img src="universidad_de_los_andes_logo.png" alt="Universidad de los Andes" loading="lazy"></div>
-                <div class="client-logo"><img src="gemco_logo.png" alt="Gemco" loading="lazy"></div>
+            <div class="truth-bomb">
+                <span class="truth-emoji">👋</span>
+                <h2 class="truth-title">Estás a punto de llegar a mi número de WhatsApp</h2>
+                <div class="truth-content">
+                    Antes de eso, quiero que sepas quién soy y qué hago.<br><br>
+                    
+                    <strong>Soy el fundador de:</strong><br>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin: 30px 0; flex-wrap: wrap;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; min-width: 150px; text-align: center;">
+                            <div style="font-size: 18px; font-weight: bold; color: #10b981;">Intothecom</div>
+                            <div style="font-size: 12px; color: #888; margin-top: 5px;">Agencia Marketing Digital</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; min-width: 150px; text-align: center;">
+                            <div style="font-size: 18px; font-weight: bold; color: #10b981;">Datapify</div>
+                            <div style="font-size: 12px; color: #888; margin-top: 5px;">Software Marketing Digital</div>
+                        </div>
+                    </div>
+                    
+                    <strong>Y también soy profesor del Diplomado de Marketing Digital de:</strong><br>
+                    <div style="margin: 20px 0; display: flex; justify-content: center;">
+                        <img src="universidad_de_los_andes_logo.png" alt="Universidad de los Andes" style="height: 60px; object-fit: contain; filter: brightness(1.2);">
+                    </div>
+                    
+                    Si te interesa <strong>aumentar tus ventas online</strong>,<br>
+                    en el siguiente paso me puedes escribir.<br><br>
+                    
+                    <em style="color: #ff6b6b; font-size: 18px;">Te espero... sólo si estás <strong>realmente preparado</strong>.</em>
+                </div>
             </div>
         </div>
     </section>
@@ -642,6 +682,32 @@
             revealTruthBombs();
             checkTreasureUnlock();
         });
+
+        // Track logos showcase click
+        window.trackLogosClick = function() {
+            // Meta Pixel tracking
+            if (typeof fbq === 'function') {
+                fbq('track', 'ViewContent', {
+                    content_name: 'client_logos_showcase',
+                    content_category: 'social_proof',
+                    source: 'scroll_funnel'
+                });
+            }
+            
+            // Google Analytics tracking
+            if (typeof trackGAButtonClick === 'function') {
+                trackGAButtonClick('client_logos_showcase', 'social_proof_section');
+            }
+            
+            // Microsoft Clarity tracking
+            if (typeof trackClarityLogosEngagement === 'function') {
+                trackClarityLogosEngagement();
+            }
+            
+            if (typeof trackHighValueInteraction === 'function') {
+                trackHighValueInteraction('client_logos_engagement');
+            }
+        };
 
         // Track CTA clicks
         document.getElementById('finalCTA').addEventListener('click', function(e) {
