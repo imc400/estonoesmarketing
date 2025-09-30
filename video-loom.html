@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Exclusivo - Esto NO es Marketing</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Matrix Background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* VIP Badge */
+        .vip-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: 2px solid #10b981;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(16, 185, 129, 0.8);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Main Title */
+        .title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #10b981, #ffffff, #10b981);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #cccccc;
+            margin-bottom: 50px;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .benefit-card {
+            background: rgba(16, 185, 129, 0.05);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: rotate-bg 8s linear infinite;
+        }
+
+        @keyframes rotate-bg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .benefit-card:hover {
+            border-color: #10b981;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .benefit-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: #10b981;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .benefit-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .benefit-description {
+            font-size: 15px;
+            color: #999;
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Exclusivity Box */
+        .exclusivity-box {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid #ff6b6b;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            text-align: center;
+        }
+
+        .exclusivity-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .exclusivity-text {
+            font-size: 18px;
+            color: #cccccc;
+            line-height: 1.8;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .exclusivity-text strong {
+            color: #ffffff;
+        }
+
+        /* Stats Counter */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 50px 0;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: #10b981;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Bottom CTA */
+        .bottom-message {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .bottom-message p {
+            font-size: 20px;
+            color: #10b981;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .exclusivity-title {
+                font-size: 22px;
+            }
+
+            .exclusivity-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Background -->
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+
+    <div class="container">
+        <!-- VIP Badge -->
+        <div style="text-align: center;">
+            <div class="vip-badge">ACCESO EXCLUSIVO</div>
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="title" style="text-align: center;">
+            Esto es para ti
+        </h1>
+
+        <p class="subtitle" style="text-align: center;">
+            No todos llegan hasta acá. El hecho de que estés viendo esto significa que <strong style="color: #10b981;">eres diferente</strong>.
+        </p>
+
+        <!-- Stats -->
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">3%</div>
+                <div class="stat-label">Llegan a este paso</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Personalizado para ti</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0$</div>
+                <div class="stat-label">Costo del acceso</div>
+            </div>
+        </div>
+
+        <!-- Exclusivity Box -->
+        <div class="exclusivity-box">
+            <h2 class="exclusivity-title">¿Por qué tú?</h2>
+            <p class="exclusivity-text">
+                Porque <strong>tomaste acción</strong>. Porque no te conformaste con lo que todos hacen. Porque tienes la <strong style="color: #10b981;">curiosidad</strong> de aprender algo diferente.
+            </p>
+        </div>
+
+        <!-- Benefits Grid -->
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-number">01</div>
+                <div class="benefit-title">Acceso Inmediato</div>
+                <div class="benefit-description">
+                    Sin esperas, sin trámites. Todo lo que necesitas está a un click de distancia.
+                </div>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-number">02</div>
+                <div class="benefit-title">Comunidad Selecta</div>
+                <div class="benefit-description">
+                    Solo personas que piensan diferente. Que valoran la honestidad por sobre las promesas vacías.
+                </div>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-number">03</div>
+                <div class="benefit-title">Conocimiento Real</div>
+                <div class="benefit-description">
+                    Nada de teoría académica. Solo estrategias que funcionan en el mundo real, probadas con resultados medibles.
+                </div>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-number">04</div>
+                <div class="benefit-title">Soporte Directo</div>
+                <div class="benefit-description">
+                    Preguntas directas, respuestas directas. Sin rodeos, sin automatizaciones frías.
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Message -->
+        <div class="bottom-message">
+            <p>Este video es tu oportunidad de ver exactamente qué hay del otro lado.</p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // MATRIX BACKGROUND
+        // ============================================
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#10b981';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 40);
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
