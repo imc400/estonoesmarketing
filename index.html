@@ -1262,8 +1262,17 @@
 
                         <!-- Urgency Badge -->
                         <div style="display: inline-block; background: rgba(255, 107, 107, 0.2); border: 2px solid #ff6b6b; padding: 12px 30px; border-radius: 30px; font-size: 13px; color: #ff6b6b; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; animation: pulse-glow 1.5s ease-in-out infinite;">
-                            OFERTA POR TIEMPO LIMITADO
+                            OFERTA EXPIRA EN:
                         </div>
+
+                        <!-- Countdown Timer -->
+                        <div id="countdownTimer" style="font-size: 56px; font-weight: 800; color: #ff6b6b; font-family: 'JetBrains Mono', monospace; margin-bottom: 20px; text-shadow: 0 0 30px rgba(255, 107, 107, 0.6);">
+                            15:00
+                        </div>
+
+                        <p style="font-size: 16px; color: #ff6b6b; margin-bottom: 40px; font-weight: 600;">
+                            Esta oferta no volverá a estar disponible
+                        </p>
 
                         <h2 class="message-title" style="color: #10b981; margin-bottom: 20px; font-size: 52px;">Este es tu momento</h2>
 
@@ -1274,7 +1283,11 @@
                         <!-- Pricing Section -->
                         <div style="background: rgba(16, 185, 129, 0.05); border: 2px solid #10b981; border-radius: 20px; padding: 50px 40px; margin: 40px 0;">
 
-                            <h3 style="font-size: 28px; color: #ffffff; margin-bottom: 30px; font-family: 'Inter', sans-serif;">Acceso Completo a DATAPIFY</h3>
+                            <h3 style="font-size: 28px; color: #ffffff; margin-bottom: 30px; font-family: 'Inter', sans-serif;">Acceso Completo a ESTONOESMARKETING</h3>
+
+                            <p style="font-size: 16px; color: #10b981; margin-bottom: 35px; font-weight: 600;">
+                                Aprende TODO lo que viste en este embudo + mucho más
+                            </p>
 
                             <!-- Cursos Disponibles -->
                             <div style="text-align: left; max-width: 600px; margin: 0 auto 40px;">
@@ -1296,17 +1309,17 @@
 
                                 <div style="display: flex; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(255, 107, 107, 0.1); border-radius: 12px; border: 1px solid rgba(255, 107, 107, 0.3);">
                                     <div style="width: 8px; height: 8px; background: #ff6b6b; border-radius: 50%; margin-right: 15px; box-shadow: 0 0 10px #ff6b6b; animation: pulse-dot 1.5s ease-in-out infinite;"></div>
-                                    <div>
+                                    <div style="flex: 1;">
                                         <strong style="color: #ffffff; font-size: 18px;">Fundamentos Marketing Digital</strong>
-                                        <div style="font-size: 14px; color: #ff6b6b; margin-top: 5px; font-weight: 600;">PRÓXIMAMENTE</div>
+                                        <div style="font-size: 14px; color: #ff6b6b; margin-top: 5px; font-weight: 600;">SE PUBLICA: 30 OCTUBRE 2025</div>
                                     </div>
                                 </div>
 
                                 <div style="display: flex; align-items: center; padding: 15px; background: rgba(255, 107, 107, 0.1); border-radius: 12px; border: 1px solid rgba(255, 107, 107, 0.3);">
                                     <div style="width: 8px; height: 8px; background: #ff6b6b; border-radius: 50%; margin-right: 15px; box-shadow: 0 0 10px #ff6b6b; animation: pulse-dot 1.5s ease-in-out infinite;"></div>
-                                    <div>
+                                    <div style="flex: 1;">
                                         <strong style="color: #ffffff; font-size: 18px;">Inteligencia Artificial Aplicada</strong>
-                                        <div style="font-size: 14px; color: #ff6b6b; margin-top: 5px; font-weight: 600;">PRÓXIMAMENTE</div>
+                                        <div style="font-size: 14px; color: #ff6b6b; margin-top: 5px; font-weight: 600;">SE PUBLICA: 30 OCTUBRE 2025</div>
                                     </div>
                                 </div>
                             </div>
@@ -1332,7 +1345,7 @@
                             <!-- Urgency Warning -->
                             <div style="background: rgba(255, 107, 107, 0.15); border: 2px solid #ff6b6b; border-radius: 12px; padding: 25px; margin: 30px 0;">
                                 <p style="font-size: 17px; color: #ffffff; margin: 0; line-height: 1.6;">
-                                    <strong style="color: #ff6b6b;">⚠️ IMPORTANTE:</strong> Este precio de $17 USD es <strong>SÓLO para los early adopters</strong> que entran ahora. Cuando se publiquen los cursos restantes, el precio subirá a $197 USD y no podrás acceder a esta oferta nuevamente.
+                                    <strong style="color: #ff6b6b;">⚠️ IMPORTANTE:</strong> Este precio de $17 USD es <strong>SÓLO para los early adopters</strong> que entran ahora. El 30 de Octubre cuando se publiquen todos los cursos, el precio subirá a $197 USD y esta oferta <strong style="color: #ff6b6b;">NO volverá a estar disponible</strong>.
                                 </p>
                             </div>
 
@@ -2021,7 +2034,54 @@
             }, 300);
 
             trackEvent('step_6_viewed', 'final_offer');
+
+            // Start countdown timer (15 minutes)
+            startCountdown();
         });
+
+        // ============================================
+        // COUNTDOWN TIMER (15 MINUTES)
+        // ============================================
+        let countdownInterval;
+
+        function startCountdown() {
+            let timeLeft = 15 * 60; // 15 minutes in seconds
+            const timerDisplay = document.getElementById('countdownTimer');
+
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+
+                // Format: MM:SS
+                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                // Change color when time is running out
+                if (timeLeft <= 60) {
+                    timerDisplay.style.color = '#ff6b6b';
+                    timerDisplay.style.animation = 'pulse-glow 0.5s ease-in-out infinite';
+                } else if (timeLeft <= 300) {
+                    timerDisplay.style.color = '#ff6b6b';
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    timerDisplay.textContent = '00:00';
+                    timerDisplay.style.color = '#ff6b6b';
+
+                    // Opcional: deshabilitar CTAs cuando expire
+                    // document.getElementById('finalCTA').style.opacity = '0.5';
+                    // document.getElementById('finalCTA').style.pointerEvents = 'none';
+                } else {
+                    timeLeft--;
+                }
+            }
+
+            // Update immediately
+            updateTimer();
+
+            // Update every second
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
 
         // Track CTA clicks
         document.getElementById('finalCTA').addEventListener('click', function() {
