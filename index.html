@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Te suena conocido? | Ignacio Blanco</title>
-    
+    <title>Esto NO es Marketing</title>
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <!-- Tracking Scripts -->
     <script src="microsoft-clarity.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDNRWYXLDV"></script>
     <script src="google-analytics.js"></script>
     <script src="meta-pixel.js"></script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1010716157553975&ev=PageView&noscript=1"/></noscript>
-    
+
     <style>
         * {
             margin: 0;
@@ -23,794 +25,1870 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'JetBrains Mono', monospace;
             background: #0a0a0a;
             color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
+            overflow: hidden;
+            height: 100vh;
+            cursor: none;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #10b981;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.15s ease;
+            mix-blend-mode: difference;
         }
 
-        /* Scroll Progress Bar */
-        .scroll-progress {
+        .custom-cursor.clicking {
+            transform: scale(2);
+            background: rgba(16, 185, 129, 0.5);
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #10b981;
+            box-shadow: 0 0 20px #10b981;
+            width: 40px;
+            border-radius: 6px;
+        }
+
+        /* Step Container */
+        .step {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+            padding: 80px 0;
+            overflow-y: auto;
+        }
+
+        .step.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .step-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 0 40px;
+            margin: auto;
+        }
+
+        /* Matrix Background */
+        .matrix-bg {
             position: fixed;
             top: 0;
             left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, #10b981, #ff6b6b);
-            z-index: 1000;
-            transition: width 0.3s ease;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
         }
 
-        /* Sections */
-        .section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 60px 0;
-            position: relative;
-        }
-
-        /* Hero - Hook inicial */
-        .hero-section {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, transparent 100%);
+        /* ================================================
+           STEP 1: HERO
+        ================================================ */
+        .hero-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #10b981;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .hero-title {
-            font-size: 48px;
-            font-weight: 900;
-            margin-bottom: 40px;
-            line-height: 1.2;
-        }
-
-        .hero-subtitle {
-            font-size: 20px;
-            color: #e0e0e0;
-            margin-bottom: 50px;
-            font-weight: 400;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.4;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 25px 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            position: relative;
-        }
-
-        .hero-subtitle::before {
-            content: "💡";
-            position: absolute;
-            top: -15px;
-            left: 30px;
-            background: #0a0a0a;
-            padding: 0 10px;
-            font-size: 20px;
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #10b981;
-            font-size: 14px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
-        }
-
-        /* Truth Bomb Sections */
-        .truth-bomb {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            padding: 60px 40px;
-            margin: 100px 0;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            position: relative;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-
-        .truth-bomb.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .truth-bomb::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #10b981, #ff6b6b, #10b981);
-            border-radius: 20px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .truth-bomb:hover::before {
-            opacity: 0.3;
-        }
-
-        .truth-emoji {
-            font-size: 40px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .truth-title {
-            font-size: 32px;
+            font-size: 72px;
             font-weight: 800;
-            color: #10b981;
-            margin-bottom: 20px;
-        }
-
-        .truth-content {
-            font-size: 20px;
-            line-height: 1.5;
-            color: #e0e0e0;
-        }
-
-        /* Confession Styles */
-        .confession {
-            background: rgba(255, 107, 107, 0.1);
-            border: 2px solid rgba(255, 107, 107, 0.3);
-        }
-
-        .confession .truth-title {
-            color: #ff6b6b;
-        }
-
-        /* Meta Reveals */
-        .meta-reveal {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-        }
-
-        .meta-reveal .truth-title {
-            color: #ffd700;
-        }
-
-        /* Psychology Sections */
-        .psychology {
-            background: rgba(147, 51, 234, 0.1);
-            border: 2px solid rgba(147, 51, 234, 0.3);
-        }
-
-        .psychology .truth-title {
-            color: #9333ea;
-        }
-
-        /* Clients Proof */
-        .clients-section {
-            padding: 80px 0;
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        .clients-title {
-            font-size: 24px;
-            margin-bottom: 40px;
-            color: #ffffff;
-            text-align: center;
-        }
-
-        .clients-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .client-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 60px;
-            padding: 15px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-            opacity: 0.6;
-        }
-
-        .client-logo:hover {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .client-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            filter: brightness(1.5);
-        }
-
-        /* Final CTA - El Tesoro */
-        .treasure-section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
-            position: relative;
-        }
-
-        .treasure-unlock {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 1s ease;
-        }
-
-        .treasure-unlock.unlocked {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .treasure-title {
-            font-size: 36px;
-            font-weight: 900;
             margin-bottom: 30px;
-            background: linear-gradient(45deg, #10b981, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            line-height: 1.1;
         }
 
-        .treasure-subtitle {
+        .hero-title .strike {
+            text-decoration: line-through;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 4px;
+            color: #666;
+            animation: glitch-pulse 3s infinite;
+        }
+
+        @keyframes glitch-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; text-shadow: 2px 2px #ff6b6b, -2px -2px #10b981; }
+        }
+
+        .hero-text {
             font-size: 20px;
             color: #cccccc;
-            margin-bottom: 50px;
-            max-width: 600px;
-            line-height: 1.4;
+            margin-bottom: 25px;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
         }
 
-        .cta-button {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        .hero-text strong {
             color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* 3D Lock */
+        .lock-container {
+            width: 300px;
+            height: 300px;
+            margin: 40px auto 30px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float-lock 3s ease-in-out infinite;
+        }
+
+        @keyframes float-lock {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .lock-container:hover {
+            animation: shake-lock 0.3s ease-in-out infinite;
+        }
+
+        @keyframes shake-lock {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .lock-body {
+            width: 150px;
+            height: 120px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.6),
+                        inset 0 -5px 20px rgba(0, 0, 0, 0.3);
+            border: 4px solid #ffffff;
+        }
+
+        .lock-shackle {
+            width: 100px;
+            height: 80px;
+            border: 15px solid #10b981;
+            border-bottom: none;
+            border-radius: 50px 50px 0 0;
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.5),
+                        inset 0 5px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+        }
+
+        .lock-container.unlocking .lock-shackle {
+            transform: translateX(-50%) translateY(-20px) rotate(-45deg);
+            transform-origin: left bottom;
+        }
+
+        .lock-keyhole {
+            width: 20px;
+            height: 35px;
+            background: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px 10px 5px 5px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .lock-keyhole::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid rgba(0, 0, 0, 0.4);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .lock-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(16, 185, 129, 0.8);
+            animation: pulse-glow-lock 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow-lock {
+            0%, 100% {
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 80px rgba(16, 185, 129, 0.9);
+            }
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #000000;
             padding: 25px 60px;
             border: none;
-            border-radius: 50px;
-            font-size: 22px;
+            border-radius: 16px;
+            font-size: 20px;
             font-weight: 700;
             cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            box-shadow: 0 15px 50px rgba(16, 185, 129, 0.4);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
         }
 
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+        .cta-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.7);
         }
 
-        .cta-button::before {
+        .cta-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
         }
 
-        .cta-button:hover::before {
+        .cta-btn:hover::before {
             left: 100%;
         }
 
-        /* Scroll Counter */
-        .scroll-counter {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #10b981;
-            padding: 15px 20px;
-            border-radius: 50px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            z-index: 100;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        /* Background effects */
-        body::before {
-            content: '';
+        /* ================================================
+           PORTAL TUNNEL EFFECT
+        ================================================ */
+        .tunnel-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.03) 0%, transparent 50%);
+            height: 100vh;
+            background: #000000;
+            z-index: 9998;
             pointer-events: none;
-            z-index: -1;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 36px; }
-            .truth-title { font-size: 26px; }
-            .truth-content { font-size: 18px; }
-            .treasure-title { font-size: 28px; }
-            .cta-button { 
-                padding: 20px 40px; 
-                font-size: 18px;
-                width: 90%;
+        .tunnel-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .tunnel-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Portal circles */
+        @keyframes portal-expand {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(0deg);
+                opacity: 0;
+                border-width: 8px;
             }
-            .clients-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-                gap: 15px;
+            30% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(20) rotate(720deg);
+                opacity: 0;
+                border-width: 1px;
             }
         }
 
-        /* Special scroll animations */
-        .glitch {
-            position: relative;
-            color: #10b981;
-            font-weight: 900;
+        @keyframes portal-pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px #10b981, 0 0 40px #10b981, 0 0 60px #10b981, inset 0 0 20px #10b981;
+            }
+            50% {
+                box-shadow: 0 0 40px #10b981, 0 0 80px #10b981, 0 0 120px #10b981, inset 0 0 40px #10b981;
+            }
         }
 
-        .glitch::after {
-            content: attr(data-text);
+        .portal-circle {
             position: absolute;
-            left: 2px;
-            text-shadow: -2px 0 #ff6b6b;
-            top: 0;
-            color: #ff6b6b;
-            background: #0a0a0a;
-            overflow: hidden;
-            clip: rect(0, 900px, 0, 0);
-            animation: glitch-anim 3s infinite linear alternate-reverse;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #10b981;
+            animation: portal-expand 1.5s ease-out forwards, portal-pulse 1.5s ease-in-out;
         }
 
-        @keyframes glitch-anim {
-            0% { clip: rect(10px, 9999px, 31px, 0); }
-            25% { clip: rect(70px, 9999px, 71px, 0); }
-            50% { clip: rect(30px, 9999px, 31px, 0); }
-            75% { clip: rect(50px, 9999px, 51px, 0); }
-            100% { clip: rect(88px, 9999px, 89px, 0); }
+        .portal-circle:nth-child(1) { animation-delay: 0s; border-color: #10b981; }
+        .portal-circle:nth-child(2) { animation-delay: 0.15s; border-color: #059669; }
+        .portal-circle:nth-child(3) { animation-delay: 0.3s; border-color: #10b981; }
+        .portal-circle:nth-child(4) { animation-delay: 0.45s; border-color: #059669; }
+        .portal-circle:nth-child(5) { animation-delay: 0.6s; border-color: #10b981; }
+        .portal-circle:nth-child(6) { animation-delay: 0.75s; border-color: #059669; }
+
+        /* Vortex particles */
+        @keyframes vortex-spin {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(15) rotate(1080deg);
+                opacity: 0;
+            }
+        }
+
+        .vortex-particle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        /* Center glow */
+        @keyframes center-glow {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+
+        .center-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #10b981 0%, transparent 70%);
+            border-radius: 50%;
+            animation: center-glow 1.5s ease-out forwards;
+        }
+
+        /* Portal Text */
+        .portal-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            font-weight: 800;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            z-index: 100;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+            animation: portal-text-fade 2s ease-in-out forwards;
+            white-space: nowrap;
+        }
+
+        @keyframes portal-text-fade {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            30% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            70% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        /* ================================================
+           LOADING SYSTEM TRANSITION
+        ================================================ */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #0a0a0a;
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-screen.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .loading-text {
+            font-size: 24px;
+            color: #10b981;
+            margin-bottom: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: pulse-text 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .loading-bar-container {
+            width: 500px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #10b981, #059669, #10b981);
+            background-size: 200% 100%;
+            animation: loading-progress 2.5s ease-out forwards, loading-gradient 1s linear infinite;
+            box-shadow: 0 0 20px #10b981;
+            border-radius: 10px;
+        }
+
+        @keyframes loading-progress {
+            0% { width: 0%; }
+            20% { width: 30%; }
+            40% { width: 50%; }
+            60% { width: 70%; }
+            80% { width: 90%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes loading-gradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .loading-percentage {
+            margin-top: 20px;
+            font-size: 48px;
+            font-weight: 800;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .loading-subtext {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+            font-family: 'Inter', sans-serif;
+            font-style: italic;
+        }
+
+        /* Glitch Break Transition */
+        .glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #0a0a0a;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s ease;
+        }
+
+        .glitch-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .glitch-text {
+            font-size: 48px;
+            font-weight: 800;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            animation: glitch-intense 0.15s infinite;
+        }
+
+        @keyframes glitch-intense {
+            0% {
+                transform: translate(0);
+                text-shadow: 0 0 20px #10b981;
+            }
+            20% {
+                transform: translate(-8px, 8px);
+                text-shadow: -8px 8px 0 #ff6b6b, 8px -8px 0 #10b981;
+            }
+            40% {
+                transform: translate(8px, -8px);
+                text-shadow: 8px -8px 0 #ff6b6b, -8px 8px 0 #10b981;
+            }
+            60% {
+                transform: translate(-8px, -8px);
+                text-shadow: -8px -8px 0 #ff6b6b, 8px 8px 0 #10b981;
+            }
+            80% {
+                transform: translate(8px, 8px);
+                text-shadow: 8px 8px 0 #ff6b6b, -8px -8px 0 #10b981;
+            }
+            100% {
+                transform: translate(0);
+                text-shadow: 0 0 20px #10b981;
+            }
+        }
+
+        /* Glitch effect on loading text */
+        @keyframes glitch-loading {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .loading-text.glitch {
+            animation: pulse-text 1.5s ease-in-out infinite, glitch-loading 0.3s ease-in-out infinite;
+        }
+
+        /* ================================================
+           GLASS SHATTER EFFECT
+        ================================================ */
+        .glass-shard {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid #10b981;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        @keyframes shatter-fall {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), 100vh) rotate(var(--rotate));
+                opacity: 0;
+            }
+        }
+
+        .message-box.shattering {
+            position: relative;
+            overflow: visible;
+        }
+
+        /* Crack lines overlay */
+        .crack-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .crack-overlay.active {
+            opacity: 1;
+        }
+
+        .crack-line {
+            position: absolute;
+            background: #ff6b6b;
+            box-shadow: 0 0 10px #ff6b6b;
+            animation: crack-expand 0.3s ease-out forwards;
+        }
+
+        @keyframes crack-expand {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ================================================
+           SYSTEM ALERT
+        ================================================ */
+        .system-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #10b981;
+            border-radius: 16px;
+            padding: 40px 60px;
+            z-index: 10000;
+            opacity: 0;
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.4), 0 0 100px rgba(16, 185, 129, 0.2);
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .system-alert.show {
+            animation: alert-popup 0.4s ease-out forwards;
+        }
+
+        .system-alert.hide {
+            animation: alert-dismiss 0.3s ease-in forwards;
+        }
+
+        @keyframes alert-popup {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes alert-dismiss {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .alert-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: pulse-icon 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .alert-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+
+        /* ================================================
+           TIME COUNTER
+        ================================================ */
+        .time-counter {
+            padding: 30px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .counter-item {
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .counter-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .counter-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+
+        /* ================================================
+           STEP 2: POST-TUNNEL MESSAGE
+        ================================================ */
+        .message-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid #10b981;
+            border-radius: 20px;
+            padding: 60px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: rotate-bg 8s linear infinite;
+        }
+
+        @keyframes rotate-bg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .message-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .message-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #10b981, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .message-text {
+            font-size: 20px;
+            color: #cccccc;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .message-text strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 48px;
+            }
+
+            .hero-text {
+                font-size: 18px;
+            }
+
+            .mystery-box {
+                width: 250px;
+                height: 250px;
+            }
+
+            .box-face {
+                width: 180px;
+                height: 180px;
+                font-size: 50px;
+            }
+
+            .cta-btn {
+                padding: 20px 40px;
+                font-size: 16px;
+            }
+
+            .message-box {
+                padding: 40px 30px;
+            }
+
+            .message-title {
+                font-size: 32px;
+            }
+
+            .message-text {
+                font-size: 16px;
+            }
+
+            .loading-text {
+                font-size: 13px;
+                padding: 0 20px;
+                text-align: center;
+                letter-spacing: 1px;
+                word-break: break-word;
+            }
+
+            .loading-bar-container {
+                width: 90%;
+                max-width: 350px;
+            }
+
+            .loading-percentage {
+                font-size: 36px;
+            }
+
+            .loading-subtext {
+                font-size: 12px;
+                padding: 0 30px;
+                text-align: center;
+            }
+
+            .system-alert {
+                padding: 30px 40px;
+                max-width: 90%;
+            }
+
+            .alert-icon {
+                font-size: 36px;
+                margin-bottom: 15px;
+            }
+
+            .alert-text {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress"></div>
-    
-    <!-- Scroll Counter -->
-    <div class="scroll-counter">
-        <span id="scrollPercent">0</span>% scrolled
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Progress Dots -->
+    <div class="progress-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
     </div>
 
-    <!-- Hero Section - Primera Impresión -->
-    <section class="section hero-section">
-        <div class="container">
+    <!-- Matrix Background -->
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+
+    <!-- Tunnel Overlay -->
+    <div class="tunnel-overlay" id="tunnelOverlay">
+        <div class="tunnel" id="tunnel"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text" id="loadingText">> ANALIZANDO NIVELES DE HONESTIDAD...</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
+        <div class="loading-subtext">(No te preocupes, esto es más rápido que pedir presupuestos a otras agencias)</div>
+    </div>
+
+    <!-- System Alert -->
+    <div class="system-alert" id="systemAlert">
+        <div class="alert-icon"></div>
+        <div class="alert-text">La curiosidad siempre gana</div>
+    </div>
+
+    <!-- Glitch Break Overlay -->
+    <div class="glitch-overlay" id="glitchOverlay">
+        <div class="glitch-text" id="glitchText">RECALCULANDO</div>
+    </div>
+
+    <!-- ================================================
+         STEP 1: HERO
+    ================================================ -->
+    <div class="step active" id="step1">
+        <div class="step-content">
+            <div class="hero-badge">BIENVENIDO</div>
+
             <h1 class="hero-title">
-                Esto no es <span class="glitch" data-text="marketing">marketing</span>
+                ESTO <span class="strike">NO</span> ES<br>MARKETING
             </h1>
-            <p class="hero-subtitle">
-                No te voy a pedir tu mail ni tu teléfono en ningún momento.<br>
-                No quiero una base de datos de personas que no quieren hablar conmigo.
+
+            <p class="hero-text">
+                No te voy a pedir tu email ni tu teléfono.<br>
+                <strong>No me interesa tener los datos de alguien<br>
+                que no quiere hablar conmigo.</strong><br><br>
+                Todavía.
             </p>
-            <div class="scroll-hint">
-                Scroll hacia abajo si te dio curiosidad 👇<br>
-                <small style="opacity: 0.7; margin-top: 10px; display: block;">(Es solo honestidad brutal)</small>
-            </div>
-        </div>
-    </section>
 
-    <!-- El Anti-Formulario - Momento de Risa -->
-    <section class="section">
-        <div class="container">
-            <div class="truth-bomb">
-                <span class="truth-emoji">📝</span>
-                <h2 class="truth-title">Ah, y por si acaso...</h2>
-                <div class="truth-content">
-                    No voy a ponerte un formulario que diga:<br><br>
-                    
-                    <div style="background: rgba(255, 107, 107, 0.1); padding: 20px; border-radius: 10px; border: 1px dashed rgba(255, 107, 107, 0.5); margin: 20px 0; font-style: italic; color: #ff6b6b;">
-                        "Descarga GRATIS nuestro PDF de 47 páginas:<br>
-                        <strong>LOS 10 SECRETOS QUE NO QUIEREN QUE SEPAS</strong>"
-                    </div>
-                    
-                    Para después spamearte por 6 meses<br>
-                    con emails que nunca pediste.
+            <div class="lock-container" id="lockContainer">
+                <div class="lock-body">
+                    <div class="lock-glow"></div>
+                    <div class="lock-shackle"></div>
+                    <div class="lock-keyhole"></div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Photo + Reality Check -->
-    <section class="section">
-        <div class="container">
-            <div class="truth-bomb">
-                <span class="truth-emoji">📸</span>
-                <h2 class="truth-title">Este soy yo, btw</h2>
-                <div class="truth-content">
-                    <div style="margin: 30px 0;">
-                        <img src="nacho-working.jpg" alt="Nacho trabajando" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; margin-bottom: 20px;">
-                    </div>
-                    
-                    <strong>Me dicen Nacho</strong><br><br>
-                    
-                    Ni oficina elegante, ni equipo de diseño,<br>
-                    ni fotos profesionales.<br><br>
-                    
-                    Solo trabajo real. Resultados reales.
-                </div>
-            </div>
+            <button class="cta-btn" id="openBoxBtn">
+                > DESBLOQUEAR_
+            </button>
         </div>
-    </section>
+    </div>
 
-    <!-- Los Datos Duros -->
-    <section class="section">
-        <div class="container">
-            <div class="truth-bomb psychology">
-                <span class="truth-emoji">📊</span>
-                <h2 class="truth-title">Los datos no mienten...</h2>
-                <div class="truth-content">
-                    <div style="background: rgba(255, 215, 0, 0.1); padding: 20px; border-radius: 8px; border: 1px solid rgba(255, 215, 0, 0.3); margin: 20px 0; font-family: 'JetBrains Mono', monospace;">
-                        Has scrolleado <span id="currentScrollPercent" style="color: #ffd700; font-weight: bold;">X%</span> de esta página<br><br>
-                        Eso es más que el <span style="color: #ffd700; font-weight: bold;">85%</span> de las personas<br>
-                        Tiempo en página: <span id="timeOnPageDisplay" style="color: #ffd700; font-weight: bold;">+30 segundos</span><br>
-                        Engagement level: <span style="color: #10b981; font-weight: bold;">ALTO</span>
-                    </div>
-                    
-                    Técnicamente, <strong>ya eres un lead calificado</strong>.
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- ================================================
+         STEP 1.5: REVELACIÓN POST-PORTAL
+    ================================================ -->
+    <div class="step" id="step1-5">
+        <div class="step-content">
+            <div class="message-box" id="glassBox">
+                <div class="message-content">
+                    <div style="text-align: left; max-width: 700px; margin: 0 auto;">
+                        <h2 class="message-title" style="color: #10b981; margin-bottom: 30px;">Bienvenido a EstoNoEsMarketing</h2>
 
-    <!-- Truth Bomb 3: Meta -->
-    <section class="section">
-        <div class="container">
-            <div class="truth-bomb meta-reveal">
-                <span class="truth-emoji">🧠</span>
-                <h2 class="truth-title">¿Sabes qué es lo más gracioso?</h2>
-                <div class="truth-content">
-                    Que seas consciente de esto <strong>no hace que funcione menos</strong>.<br><br>
-                    
-                    De hecho, probablemente te gusta más<br>
-                    porque no te estoy mintiendo.<br><br>
-                    
-                    <em>Esto se llama "transparencia paradójica"</em>
-                </div>
-            </div>
-        </div>
-    </section>
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 20px;">
+                            Primero que todo, explicarte que <strong>estás leyendo esto sólo por curiosidad</strong>.
+                        </p>
 
-    <!-- Client Showcase - Lucirse -->
-    <section class="section">
-        <div class="container">
-            <div class="truth-bomb">
-                <span class="truth-emoji">🤏</span>
-                <h2 class="truth-title">Permiso... te vengo a robar un segundito</h2>
-                <div class="truth-content">
-                    <strong>Vengo a lucirme...</strong><br><br>
-                    
-                    <div style="margin: 30px 0;">
-                        <img src="Logos Clientes.png" alt="Logos de clientes de Nacho" style="width: 100%; max-width: 600px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" onclick="trackLogosClick()">
-                    </div>
-                    
-                    Estas son algunas de las marcas que tienen algo en común:<br>
-                    <strong>Soy yo el que les lleva el marketing digital.</strong><br><br>
-                    
-                    <em style="color: #10b981;">Sorry, en algún momento del embudo tenía que agregar el "social proof".<br>
-                    Jaja ok, ahora ya sabes que tengo experiencia, puedes seguir bajando.</em>
-                </div>
-            </div>
-        </div>
-    </section>
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 20px;">
+                            Le diste click al botón <strong>"DESBLOQUEAR"</strong> netamente porque es <strong style="color: #10b981;">distinto a lo que has visto antes</strong>.
+                        </p>
 
-    <!-- Truth Bomb 4: Psychology -->
-    <section class="section">
-        <div class="container">
-            <div class="truth-bomb psychology">
-                <span class="truth-emoji">🤯</span>
-                <h2 class="truth-title">¿Te diste cuenta?</h2>
-                <div class="truth-content">
-                    Seguiste scrolleando después que te dije que te estoy persuadiendo.<br><br>
-                    
-                    Eso significa que <strong>bajaste tus defensas conscientemente</strong><br>
-                    sabiendo que estás en un embudo de ventas.<br><br>
-                    
-                    Mientras más honesto soy sobre la persuasión,<br>
-                    <strong>más persuasivo me vuelvo</strong>.
-                </div>
-            </div>
-        </div>
-    </section>
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 20px;">
+                            El candado que se desbloquea es sólo para demostrar que es algo <strong>"privado"</strong> y que <strong>tú lo podías desbloquear</strong>, por eso el mensaje de <strong style="color: #10b981;">"ACCESO AUTORIZADO"</strong>...
+                        </p>
 
-    <!-- Personal Introduction - Before CTA -->
-    <section class="section">
-        <div class="container">
-            <div class="truth-bomb">
-                <span class="truth-emoji">👋</span>
-                <h2 class="truth-title">Estás a punto de llegar a mi número de WhatsApp</h2>
-                <div class="truth-content">
-                    Antes de eso, quiero que sepas quién soy y qué hago.<br><br>
-                    
-                    <strong>Soy el fundador de:</strong><br>
-                    <div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin: 30px 0; flex-wrap: wrap;">
-                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; min-width: 150px; text-align: center;">
-                            <div style="font-size: 18px; font-weight: bold; color: #10b981;">Intothecom</div>
-                            <div style="font-size: 12px; color: #888; margin-top: 5px;">Agencia Marketing Digital</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; min-width: 150px; text-align: center;">
-                            <div style="font-size: 18px; font-weight: bold; color: #10b981;">Datapify</div>
-                            <div style="font-size: 12px; color: #888; margin-top: 5px;">Software Marketing Digital</div>
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 20px;">
+                            Eso se hace para que gran % de las personas <strong>sigan avanzando en el paso a paso</strong>.
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 40px;">
+                            Porque a todo esto... <strong style="color: #ff6b6b;">estás en un embudo de ventas</strong>.
+                        </p>
+
+                        <div style="text-align: center; margin-top: 50px;">
+                            <button class="cta-btn" id="step1-5Btn">
+                                > Jaja, ok, me gusta tu honestidad_
+                            </button>
                         </div>
                     </div>
-                    
-                    <strong>Y también soy profesor del Diplomado de Marketing Digital de:</strong><br>
-                    <div style="margin: 20px 0; display: flex; justify-content: center;">
-                        <img src="universidad_de_los_andes_logo.png" alt="Universidad de los Andes" style="height: 60px; object-fit: contain; filter: brightness(1.2);">
-                    </div>
-                    
-                    Si te interesa <strong>aumentar tus ventas online</strong>,<br>
-                    en el siguiente paso me puedes escribir.<br><br>
-                    
-                    <em style="color: #ff6b6b; font-size: 18px;">Te espero... sólo si estás <strong>realmente preparado</strong>.</em>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Final CTA - The Treasure -->
-    <section class="treasure-section">
-        <div class="container">
-            <div class="treasure-unlock" id="treasureUnlock">
-                <h2 class="treasure-title">🏆 Llegaste hasta el final</h2>
-                <p class="treasure-subtitle">
-                    Ese botón te envía directo a mi whatsapp, no a un chatbot ni una IA.<br><br>
-                    
-                    Si realmente quieres mejorar el marketing de tu empresa, esta es tu oportunidad.<br><br>
-                    
-                    <strong>Probablemente esta oportunidad no se presente de nuevo.</strong>
-                </p>
-                
-                <a href="https://wa.me/56950160966?text=⚠️%20PRUEBA%20DE%20FUEGO:%20Si%20me%20envías%20este%20mensaje%20tal%20cual,%20sabré%20que%20no%20lees%20todo.%20Cambia%20este%20texto%20por%20tu%20opinión%20real%20del%20embudo%20que%20acabas%20de%20completar.%20Quiero%20tu%20feedback%20para%20seguir%20mejorando%20😉" class="cta-button" id="finalCTA" role="button" data-event="contact" data-content-name="whatsapp_contact">
-                    💬 Hablar con Nacho
-                </a>
-                
-                <div style="margin-top: 30px; font-size: 14px; color: #888;">
-                    ✓ Sin compromisos • ✓ Resultados medibles • ✓ Transparencia total
+    <!-- ================================================
+         STEP 2: PRESENTACIÓN PERSONAL
+    ================================================ -->
+    <div class="step" id="step2">
+        <div class="step-content">
+            <div class="message-box">
+                <div class="message-content">
+                    <h2 class="message-title">Me presento</h2>
+
+                    <div style="margin: 40px 0;">
+                        <img src="nacho-working.jpg"
+                             alt="Nacho trabajando"
+                             style="width: 250px; height: 250px; object-fit: cover; border-radius: 50%; border: 4px solid #10b981; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);">
+                    </div>
+
+                    <p class="message-text" style="font-size: 22px; color: #ffffff; margin-bottom: 30px;">
+                        <strong>Me puedes decir Nacho</strong>
+                    </p>
+
+                    <p class="message-text">
+                        Me dedico al marketing digital y a vender por internet hace <strong>6 años</strong>.
+                    </p>
+
+                    <p class="message-text" style="margin-top: 25px;">
+                        Creé <strong style="color: #10b981;">estonoesmarketing.cl</strong> para poder enseñar a otros a hacer lo mismo que yo.
+                    </p>
+
+                    <p class="message-text" style="margin-top: 25px;">
+                        Ya lo enseño en la <strong style="color: #10b981;">Universidad de los Andes</strong> a todo esto...
+                    </p>
+
+                    <button class="cta-btn" id="step2Btn" style="margin-top: 40px;">
+                        > OK, TIENES MI ATENCIÓN_
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- ================================================
+         STEP 3: TRANSPARENCIA PARADÓJICA
+    ================================================ -->
+    <div class="step" id="step3">
+        <div class="step-content">
+            <div class="message-box">
+                <div class="message-content">
+                    <div style="text-align: left; max-width: 700px; margin: 0 auto;">
+                        <h2 class="message-title" style="color: #10b981; margin-bottom: 30px;">¿Te diste cuenta?</h2>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 25px;">
+                            Ya pasaste por <strong style="color: #10b981;">3 pasos</strong> sin siquiera notarlo.
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 25px;">
+                            Cada click que hiciste <strong>bajó tus barreras</strong> un poco más.
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 25px;">
+                            El candado, el túnel, la revelación... todo <strong>diseñado para mantenerte aquí</strong>.
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 25px;">
+                            Y funciona porque <strong style="color: #10b981;">te sentiste identificado</strong>.
+                        </p>
+
+                        <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 25px; margin: 35px 0; border-radius: 8px;">
+                            <p class="message-text" style="font-size: 19px; margin-bottom: 0; font-style: italic;">
+                                A esto le llamo <strong style="color: #10b981; font-size: 22px;">TRANSPARENCIA PARADÓJICA</strong>.
+                            </p>
+                        </div>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 25px;">
+                            Te digo <strong>exactamente lo que estoy haciendo</strong>... y aún así, sigues leyendo.
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 25px;">
+                            Porque la honestidad radical <strong style="color: #10b981;">genera más confianza que cualquier táctica oculta</strong>.
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 40px;">
+                            <strong>Esto es lo que enseño.</strong><br>
+                            Marketing que funciona <strong>sin mentiras</strong>, sin promesas falsas, sin manipulación barata.
+                        </p>
+
+                        <div style="text-align: center; margin-top: 50px;">
+                            <button class="cta-btn" id="step3Btn">
+                                > Quiero aprender esto_
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================
+         STEP 4: REVELACIÓN IA
+    ================================================ -->
+    <div class="step" id="step4">
+        <div class="step-content">
+            <div class="message-box">
+                <div class="message-content">
+                    <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                        <h2 class="message-title" style="color: #10b981; margin-bottom: 40px;">Una última cosa...</h2>
+
+                        <p class="message-text" style="font-size: 19px; margin-bottom: 30px; text-align: left;">
+                            Todo lo que has visto hasta acá <strong style="color: #10b981;">lo creé con Inteligencia Artificial</strong>.
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 25px; text-align: left;">
+                            Cada efecto visual, el candado que se desbloquea, el túnel portal, los colores, la tipografía, esta página web <strong>completa</strong>...
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 30px; text-align: left;">
+                            <strong style="color: #ff6b6b;">Todo automatizado con IA.</strong>
+                        </p>
+
+                        <div style="background: rgba(255, 107, 107, 0.1); border-left: 4px solid #ff6b6b; padding: 25px; margin: 35px 0; border-radius: 8px;">
+                            <p class="message-text" style="font-size: 19px; margin-bottom: 0; text-align: left;">
+                                <strong>Excepto lo más importante:</strong> el mensaje.
+                            </p>
+                        </div>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 25px; text-align: left;">
+                            La tecnología la utilicé <strong>sólo para captar tu atención</strong>.
+                        </p>
+
+                        <p class="message-text" style="font-size: 19px; margin-bottom: 40px; text-align: left;">
+                            Y sé que lo logré... <strong style="color: #10b981;">porque estás acá</strong>.
+                        </p>
+
+                        <p class="message-text" style="font-size: 17px; margin-bottom: 40px; text-align: left; opacity: 0.8;">
+                            La IA es una herramienta poderosa. Pero sin estrategia, sin mensaje, sin entender <strong>por qué</strong> la gente hace click... es solo tecnología vacía.
+                        </p>
+
+                        <div style="text-align: center; margin-top: 50px;">
+                            <button class="cta-btn" id="step4Btn">
+                                > Enséñame cómo lo hiciste_
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================
+         STEP 5: VIDEO FINAL
+    ================================================ -->
+    <div class="step" id="step5">
+        <div class="step-content">
+            <div class="message-box">
+                <div class="message-content">
+                    <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                        <h2 class="message-title" style="color: #10b981; margin-bottom: 30px;">Ya estás casi al final</h2>
+
+                        <p class="message-text" style="font-size: 19px; margin-bottom: 25px;">
+                            <strong>Ya estás comprometido.</strong>
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 30px;">
+                            Te falta muy poco.
+                        </p>
+
+                        <p class="message-text" style="font-size: 18px; margin-bottom: 40px;">
+                            Para seguir avanzando es necesario que <strong style="color: #10b981;">veas este video</strong>.
+                        </p>
+
+                        <!-- Video Container -->
+                        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 12px; margin: 40px 0; box-shadow: 0 20px 60px rgba(16, 185, 129, 0.3);">
+                            <iframe
+                                id="loomVideo"
+                                src="LOOM_VIDEO_URL_AQUI"
+                                frameborder="0"
+                                webkitallowfullscreen
+                                mozallowfullscreen
+                                allowfullscreen
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                            </iframe>
+                        </div>
+
+                        <p class="message-text" style="font-size: 16px; margin-top: 40px; opacity: 0.7;">
+                            Este video cambiará tu perspectiva sobre el marketing digital.
+                        </p>
+
+                        <button class="cta-btn" id="step5Btn" style="margin-top: 50px;">
+                            > Ya vi el video, continuemos_
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Scroll tracking and animations
-        let scrollData = {
-            maxScroll: 0,
-            sections: 0,
-            timeOnPage: Date.now()
-        };
+        // ============================================
+        // GAME STATE
+        // ============================================
+        let currentStep = 1;
+        const totalSteps = 5;
 
-        function updateScrollProgress() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = Math.round((scrollTop / docHeight) * 100);
-            
-            // Update progress bar
-            document.querySelector('.scroll-progress').style.width = scrollPercent + '%';
-            
-            // Update counter
-            document.getElementById('scrollPercent').textContent = scrollPercent;
-            
-            // Update current scroll in truth section
-            const currentScrollElement = document.getElementById('currentScrollPercent');
-            if (currentScrollElement) {
-                currentScrollElement.textContent = scrollPercent + '%';
-            }
-            
-            // Update time on page
-            const timeDisplay = document.getElementById('timeOnPageDisplay');
-            if (timeDisplay) {
-                const timeSpent = Math.round((Date.now() - scrollData.timeOnPage) / 1000);
-                timeDisplay.textContent = `+${timeSpent} segundos`;
-            }
-            
-            // Track max scroll
-            if (scrollPercent > scrollData.maxScroll) {
-                scrollData.maxScroll = scrollPercent;
-            }
-            
-            return scrollPercent;
+        // ============================================
+        // CUSTOM CURSOR
+        // ============================================
+        const cursor = document.querySelector('.custom-cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.addEventListener('mousedown', () => cursor.classList.add('clicking'));
+        document.addEventListener('mouseup', () => cursor.classList.remove('clicking'));
+
+        // ============================================
+        // MATRIX BACKGROUND
+        // ============================================
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrix = "ESTONOESMARKETING01";
+        const fontSize = 12;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
         }
 
-        // Reveal truth bombs on scroll
-        function revealTruthBombs() {
-            const truthBombs = document.querySelectorAll('.truth-bomb');
-            const windowHeight = window.innerHeight;
-            
-            truthBombs.forEach(bomb => {
-                const bombTop = bomb.getBoundingClientRect().top;
-                if (bombTop < windowHeight * 0.8) {
-                    bomb.classList.add('visible');
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#10b981';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrix[Math.floor(Math.random() * matrix.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 40);
+
+        // ============================================
+        // PROGRESS DOTS UPDATE
+        // ============================================
+        function updateProgress(step) {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                if (index < step) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
                 }
             });
         }
 
-        // Unlock treasure when user reaches 85%
-        function checkTreasureUnlock() {
-            const scrollPercent = updateScrollProgress();
-            const treasure = document.getElementById('treasureUnlock');
-            
-            if (scrollPercent >= 85 && !treasure.classList.contains('unlocked')) {
-                treasure.classList.add('unlocked');
-                
-                // Track this achievement
-                if (typeof trackGAButtonClick === 'function') {
-                    trackGAButtonClick('treasure_unlocked', 'scroll_funnel');
-                }
+        // ============================================
+        // TRANSITION WITH PORTAL
+        // ============================================
+        function transitionToStep(nextStep) {
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            const nextStepEl = document.getElementById(`step${nextStep}`);
+            const tunnelOverlay = document.getElementById('tunnelOverlay');
+            const tunnel = document.getElementById('tunnel');
+
+            // Show portal overlay
+            tunnelOverlay.classList.add('active');
+
+            // Create portal effect
+            tunnel.innerHTML = '';
+
+            // Center glow
+            const glow = document.createElement('div');
+            glow.className = 'center-glow';
+            tunnel.appendChild(glow);
+
+            // Portal circles (6 expanding circles)
+            for (let i = 0; i < 6; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'portal-circle';
+                tunnel.appendChild(circle);
             }
+
+            // Create spiral particles
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'vortex-particle';
+
+                // Random position in spiral
+                const angle = (i / 50) * Math.PI * 4;
+                const distance = (i / 50) * 100;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+
+                particle.style.left = `calc(50% + ${x}px)`;
+                particle.style.top = `calc(50% + ${y}px)`;
+                particle.style.animation = `vortex-spin ${1 + Math.random() * 0.5}s ease-out forwards`;
+                particle.style.animationDelay = `${i * 0.02}s`;
+
+                tunnel.appendChild(particle);
+            }
+
+            // Add "ACCESO AUTORIZADO" text
+            const portalText = document.createElement('div');
+            portalText.className = 'portal-text';
+            portalText.textContent = 'ACCESO AUTORIZADO';
+            tunnel.appendChild(portalText);
+
+            // Hide current step
+            currentStepEl.classList.remove('active');
+
+            // After portal animation, show next step
+            setTimeout(() => {
+                nextStepEl.classList.add('active');
+                tunnelOverlay.classList.remove('active');
+                currentStep = nextStep;
+                updateProgress(currentStep);
+
+                trackEvent(`step_${nextStep}_viewed`, `transition_complete`);
+            }, 2000);
         }
 
-        // Enhanced scroll listener
-        window.addEventListener('scroll', function() {
-            updateScrollProgress();
-            revealTruthBombs();
-            checkTreasureUnlock();
-        });
+        // ============================================
+        // STEP 1: UNLOCK LOCK
+        // ============================================
+        document.getElementById('openBoxBtn').addEventListener('click', function() {
+            const lockContainer = document.getElementById('lockContainer');
+            const btn = this;
 
-        // Track logos showcase click
-        window.trackLogosClick = function() {
-            // Meta Pixel tracking
-            if (typeof fbq === 'function') {
-                fbq('track', 'ViewContent', {
-                    content_name: 'client_logos_showcase',
-                    content_category: 'social_proof',
-                    source: 'scroll_funnel'
-                });
-            }
-            
-            // Google Analytics tracking
-            if (typeof trackGAButtonClick === 'function') {
-                trackGAButtonClick('client_logos_showcase', 'social_proof_section');
-            }
-            
-            // Microsoft Clarity tracking
-            if (typeof trackClarityLogosEngagement === 'function') {
-                trackClarityLogosEngagement();
-            }
-            
-            if (typeof trackHighValueInteraction === 'function') {
-                trackHighValueInteraction('client_logos_engagement');
-            }
-        };
+            // Add unlocking animation to lock
+            lockContainer.classList.add('unlocking');
 
-        // Track CTA clicks
-        document.getElementById('finalCTA').addEventListener('click', function(e) {
-            const timeSpent = Math.round((Date.now() - scrollData.timeOnPage) / 1000);
-            
-            // Meta Pixel Standard Events
-            if (typeof fbq === 'function') {
-                fbq('track', 'Contact', {
-                    content_name: 'whatsapp_contact',
-                    content_category: 'lead_generation',
-                    source: 'scroll_funnel',
-                    custom_scroll_percent: scrollData.maxScroll,
-                    custom_time_spent: timeSpent
-                });
-                
-                fbq('track', 'Lead', {
-                    content_name: 'whatsapp_contact',
-                    source: 'scroll_funnel_complete',
-                    value: scrollData.maxScroll,
-                    currency: 'CLP'
-                });
-            }
-            
-            // Track the conversion with detailed data
-            if (typeof trackFunnelProgress === 'function') {
-                trackFunnelProgress('scroll_funnel_complete', {
-                    maxScroll: scrollData.maxScroll,
-                    timeSpent: timeSpent,
-                    conversionType: 'whatsapp_contact'
-                });
-            }
-            
-            if (typeof trackGAButtonClick === 'function') {
-                trackGAButtonClick('whatsapp_contact_scroll', 'scroll_funnel_complete');
-            }
-            
-            if (typeof trackHighValueInteraction === 'function') {
-                trackHighValueInteraction('scroll_funnel_conversion');
-            }
-        });
-
-        // Initial setup
-        document.addEventListener('DOMContentLoaded', function() {
-            updateScrollProgress();
-            revealTruthBombs();
-            
-            // Meta Pixel PageView with custom parameters
-            if (typeof fbq === 'function') {
-                fbq('track', 'PageView', {
-                    content_name: 'scroll_funnel_landing',
-                    content_category: 'marketing_funnel',
-                    source: 'direct_landing'
-                });
-                
-                fbq('track', 'ViewContent', {
-                    content_name: 'scroll_funnel_landing',
-                    content_category: 'marketing_funnel',
-                    content_type: 'funnel_page'
-                });
-            }
-            
-            // Track page view
-            if (typeof trackFunnelProgress === 'function') {
-                trackFunnelProgress('scroll_funnel_view', 'landing_entry');
-            }
-        });
-
-        // Add cursor trail effect
-        document.addEventListener('mousemove', (e) => {
-            const cursor = document.createElement('div');
-            cursor.style.position = 'fixed';
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            cursor.style.width = '4px';
-            cursor.style.height = '4px';
-            cursor.style.background = 'rgba(16, 185, 129, 0.4)';
-            cursor.style.borderRadius = '50%';
-            cursor.style.pointerEvents = 'none';
-            cursor.style.zIndex = '9999';
-            document.body.appendChild(cursor);
-            
+            // Wait for shackle to open (0.5s)
             setTimeout(() => {
-                cursor.style.opacity = '0';
-                cursor.style.transform = 'scale(3)';
-                cursor.style.transition = 'all 0.5s ease-out';
-                setTimeout(() => cursor.remove(), 500);
+                // MEGA EXPLOSION
+                const duration = 2000;
+                const animationEnd = Date.now() + duration;
+
+                const interval = setInterval(() => {
+                    const timeLeft = animationEnd - Date.now();
+
+                    if (timeLeft <= 0) {
+                        clearInterval(interval);
+                        return;
+                    }
+
+                    confetti({
+                        particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#10b981', '#ff6b6b', '#ffffff']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#10b981', '#ff6b6b', '#ffffff']
+                });
             }, 50);
+
+            // Center explosion
+            confetti({
+                particleCount: 200,
+                spread: 180,
+                origin: { y: 0.5 },
+                colors: ['#10b981', '#ff6b6b', '#ffffff'],
+                shapes: ['circle', 'square'],
+                gravity: 1,
+                scalar: 1.5,
+                ticks: 300
+            });
+
+                // Hide lock
+                lockContainer.style.transition = 'all 0.5s ease';
+                lockContainer.style.transform = 'scale(0) rotate(360deg)';
+                lockContainer.style.opacity = '0';
+
+                btn.style.transition = 'all 0.3s ease';
+                btn.style.opacity = '0';
+                btn.style.transform = 'scale(0)';
+
+                trackEvent('lock_unlocked', 'step_1');
+
+                // Start tunnel transition to step 1.5
+                setTimeout(() => {
+                const currentStepEl = document.getElementById('step1');
+                const nextStepEl = document.getElementById('step1-5');
+                const tunnelOverlay = document.getElementById('tunnelOverlay');
+                const tunnel = document.getElementById('tunnel');
+
+                tunnelOverlay.classList.add('active');
+                tunnel.innerHTML = '';
+
+                const glow = document.createElement('div');
+                glow.className = 'center-glow';
+                tunnel.appendChild(glow);
+
+                for (let i = 0; i < 6; i++) {
+                    const circle = document.createElement('div');
+                    circle.className = 'portal-circle';
+                    tunnel.appendChild(circle);
+                }
+
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'vortex-particle';
+                    const angle = (i / 50) * Math.PI * 4;
+                    const distance = (i / 50) * 100;
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance;
+                    particle.style.left = `calc(50% + ${x}px)`;
+                    particle.style.top = `calc(50% + ${y}px)`;
+                    particle.style.animation = `vortex-spin ${1 + Math.random() * 0.5}s ease-out forwards`;
+                    particle.style.animationDelay = `${i * 0.02}s`;
+                    tunnel.appendChild(particle);
+                }
+
+                // Add "ACCESO AUTORIZADO" text
+                const portalText = document.createElement('div');
+                portalText.className = 'portal-text';
+                portalText.textContent = 'ACCESO AUTORIZADO';
+                tunnel.appendChild(portalText);
+
+                currentStepEl.classList.remove('active');
+
+                setTimeout(() => {
+                    nextStepEl.classList.add('active');
+                    tunnelOverlay.classList.remove('active');
+                    currentStep = 1.5;
+                    updateProgress(2);
+                    trackEvent('step_1.5_viewed', 'revelation_screen');
+                }, 2000);
+                }, 800);
+            }, 500);
         });
 
-        // Scroll depth milestones
-        let milestonesHit = new Set();
-        
-        window.addEventListener('scroll', function() {
-            const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
-            
-            [25, 50, 75, 90].forEach(milestone => {
-                if (scrollPercent >= milestone && !milestonesHit.has(milestone)) {
-                    milestonesHit.add(milestone);
-                    if (typeof trackGAScrollDepth === 'function') {
-                        trackGAScrollDepth(`${milestone}_percent`, 'scroll_funnel');
+        // ============================================
+        // SYSTEM ALERT FUNCTION
+        // ============================================
+        function showSystemAlert(message, icon = '💡', duration = 2500) {
+            const alert = document.getElementById('systemAlert');
+            const alertIcon = alert.querySelector('.alert-icon');
+            const alertText = alert.querySelector('.alert-text');
+
+            alertIcon.textContent = icon;
+            alertText.textContent = message;
+
+            alert.classList.remove('hide');
+            alert.classList.add('show');
+
+            // Auto-dismiss
+            setTimeout(() => {
+                alert.classList.remove('show');
+                alert.classList.add('hide');
+
+                setTimeout(() => {
+                    alert.classList.remove('hide');
+                }, 300);
+            }, duration);
+
+            trackEvent('system_alert_shown', message);
+        }
+
+        // ============================================
+        // GLASS SHATTER EFFECT
+        // ============================================
+        function shatterGlass(boxElement, callback) {
+            const box = boxElement;
+            const rect = box.getBoundingClientRect();
+
+            // Create crack overlay
+            const crackOverlay = document.createElement('div');
+            crackOverlay.className = 'crack-overlay';
+            box.appendChild(crackOverlay);
+
+            // Create crack lines
+            const numCracks = 15;
+            for (let i = 0; i < numCracks; i++) {
+                const crack = document.createElement('div');
+                crack.className = 'crack-line';
+
+                const isVertical = Math.random() > 0.5;
+                if (isVertical) {
+                    crack.style.width = '2px';
+                    crack.style.height = Math.random() * 200 + 100 + 'px';
+                    crack.style.left = Math.random() * 100 + '%';
+                    crack.style.top = Math.random() * 100 + '%';
+                } else {
+                    crack.style.height = '2px';
+                    crack.style.width = Math.random() * 200 + 100 + 'px';
+                    crack.style.top = Math.random() * 100 + '%';
+                    crack.style.left = Math.random() * 100 + '%';
+                }
+
+                crack.style.animationDelay = `${i * 0.02}s`;
+                crackOverlay.appendChild(crack);
+            }
+
+            setTimeout(() => {
+                crackOverlay.classList.add('active');
+            }, 50);
+
+            // After cracks appear, shatter into pieces
+            setTimeout(() => {
+                box.classList.add('shattering');
+
+                // Create shards
+                const rows = 5;
+                const cols = 5;
+                const shardWidth = rect.width / cols;
+                const shardHeight = rect.height / rows;
+
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const shard = document.createElement('div');
+                        shard.className = 'glass-shard';
+                        shard.style.width = shardWidth + 'px';
+                        shard.style.height = shardHeight + 'px';
+                        shard.style.left = (col * shardWidth) + 'px';
+                        shard.style.top = (row * shardHeight) + 'px';
+
+                        // Random fall direction
+                        const tx = (Math.random() - 0.5) * 400;
+                        const rotate = (Math.random() - 0.5) * 720;
+
+                        shard.style.setProperty('--tx', tx + 'px');
+                        shard.style.setProperty('--rotate', rotate + 'deg');
+                        shard.style.animation = `shatter-fall ${0.8 + Math.random() * 0.4}s ease-in forwards`;
+                        shard.style.animationDelay = `${(row + col) * 0.02}s`;
+
+                        box.appendChild(shard);
                     }
                 }
+
+                // Hide original content
+                const messageContent = box.querySelector('.message-content');
+                if (messageContent) {
+                    setTimeout(() => {
+                        messageContent.style.opacity = '0';
+                    }, 200);
+                }
+
+                // Call callback after shatter completes
+                setTimeout(() => {
+                    if (callback) callback();
+                }, 1200);
+            }, 400);
+        }
+
+        // ============================================
+        // STEP 1.5: "VEAMOS QUÉ SIGUE"
+        // ============================================
+        document.getElementById('step1-5Btn').addEventListener('click', function() {
+            const glassBox = document.getElementById('glassBox');
+
+            // Confetti
+            confetti({
+                particleCount: 80,
+                spread: 60,
+                origin: { y: 0.6 },
+                colors: ['#10b981', '#ff6b6b', '#ffffff']
             });
+
+            trackEvent('step_1.5_continue', 'glass_shatter_triggered');
+
+            // Shatter the glass
+            shatterGlass(glassBox, () => {
+                // After shatter, go to step 2 (presentation)
+                const currentStepEl = document.getElementById('step1-5');
+                const nextStepEl = document.getElementById('step2');
+
+                currentStepEl.classList.remove('active');
+                nextStepEl.classList.add('active');
+                currentStep = 2;
+                updateProgress(3);
+
+                // Mini celebration when photo appears
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 90,
+                        spread: 45,
+                        origin: { y: 0.4 },
+                        colors: ['#10b981', '#ffffff'],
+                        gravity: 1.2
+                    });
+                }, 300);
+
+                trackEvent('step_2_viewed', 'personal_intro');
+            });
+        });
+
+        // ============================================
+        // GLITCH TRANSITION (for step 3 -> 4)
+        // ============================================
+        function transitionWithGlitch(nextStep) {
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            const nextStepEl = document.getElementById(`step${nextStep}`);
+            const glitchOverlay = document.getElementById('glitchOverlay');
+            const glitchText = document.getElementById('glitchText');
+
+            const glitchMessages = [
+                'RECALCULANDO',
+                'ANALIZANDO DATOS',
+                'PROCESANDO',
+                'SISTEMA ACTUALIZADO'
+            ];
+
+            let messageIndex = 0;
+
+            // Show glitch overlay
+            glitchOverlay.classList.add('active');
+            currentStepEl.classList.remove('active');
+
+            // Change glitch messages rapidly
+            const glitchInterval = setInterval(() => {
+                messageIndex = (messageIndex + 1) % glitchMessages.length;
+                glitchText.textContent = glitchMessages[messageIndex];
+            }, 400);
+
+            // After glitch effect, show next step
+            setTimeout(() => {
+                clearInterval(glitchInterval);
+                glitchOverlay.classList.remove('active');
+                nextStepEl.classList.add('active');
+                currentStep = nextStep;
+                updateProgress(currentStep);
+
+                // Confetti after glitch
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#10b981', '#ff6b6b', '#ffffff']
+                    });
+                }, 300);
+
+                trackEvent(`step_${nextStep}_viewed`, `glitch_transition_complete`);
+            }, 2500);
+        }
+
+        // ============================================
+        // LOADING TRANSITION (for step 2 -> 3)
+        // ============================================
+        function transitionWithLoading(nextStep) {
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            const nextStepEl = document.getElementById(`step${nextStep}`);
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingText = document.getElementById('loadingText');
+            const loadingPercentage = document.getElementById('loadingPercentage');
+
+            // Frases que van cambiando
+            const loadingPhrases = [
+                '> ANALIZANDO NIVELES DE HONESTIDAD...',
+                '> DESBLOQUEANDO HONESTIDAD BRUTAL...',
+                '> PREPARANDO OFERTA...',
+                '> OK... EL USUARIO ESTÁ LISTO.'
+            ];
+
+            let currentPhrase = 0;
+
+            // Show loading screen
+            loadingScreen.classList.add('active');
+            currentStepEl.classList.remove('active');
+
+            // Animate percentage
+            let percentage = 0;
+            const percentInterval = setInterval(() => {
+                percentage += Math.random() * 8;
+                if (percentage > 100) percentage = 100;
+                loadingPercentage.textContent = Math.floor(percentage) + '%';
+
+                if (percentage >= 100) {
+                    clearInterval(percentInterval);
+                }
+            }, 150);
+
+            // Change phrases
+            const phraseInterval = setInterval(() => {
+                currentPhrase = (currentPhrase + 1) % loadingPhrases.length;
+                loadingText.textContent = loadingPhrases[currentPhrase];
+
+                // Add glitch effect randomly
+                if (Math.random() > 0.7) {
+                    loadingText.classList.add('glitch');
+                    setTimeout(() => loadingText.classList.remove('glitch'), 300);
+                }
+            }, 1200);
+
+            // After loading completes
+            setTimeout(() => {
+                clearInterval(phraseInterval);
+                loadingScreen.classList.remove('active');
+                nextStepEl.classList.add('active');
+                currentStep = nextStep;
+                updateProgress(currentStep);
+
+                // Reset loading bar for next time
+                setTimeout(() => {
+                    loadingPercentage.textContent = '0%';
+                    loadingText.textContent = '> ANALIZANDO NIVELES DE HONESTIDAD...';
+                }, 500);
+
+                trackEvent(`step_${nextStep}_viewed`, `loading_transition_complete`);
+            }, 6000);
+        }
+
+        // ============================================
+        // STEP 2: CONTINUE
+        // ============================================
+        document.getElementById('step2Btn').addEventListener('click', function() {
+            // Mini explosion
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#10b981', '#ffffff']
+            });
+
+            trackEvent('step_2_continue', 'personal_intro_complete');
+
+            // Use loading transition instead of portal
+            transitionWithLoading(3);
+        });
+
+        // ============================================
+        // STEP 3: CONTINUE (PLACEHOLDER)
+        // ============================================
+        document.getElementById('step3Btn').addEventListener('click', function() {
+            trackEvent('step_3_continue', 'paradox_explained');
+
+            // Transición con efecto glitch
+            transitionWithGlitch(4);
+        });
+
+        // ============================================
+        // STEP 4: REVELACIÓN IA
+        // ============================================
+        document.getElementById('step4Btn').addEventListener('click', function() {
+            // Celebración IA revelada
+            confetti({
+                particleCount: 200,
+                spread: 120,
+                origin: { y: 0.5 },
+                colors: ['#10b981', '#ff6b6b', '#ffffff'],
+                gravity: 0.8,
+                scalar: 2
+            });
+
+            trackEvent('step_4_continue', 'ai_revelation_accepted');
+
+            // Transición al video final
+            setTimeout(() => {
+                transitionWithLoading(5);
+            }, 800);
+        });
+
+        // ============================================
+        // STEP 5: VIDEO VISTO
+        // ============================================
+        document.getElementById('step5Btn').addEventListener('click', function() {
+            trackEvent('step_5_continue', 'video_watched');
+
+            // Aquí irá la transición final a Skool/Oferta
+            setTimeout(() => {
+                alert('Próximo: CTA final a Skool');
+            }, 500);
+        });
+
+        // ============================================
+        // TRACKING
+        // ============================================
+        function trackEvent(eventName, eventLabel) {
+            console.log(`📊 Event: ${eventName} | Label: ${eventLabel}`);
+
+            if (typeof gtag === 'function') {
+                gtag('event', eventName, {
+                    event_category: 'Dopamine_Funnel',
+                    event_label: eventLabel,
+                    step: currentStep
+                });
+            }
+
+            if (typeof fbq === 'function') {
+                fbq('trackCustom', eventName, {
+                    label: eventLabel,
+                    step: currentStep
+                });
+            }
+
+            if (typeof clarity === 'function') {
+                clarity('event', eventName, {
+                    label: eventLabel
+                });
+            }
+        }
+
+        // ============================================
+        // CONSOLE EASTER EGG
+        // ============================================
+        console.log('%c🚀 ESTO NO ES MARKETING', 'color: #10b981; font-size: 30px; font-weight: bold;');
+        console.log('%c> Cada click libera dopamina._', 'color: #ffffff; font-size: 14px;');
+
+        // ============================================
+        // INIT
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            trackEvent('funnel_started', 'step_1');
+            updateProgress(1);
         });
     </script>
 </body>
