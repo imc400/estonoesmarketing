@@ -42,7 +42,22 @@
             source: 'final_page'
         });
     };
-    
+
+    window.trackSkoolClick = function(source) {
+        // Track como evento de conversión estándar
+        fbq('track', 'InitiateCheckout');
+
+        // Track custom event para análisis detallado
+        fbq('trackCustom', 'SkoolCTAClick', {
+            source: source || 'final_offer',
+            price: 17,
+            currency: 'USD',
+            timestamp: new Date().getTime()
+        });
+
+        console.log('📊 Meta Pixel: Skool CTA clicked from', source);
+    };
+
     window.trackLogosEngagement = function() {
         fbq('trackCustom', 'LogosEngagement', {
             section: 'client_showcase'

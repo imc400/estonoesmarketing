@@ -1429,6 +1429,7 @@
                             <a href="https://www.skool.com/datapify-5935/about?ref=2e0bc2d2785c43e78264cb71f9a7fffc"
                                target="_blank"
                                id="finalCTA"
+                               onclick="trackSkoolClick('primary_cta'); return true;"
                                style="display: inline-block; background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; padding: 25px 60px; border-radius: 12px; font-size: 22px; font-weight: 800; text-decoration: none; margin-top: 30px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 2px; border: 2px solid #10b981;">
                                 ASEGURAR MI ACCESO AHORA
                             </a>
@@ -1486,6 +1487,7 @@
 
                             <a href="https://www.skool.com/datapify-5935/about?ref=2e0bc2d2785c43e78264cb71f9a7fffc"
                                target="_blank"
+                               onclick="trackSkoolClick('secondary_cta'); return true;"
                                style="display: inline-block; background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; padding: 25px 60px; border-radius: 12px; font-size: 22px; font-weight: 800; text-decoration: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 2px; border: 2px solid #10b981;">
                                 SÍ, QUIERO MI ACCESO POR $17
                             </a>
@@ -2159,10 +2161,11 @@
             countdownInterval = setInterval(updateTimer, 1000);
         }
 
-        // Track CTA clicks
-        document.getElementById('finalCTA').addEventListener('click', function() {
-            trackEvent('final_cta_clicked', 'skool_redirect');
-        });
+        // Track CTA clicks (ya se hace con onclick inline, este es backup)
+        // document.getElementById('finalCTA').addEventListener('click', function() {
+        //     trackEvent('final_cta_clicked', 'skool_redirect');
+        //     trackSkoolClick('primary_cta');
+        // });
 
         // ============================================
         // TRACKING
